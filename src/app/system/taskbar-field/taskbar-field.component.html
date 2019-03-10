@@ -1,0 +1,30 @@
+<div cdkDropListGroup>
+  <!-- <div cdkDropList (cdkDropListDropped)="drop($event,0)" class="taskbar--field--slot__up">
+    <div #slot>
+    </div>
+  </div>
+  <div class="taskbar--field--slot__right" (cdkDropListDropped)="drop($event,1)" cdkDropList>
+    <div #slot>
+    </div>
+  </div>
+  <div class="taskbar--field--slot__bottom" (cdkDropListDropped)="drop($event,2)" cdkDropList>
+    <div #slot>
+    </div>
+  </div>
+  <div class="taskbar--field--slot__left" (cdkDropListDropped)="drop($event,3)" cdkDropList>
+    <div #slot>
+    </div>
+  </div> -->
+  <div *ngFor="let item of slotList;let i=index" cdkDropList [cdkDropListData]="item.list" (cdkDropListDropped)="drop($event,i,list)"
+    class="taskbar--field--slot__{{item.prefix}}" #list [class.slotted]="item.slotted">
+    <div cdkDrag>
+      <ng-template #slot></ng-template>
+    </div>
+  </div>
+</div>
+<ng-template #taskbar>
+  <!-- <div cdkDrag>
+    
+  </div> -->
+  <app-taskbar></app-taskbar>
+</ng-template>

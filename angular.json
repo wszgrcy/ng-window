@@ -10,8 +10,9 @@
       "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "sass"
+          "style": "scss"
         }
+
       },
       "architect": {
         "build": {
@@ -24,9 +25,15 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "*.css",
+                "input": "./node_modules/@angular/material/prebuilt-themes",
+                "output": "assets/theme"
+              }
             ],
             "styles": [
+              "./node_modules/normalize.css/normalize.css",
               "src/styles.scss"
             ],
             "scripts": [],
@@ -34,27 +41,26 @@
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
+              "fileReplacements": [{
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.prod.ts"
+              }],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": true,
-              "namedChunks": false,
+              "namedChunks": true,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
+              "vendorChunk": true,
               "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                }
+              "budgets": [{
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              }],
+              "lazyModules": ["./src/component/hello-component/hello-component.module",
+              "./src/module/material.base.module"
               ]
             }
           }
@@ -63,11 +69,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "ng-window:build"
+
           },
           "configurations": {
             "production": {
               "browserTarget": "ng-window:build:production"
             }
+
           }
         },
         "extract-i18n": {

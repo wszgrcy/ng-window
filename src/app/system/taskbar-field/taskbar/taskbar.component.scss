@@ -1,0 +1,62 @@
+// :host{
+//   display: block;
+// }
+:host {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: rgba(0, 0, 0, 0.32);
+}
+
+$icon-size:2rem;
+
+mat-icon {
+  width: $icon-size;
+  height: $icon-size;
+  font-size: $icon-size;
+}
+
+.windowList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  $border-style: 3px solid rgb(118, 185, 237);
+
+  .active {
+    box-sizing: border-box;
+  }
+
+  &.bottom .active {
+    border-bottom: $border-style;
+  }
+
+  &.top .active {
+    border-top: $border-style;
+  }
+
+  &.right .active {
+    border-right: $border-style;
+  }
+
+  &.left .active {
+    border-left: $border-style;
+  }
+}
+
+$icon-container-size:3.5rem;
+
+.window__icon__container {
+  width: $icon-container-size;
+  height: $icon-container-size;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.32)
+  }
+}

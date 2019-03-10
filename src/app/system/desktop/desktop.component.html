@@ -1,0 +1,8 @@
+<div cdkDropListGroup class="icon--group">
+  <ng-container *ngFor="let column of iconArray">
+    <div cdkDropList [cdkDropListData]="column" class="app--list" (cdkDropListDropped)="drop($event)">
+      <div *ngFor="let item of column;let i=index" cdkDrag class="app--icon mat-elevation-z1" (dblclick)="openWindow(item)">{{item.name}}</div>
+    </div>
+  </ng-container>
+</div>
+

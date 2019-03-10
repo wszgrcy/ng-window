@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  border-radius: 4px;
+}
+
+title {
+  display: block;
+}
+
+header {
+  background: rgb(222, 225, 230);
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.5rem;
+
+  &>* {
+    flex: 0 0 auto;
+  }
+
+  .divider {
+    flex: 1;
+  }
+
+  mat-icon {
+    padding: 0.5rem;
+
+    &:hover {
+      background: rgb(199, 202, 207);
+      cursor: pointer;
+    }
+  }
+}
+
+main {
+  background: white;
+  display: flex;
+}

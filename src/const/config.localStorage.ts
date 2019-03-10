@@ -1,0 +1,1 @@
+export const TASKBAR_POSITION='taskBar-position'
