@@ -14,11 +14,11 @@ export interface IconItem {
 
 }
 export interface WindowConfig {
-    width?: number,
-    height?: number
+    width?: number | string,
+    height?: number | string
     title?: string
-    top?: string | number
-    left?: string | number
+    top?: number | string
+    left?: number | string
 }
 export enum BootMethod {
     dragdrop,

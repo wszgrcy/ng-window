@@ -2,8 +2,10 @@ import { Action, State } from '@ngrx/store';
 import { WindowStatus, WindowPayload } from 'src/interface/window.interface';
 const NAME = '[DesktopSize]'
 export interface DesktopSize {
-    width: number
-    height: number
+    width?: number
+    height?: number
+    top?: number | string
+    left?: number | string
 }
 
 type TYPE = '[DesktopSize]change'

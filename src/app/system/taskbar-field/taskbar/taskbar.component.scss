@@ -29,20 +29,18 @@ mat-icon {
     box-sizing: border-box;
   }
 
-  &.bottom .active {
-    border-bottom: $border-style;
+  &.right,
+  &.left {
+    flex-direction: column;
   }
 
-  &.top .active {
-    border-top: $border-style;
-  }
-
-  &.right .active {
-    border-right: $border-style;
-  }
-
-  &.left .active {
-    border-left: $border-style;
+  @each $position in bottom,
+  top,
+  left,
+  right {
+    &.#{$position} .active {
+      border-#{$position}: $border-style;
+    }
   }
 }
 

@@ -18,6 +18,7 @@ import { WindowComponent } from '../window/window.component';
 import { WindowHandle } from 'src/ngrx/store/window.store';
 import { WindowStatus } from 'src/interface/window.interface';
 import { DesktopSizeChange } from 'src/ngrx/store/desktop.store';
+import { coerceCssPixelValue } from '@angular/cdk/coercion';
 @Component({
   selector: 'app-desktop',
   templateUrl: './desktop.component.html',
@@ -38,6 +39,7 @@ export class DesktopComponent implements OnInit {
     component: HelloComponentComponent,
     data: {},
     config: {
+      top: 123
       // height:
     },
     icon: 'accessibility_new',
@@ -86,7 +88,6 @@ export class DesktopComponent implements OnInit {
     this.zone.runOutsideAngular(() => {
       fromEvent(window, 'resize').subscribe((val) => {
         this.changeIconSort()
-
       })
     })
   }
@@ -137,11 +138,13 @@ export class DesktopComponent implements OnInit {
       })
   }
   openWindow(item: IconItem) {
-    let strategy = this.overlay.position().global()
+    console.log(coerceCssPixelValue(item.config.top))
+    let strategy = this.overlay.position().global().top(coerceCssPixelValue(item.config.top))
+      .left(coerceCssPixelValue(item.config.left))
     let overlayRef = this.overlay.create({
       positionStrategy: strategy,
-      width: 0,
-      height: 0
+      panelClass: 'no-pointer-events'
+
     })
     let time = `${Date.now()}`;
     let injector = Injector.create([

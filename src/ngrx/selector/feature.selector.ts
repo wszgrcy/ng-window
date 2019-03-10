@@ -5,7 +5,7 @@ import { WindowStatus } from 'src/interface/window.interface';
 const featureReduce = createFeatureSelector('main')
 export const selectTaskbarPosition = createSelector(featureReduce,
     (state: StoreState) => {
-        console.log(state)
+        // console.log(state)
       return  state.taskbarPosition}
 
 )

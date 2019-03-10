@@ -1,12 +1,10 @@
 import { Store, select } from '@ngrx/store';
-import { WindowService } from './../../../service/window.service';
-import { WINDOW_DEFAULT_CONFIG } from './../../../const/desktop.config';
 import { WindowConfig } from './../../../interface/desktop.interface';
-import { Component, OnInit, Inject, Optional, Type, ComponentFactoryResolver, ViewChild, ViewContainerRef, Injector, Renderer2, ElementRef } from '@angular/core';
+import { Component, OnInit, Inject, Optional, Type, ComponentFactoryResolver, ViewChild, ViewContainerRef, Renderer2, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ComponentFactory } from '@angular/core';
-import { WINDOW_COMPONENT, WINDOW_DATA, WINDOW_CONFIG, WINDOW_ID, WINDOW_SERVICE } from 'src/const/window.token';
+import { WINDOW_COMPONENT, WINDOW_DATA, WINDOW_CONFIG, WINDOW_ID } from 'src/const/window.token';
 import { WindowHandle } from 'src/ngrx/store/window.store';
-import { selectWindowHandleStatusById, selectDesktopSize } from 'src/ngrx/selector/feature.selector';
+import { selectWindowHandleStatusById, selectDesktopSize, selectTaskbarPosition } from 'src/ngrx/selector/feature.selector';
 import { tap, skip, filter } from 'rxjs/operators';
 import { WindowStatus } from 'src/interface/window.interface';
 import { DesktopSize } from 'src/ngrx/store/desktop.store';
@@ -31,7 +29,7 @@ export class WindowComponent implements OnInit {
     transform: ''
   }
   /**最大化时最大尺寸 */
-  maxSize: DesktopSize
+  maxSize: DesktopSize = {}
   subscriptionList: Subscription[] = []
   dragRef: DragRef<WindowComponent>
   flag = {
@@ -45,14 +43,15 @@ export class WindowComponent implements OnInit {
     @Optional() @Inject(WINDOW_DATA) data: any,
     @Inject(WINDOW_CONFIG) public config: WindowConfig,
     @Inject(WINDOW_ID) private readonly id: string,
-    private service: WindowService,
+    // private service: WindowService,
     componentFactoryResolver: ComponentFactoryResolver,
     private store: Store<any>,
     private renderer: Renderer2,
     private dragdrop: DragDrop,
-    private elementRef: ElementRef<HTMLElement>
+    private elementRef: ElementRef<HTMLElement>,
+    private cd: ChangeDetectorRef
   ) {
-    this.config = Object.assign({}, WINDOW_DEFAULT_CONFIG, this.config)
+    this.config = Object.assign({}, this.config)
     this.componentFactory = componentFactoryResolver.resolveComponentFactory(component)
     this.setWindowSize(this.config.width, this.config.height)
   }
@@ -61,10 +60,10 @@ export class WindowComponent implements OnInit {
     this.anchor.createComponent(this.componentFactory)
     this.dragRef = this.dragdrop.createDrag(this.elementRef)
     this.restoreWindowListener()
-    this.desktopSizeChangeListener()
+
+    this.subscriptionList.push(this.desktopSizeChangeListener(), this.taskbarPositionListener())
   }
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void { }
 
   /**
    * TODO 最小化动画
@@ -82,7 +81,7 @@ export class WindowComponent implements OnInit {
 
   transform
   /**
-   * TODO 考虑偏移问题计算最大时位置
+   * 
    * @description 
    * @author cyia
    * @date 2019-03-08
@@ -90,16 +89,16 @@ export class WindowComponent implements OnInit {
    */
   toggleMax() {
     this.flag.max = !this.flag.max;
+    // this.store.dispatch(new WindowHandle(this.flag.max ? '[WINDOW]max' : '[WINDOW]restore', {
+    //   id: this.id
+    // }))
     if (this.flag.max) {
-      this.store.dispatch(new WindowHandle('[WINDOW]max', {
-        id: this.id
-      }))
       this.setWindowSize(this.maxSize.width, this.maxSize.height)
       this.dragRef.disabled = true
       this.transform = this.elementRef.nativeElement.style.transform;
-      this.renderer.setStyle(this.elementRef.nativeElement,'transform',`translate3d(-${coerceCssPixelValue(this.config.left || 0)}, ${coerceCssPixelValue(this.config.top || 0)}, 0px)`)
+      this.renderer.setStyle(this.elementRef.nativeElement, 'transform', `translate3d(calc(-${coerceCssPixelValue(this.config.left || 0)} + ${coerceCssPixelValue(this.maxSize.left || 0)}),calc(-${coerceCssPixelValue(this.config.top || 0)} + ${coerceCssPixelValue(this.maxSize.top || 0)}), 0px)`)
     } else {
-      this.renderer.setStyle(this.elementRef.nativeElement,'transform',this.transform)
+      this.renderer.setStyle(this.elementRef.nativeElement, 'transform', this.transform)
       this.elementRef.nativeElement.style.transform = this.transform;
       this.dragRef.disabled = false
       this.setWindowSize(this.config.width, this.config.height)
@@ -109,8 +108,8 @@ export class WindowComponent implements OnInit {
   close() {
     this.store.dispatch(new WindowHandle('[WINDOW]onclose', {
       id: this.id
-    }))
-    this.style.display = 'none'
+    }));
+    this.style.display = 'none';
     this.anchor.clear();
   }
   /**
@@ -138,21 +137,44 @@ export class WindowComponent implements OnInit {
         select(selectWindowHandleStatusById, this.id),
         filter((val) => val == WindowStatus.normal),
       ).subscribe((val) => {
-        this.style.display = ''
+        this.style.display = '';
       })
     )
   }
   desktopSizeChangeListener() {
-    this.subscriptionList.push(
-      this.store.pipe(
-        select(selectDesktopSize),
-        filter((val) => !!val)
-      ).subscribe((value) => {
-        this.maxSize = value
-      })
-    )
+    return this.store.pipe(
+      select(selectDesktopSize),
+      filter((val) => !!val)
+    ).subscribe((value) => {
+      Object.assign(this.maxSize, value)
+      if (this.flag.max) {
+        this.setWindowSize(value.width, value.height)
+        this.cd.detectChanges()
+      }
+    })
+
   }
 
+  /**
+   * @description 监听任务栏位置变化
+   * @author cyia
+   * @date 2019-03-09
+   * @memberof DesktopComponent
+   */
+  taskbarPositionListener() {
+    return this.store.pipe(
+      select(selectTaskbarPosition),
+      filter(val => !!val),
+    ).subscribe((val) => {
+      this.maxSize.top = ``
+      this.maxSize.left = ``
+      if (val == 'top') {
+        this.maxSize.top = `56px`
+      } else if (val == 'left') {
+        this.maxSize.left = `56px`
+      }
+    })
+  }
   ngOnDestroy(): void {
     console.log('window销毁')
     this.subscriptionList.forEach((val) => {
