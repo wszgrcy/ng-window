@@ -1,8 +1,9 @@
 import { Action, State } from '@ngrx/store';
 import { WindowStatus, WindowPayload } from 'src/interface/window.interface';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 const NAME = '[WINDOW]'
 
-type TYPE = '[WINDOW]min' | '[WINDOW]restore' | '[WINDOW]max' | '[WINDOW]onclose' | '[WINDOW]closed' | '[WINDOW]init'
+type TYPE = '[WINDOW]min' | '[WINDOW]restore' | '[WINDOW]max' | '[WINDOW]onclose' | '[WINDOW]closed' | '[WINDOW]init' | '[WINDOW]move'
 export class WindowHandle {
     constructor(public type: TYPE, public payload: WindowPayload) { }
 }
@@ -14,6 +15,7 @@ export function WindowHandle_Reducer(state: WindowPayload[] = [], action: Window
     switch (action.type) {
         case '[WINDOW]init':
             console.log(state, action)
+            action.payload.zIndex = state.length
             return [...state, action.payload]
         case '[WINDOW]min':
             //todo 查找某一个图标,更改为最小化(或者还原)
@@ -34,17 +36,19 @@ export function WindowHandle_Reducer(state: WindowPayload[] = [], action: Window
                 value.status = WindowStatus.max
             })
             return [...state]
+        //doc 准备关闭
         case '[WINDOW]onclose':
             state.filter(({ id }) => id == action.payload.id).forEach((value) => {
                 value.status = WindowStatus.close
             })
             return [...state]
         case '[WINDOW]closed':
-            console.log(action.payload, state)
-            //todo 移除图标,
             return state.filter(({ id }) => id != action.payload.id)
+        case '[WINDOW]move':
+            return state.sort((a, b) => b.id === a.id ? 1 : a.zIndex - b.zIndex).map((value, i) => ({ ...value, zIndex: action.payload.id === value.id ? state.length : i }))
         default:
             break;
     }
     return state
 }
+

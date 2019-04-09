@@ -27,17 +27,44 @@
 
 }
 
-.app--icon {
-  width: 56px;
-  height: 56px;
-  background: blue;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  margin-bottom: 1rem;
-flex: 0 0 56px;
-  &:first-child {
+$app-width:3.5rem;
+
+.app--container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: $app-width;
+  overflow: hidden;
+
+  &:first-of-type {
     margin-top: 1rem;
   }
+
+  margin-bottom: 1rem;
+
+  label {
+    word-break: break-all;
+  }
+}
+
+.app__icon--wraper {
+  width: $app-width;
+  height: 3.5rem;
+  // background: blue;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  flex: 0 0 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  mat-icon {
+    // font-size: 2rem;
+    width: auto;
+    height: auto;
+  }
+
+
 
   &.cdk-drag-preview {
     // opacity: 0;
@@ -47,7 +74,8 @@ flex: 0 0 56px;
     opacity: 0;
   }
 }
-.icon--group{
+
+.icon--group {
   display: flex;
 }
 
@@ -61,4 +89,7 @@ flex: 0 0 56px;
   &.cdk-drop-list-dragging .app--icon:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
+}
+.app__name{
+  max-width: 100%;
 }

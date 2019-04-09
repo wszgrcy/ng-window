@@ -10,3 +10,4 @@ export const WINDOW_DEFAULT_CONFIG: WindowConfig = {
     width: 800,
     height: 600
 }
+export const LABEL_HEIGHT = 24;

@@ -1,5 +1,5 @@
 <div [style.width]="style.width" [style.height]="style.height" [style.display]="style.display" class="window__container">
-  <header cdkDragHandle>
+  <header #header>
     <title>{{config.title}}</title>
     <div class="divider"></div>
     <div class="">
@@ -8,7 +8,7 @@
       <mat-icon (click)="close()">close</mat-icon>
     </div>
   </header>
-  <main>
+  <main #main>
     <ng-template #anchor></ng-template>
   </main>
 </div>

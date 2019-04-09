@@ -4,11 +4,13 @@ import { CompilerConfig } from '@angular/compiler';
 export interface IconItem {
     name: string;
     method: BootMethod
-    component: Type<{}>
+
     config?: WindowConfig
     data?: any
     // token?: string
-    icon?: string
+    icon?: string;
+    iconBackground?: string
+    iconCOlor?: string
     // route: Route
     [name: string]: any
 
@@ -19,7 +21,17 @@ export interface WindowConfig {
     title?: string
     top?: number | string
     left?: number | string
+    component?: Type<{}>
+    module?: NgCustomElement
+    loadType?: LoadType
 }
 export enum BootMethod {
     dragdrop,
+}
+export enum LoadType {
+    native, webComponent
+}
+export interface NgCustomElement {
+    import: () => Promise<any>,
+    elementName: string
 }

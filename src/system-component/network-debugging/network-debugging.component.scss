@@ -1,0 +1,20 @@
+header {
+  height: 3rem;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background: rgba(0, 0, 0, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.interccept__item {
+  &:first-of-type {
+    margin-top: 8px;
+  }
+}
+.add__button__row{
+  flex:0 0 100%;
+  display: flex;
+  justify-content: flex-end;
+}

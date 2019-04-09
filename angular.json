@@ -13,6 +13,7 @@
           "style": "scss"
         }
 
+
       },
       "architect": {
         "build": {
@@ -30,13 +31,23 @@
                 "glob": "*.css",
                 "input": "./node_modules/@angular/material/prebuilt-themes",
                 "output": "assets/theme"
+              }, {
+                "glob": "**/*",
+                "input": "./src/web-component/vue/assets",
+                "output": "./"
               }
             ],
             "styles": [
               "./node_modules/normalize.css/normalize.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [{
+                "input": "node_modules/document-register-element/build/document-register-element.js"
+              },
+              {
+                "input": "node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"
+              }
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {
@@ -60,7 +71,7 @@
                 "maximumError": "5mb"
               }],
               "lazyModules": ["./src/component/hello-component/hello-component.module",
-              "./src/module/material.base.module"
+                "./src/module/material.base.module"
               ]
             }
           }

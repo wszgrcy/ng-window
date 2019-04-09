@@ -71,9 +71,7 @@ export class TaskbarFieldComponent implements OnInit {
    * @memberof TaskbarFieldComponent
    */
   changePosition(i = 0, init: boolean = false) {
-    console.log(i)
     let viewContainerRef = this.slotViewContainerRefList.toArray()[i];
-    console.log(viewContainerRef)
     if (init) {
       /**采用动态创建组件的方式 */
       let component = this.resolver.resolveComponentFactory(TaskbarComponent)

@@ -1,26 +1,35 @@
 import { Store, select } from '@ngrx/store';
-import { WindowConfig } from './../../../interface/desktop.interface';
-import { Component, OnInit, Inject, Optional, Type, ComponentFactoryResolver, ViewChild, ViewContainerRef, Renderer2, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { WindowConfig, NgCustomElement, LoadType } from './../../../interface/desktop.interface';
+import { Component, OnInit, Inject, Optional, Type, ComponentFactoryResolver, ViewChild, ViewContainerRef, Renderer2, ElementRef, ChangeDetectorRef, NgZone } from '@angular/core';
 import { ComponentFactory } from '@angular/core';
 import { WINDOW_COMPONENT, WINDOW_DATA, WINDOW_CONFIG, WINDOW_ID } from 'src/const/window.token';
 import { WindowHandle } from 'src/ngrx/store/window.store';
-import { selectWindowHandleStatusById, selectDesktopSize, selectTaskbarPosition } from 'src/ngrx/selector/feature.selector';
+import { selectWindowHandleStatusById, selectDesktopSize, selectTaskbarPosition, selectWindowZIndex } from 'src/ngrx/selector/feature.selector';
 import { tap, skip, filter } from 'rxjs/operators';
 import { WindowStatus } from 'src/interface/window.interface';
 import { DesktopSize } from 'src/ngrx/store/desktop.store';
-import { Subscription } from 'rxjs';
+import { Subscription, config } from 'rxjs';
 import { DragDrop, DragRef } from '@angular/cdk/drag-drop';
 import { coerceCssPixelValue } from "@angular/cdk/coercion";
+import { OverlayRef } from '@angular/cdk/overlay';
 @Component({
   selector: 'app-window',
   templateUrl: './window.component.html',
   styleUrls: ['./window.component.scss'],
   host: {
-
+    "(click)": "dispatchMove()"
   }
 })
 export class WindowComponent implements OnInit {
+  /**
+   * TODO 尺寸变更
+   * TODO 被拖动时升高层叠级别
+   * 
+   */
   @ViewChild('anchor', { read: ViewContainerRef }) anchor: ViewContainerRef
+  @ViewChild('header') header: ElementRef<HTMLElement>
+  @ViewChild('main') main: ElementRef<HTMLElement>
+  /**仅在原生模式使用 */
   componentFactory: ComponentFactory<{}>
   style = {
     height: '',
@@ -39,30 +48,54 @@ export class WindowComponent implements OnInit {
    * 此组件应该是一个壳,用来动态加载其他组件
    */
   constructor(
-    @Inject(WINDOW_COMPONENT) component: Type<{}>,
+    // @Inject(WINDOW_COMPONENT) component: Type<{}>,
     @Optional() @Inject(WINDOW_DATA) data: any,
     @Inject(WINDOW_CONFIG) public config: WindowConfig,
     @Inject(WINDOW_ID) private readonly id: string,
     // private service: WindowService,
     componentFactoryResolver: ComponentFactoryResolver,
+    // @Optional() module: NgCustomElement,
     private store: Store<any>,
     private renderer: Renderer2,
     private dragdrop: DragDrop,
     private elementRef: ElementRef<HTMLElement>,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private zone: NgZone
+    // private overlay:OverlayRef
   ) {
     this.config = Object.assign({}, this.config)
-    this.componentFactory = componentFactoryResolver.resolveComponentFactory(component)
+    if (config.loadType == LoadType.native) {
+      this.componentFactory = componentFactoryResolver.resolveComponentFactory(config.component)
+
+    }
     this.setWindowSize(this.config.width, this.config.height)
   }
 
   ngOnInit() {
-    this.anchor.createComponent(this.componentFactory)
+    if (this.config.loadType == LoadType.native) {
+      this.anchor.createComponent(this.componentFactory)
+    } else if (this.config.loadType == LoadType.webComponent) {
+      // console.log(this.config.module.import=='../../../web-component/ng/ng-animation.js')
+      console.warn('准备加载')
+      console.log(this.config.module.import)
+      this.config.module.import().then((val) => {
+        console.warn('加载成功', val)
+        let element = document.createElement(this.config.module.elementName)
+        this.renderer.appendChild(this.main.nativeElement, element)
+
+      })
+      setTimeout(() => {
+
+      }, 6000);
+    }
     this.dragRef = this.dragdrop.createDrag(this.elementRef)
+    this.dragRef.withHandles([this.header])
     this.restoreWindowListener()
 
-    this.subscriptionList.push(this.desktopSizeChangeListener(), this.taskbarPositionListener())
+    this.subscriptionList.push(this.desktopSizeChangeListener(), this.taskbarPositionListener(), this.windowZIndexListener(), this.windowDragStartListener())
+
   }
+
   ngAfterViewInit(): void { }
 
   /**
@@ -124,13 +157,40 @@ export class WindowComponent implements OnInit {
     this.style.width = coerceCssPixelValue(width)
     this.style.height = coerceCssPixelValue(height)
   }
+
+  /**
+   * @description 监听窗口移动发送信息
+   * @author cyia
+   * @date 2019-03-13
+   * @memberof WindowComponent
+   */
+  private windowDragStartListener() {
+    return this.dragRef.started.subscribe(() => {
+      this.dispatchMove()
+    })
+  }
+  public dispatchMove() {
+    this.store.dispatch(new WindowHandle('[WINDOW]move', { id: this.id }))
+
+  }
+  private windowZIndexListener() {
+    return this.store.pipe(
+      select(selectWindowZIndex, this.id),
+      tap((val) => { console.log('监听层叠', val) }),
+      filter((val) => val && !!Object.keys(val).length && val.zIndex !== undefined),
+
+    ).subscribe(({ overlay, zIndex }) => {
+      console.log('层叠变化', zIndex)
+      this.renderer.setStyle(overlay.hostElement, 'z-index', zIndex)
+    })
+  }
   /**
    * @description 还原窗口
    * @author cyia
    * @date 2019-03-10
    * @memberof WindowComponent
    */
-  restoreWindowListener() {
+  private restoreWindowListener() {
     this.subscriptionList.push(
       this.store.pipe(
         skip(1),//doc 跳过第一个初始化
@@ -141,12 +201,13 @@ export class WindowComponent implements OnInit {
       })
     )
   }
-  desktopSizeChangeListener() {
+  private desktopSizeChangeListener() {
     return this.store.pipe(
       select(selectDesktopSize),
       filter((val) => !!val)
     ).subscribe((value) => {
       Object.assign(this.maxSize, value)
+      console.log('最大值',this.maxSize,value)
       if (this.flag.max) {
         this.setWindowSize(value.width, value.height)
         this.cd.detectChanges()
@@ -161,7 +222,7 @@ export class WindowComponent implements OnInit {
    * @date 2019-03-09
    * @memberof DesktopComponent
    */
-  taskbarPositionListener() {
+  private taskbarPositionListener() {
     return this.store.pipe(
       select(selectTaskbarPosition),
       filter(val => !!val),

@@ -6,7 +6,8 @@ const featureReduce = createFeatureSelector('main')
 export const selectTaskbarPosition = createSelector(featureReduce,
     (state: StoreState) => {
         // console.log(state)
-      return  state.taskbarPosition}
+        return state.taskbarPosition
+    }
 
 )
 export const selectWindowHandle = createSelector(
@@ -33,4 +34,15 @@ export const selectWindowHandleCloseById = createSelector(
 export const selectDesktopSize = createSelector(
     featureReduce,
     (state: StoreState) => state.desktopSize,
+)
+export const selectWindowZIndex = createSelector(
+    featureReduce,
+    (state: StoreState, selectId) => {
+        if (!state.windowHandle) return undefined
+        let item = state.windowHandle.find(({ id }) => id === selectId) || {}
+        return {
+            overlay: item.overlay,
+            zIndex: item.zIndex
+        }
+    }
 )

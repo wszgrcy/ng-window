@@ -1,0 +1,11 @@
+@import '@angular/material/_theming.scss';
+
+@for $num from 0 to 24 {
+  .hover-#{$num} {
+    transition: box-shadow .5s;
+
+    &:hover {
+      @include mat-elevation($num)
+    }
+  }
+}

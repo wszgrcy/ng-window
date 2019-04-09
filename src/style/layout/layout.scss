@@ -21,6 +21,10 @@
   &>.#{$prefix}auto-max {
     flex: 1 0 auto;
   }
+
+  &>.#{$prefix}auto-1-1-0 {
+    flex: 1 1 0;
+  }
 }
 
 .row {
@@ -55,4 +59,25 @@
     justify-content: center;
     align-items: center;
   }
+
+  &.column {
+    flex-direction: column;
+  }
+
+  &.between {
+    justify-content: space-between;
+  }
+
+}
+
+.border-box {
+  box-sizing: border-box;
+}
+
+.content-box {
+  box-sizing: content-box;
+}
+
+.spring {
+  flex: 1 1 auto;
 }

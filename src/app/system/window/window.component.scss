@@ -1,3 +1,5 @@
+@import '../../../style/variation/taskbar.variation.scss';
+
 :host {
   display: block;
   border-radius: 4px;
@@ -8,14 +10,17 @@ title {
   display: block;
 }
 
+$header-height:3rem;
+
 header {
   background: rgb(222, 225, 230);
-  height: 3rem;
+  height: $header-height;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0 0.5rem;
   min-width: max-content;
+  flex: 0 0 auto;
 
   &>* {
     flex: 0 0 auto;
@@ -38,4 +43,25 @@ header {
 main {
   background: white;
   display: flex;
+  max-height: calc(100% - #{$header-height});
+  overflow: auto;
+
+  ::ng-deep >*:first-child {
+    margin: auto;
+  }
+}
+
+.window__container {
+  background: rgba(0, 0, 0, 0.32);
+  max-height: calc(100vh - #{$taskbar-height});
+  display: flex;
+  flex-direction: column;
+}
+
+[class^=custom] {
+  background: unset;
+  display: inline;
+  height: unset;
+  width: unset;
+  overflow: unset;
 }

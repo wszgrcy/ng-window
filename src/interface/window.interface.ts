@@ -8,6 +8,7 @@ export interface WindowPayload {
     id?: string
     status?: WindowStatus
     overlay?: OverlayRef
+    zIndex?: number
 }
 export enum WindowStatus {
     normal, max, min, close,

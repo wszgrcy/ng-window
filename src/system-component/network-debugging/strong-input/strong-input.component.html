@@ -1,0 +1,20 @@
+<mat-form-field>
+  <mat-select placeholder="请选择值类型" [(ngModel)]="type">
+    <mat-option *ngFor="let propertyType of propertyTypeOptions" [value]="propertyType">
+      {{propertyType}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<ng-container [ngSwitch]="type">
+  <mat-form-field *ngSwitchCase="'string'">
+    <input matInput [placeholder]="placeholder" [(ngModel)]="value">
+  </mat-form-field>
+  <mat-form-field *ngSwitchCase="'number'">
+    <input matInput [placeholder]="placeholder" [(ngModel)]="value" type="number">
+  </mat-form-field>
+  <mat-checkbox *ngSwitchCase="'boolean'" [(ngModel)]="value">{{value?'true':'false'}}
+  </mat-checkbox>
+  <mat-form-field *ngSwitchCase="'regexp'">
+    <input matInput [placeholder]="placeholder" [(ngModel)]="_value">
+  </mat-form-field>
+</ng-container>

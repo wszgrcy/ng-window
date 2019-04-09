@@ -8,8 +8,8 @@ import { POSITION } from 'src/ngrx/store/taskbar.store';
 import { selectTaskbarPosition, selectWindowHandleStatusById, selectWindowHandleCloseById } from 'src/ngrx/selector/feature.selector';
 import { filter } from "rxjs/operators";
 import { moveItemInArray, CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
-import { ICON_MARGIN, ICON_SIZE } from 'src/const/desktop.config';
-import { IconItem, BootMethod } from 'src/interface/desktop.interface';
+import { ICON_MARGIN, ICON_SIZE, LABEL_HEIGHT } from 'src/const/desktop.config';
+import { IconItem, BootMethod, LoadType } from 'src/interface/desktop.interface';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { Overlay } from '@angular/cdk/overlay';
@@ -19,6 +19,9 @@ import { WindowHandle } from 'src/ngrx/store/window.store';
 import { WindowStatus } from 'src/interface/window.interface';
 import { DesktopSizeChange } from 'src/ngrx/store/desktop.store';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
+import { FormComponent } from '../../../component/form/form.component';
+import { FormUploadComponent } from '../../../component/form-upload/form-upload.component';
+import { COMPONENT_LIST } from 'src/const/component-list';
 @Component({
   selector: 'app-desktop',
   templateUrl: './desktop.component.html',
@@ -33,20 +36,9 @@ export class DesktopComponent implements OnInit {
   @ViewChild('taskbarpatch') taskbarPatch: ElementRef
   taskbarPosition: Observable<POSITION>;
   /**原始图标列表,未排序 */
-  rawList: IconItem[] = [{
-    name: 'hello',
-    method: BootMethod.dragdrop,
-    component: HelloComponentComponent,
-    data: {},
-    config: {
-      top: 123
-      // height:
-    },
-    icon: 'accessibility_new',
-    // token: 'hello'
-  }]
+  rawList: IconItem[] = COMPONENT_LIST
   /**图标阵列,多行列显示用 */
-  iconArray: any[][] = []
+  iconArray: IconItem[][] = []
   columnLength: number
   constructor(
     private store: Store<any>,
@@ -63,7 +55,7 @@ export class DesktopComponent implements OnInit {
     this.taskbarPosition = store.select(selectTaskbarPosition)
   }
   drop(e: CdkDragDrop<any>) {
-    console.log('测试', e.previousIndex, e.currentIndex)
+    // console.log('测试', e.previousIndex, e.currentIndex)
     if (e.previousContainer === e.container) {
       moveItemInArray(e.container.data, e.previousIndex, e.currentIndex)
     } else {
@@ -92,7 +84,7 @@ export class DesktopComponent implements OnInit {
     })
   }
   ngAfterViewInit(): void {
-    console.dir(this.elementRef.nativeElement)
+    // console.dir(this.elementRef.nativeElement)
   }
   /**
    * 纵向根据高分长度
@@ -109,7 +101,7 @@ export class DesktopComponent implements OnInit {
     let { clientWidth: width, clientHeight: height } = this.elementRef.nativeElement;
     this.store.dispatch(new DesktopSizeChange('[DesktopSize]change', { width, height }))
     /**每列的长度,每列最大可以摆放的图标个数 */
-    this.columnLength = (height - ICON_MARGIN) / (ICON_MARGIN + ICON_SIZE.height) | 0
+    this.columnLength = (height - ICON_MARGIN) / (ICON_MARGIN + ICON_SIZE.height + LABEL_HEIGHT) | 0
 
     let i = -1
     this.rawList.forEach((val, j) => {
@@ -129,7 +121,7 @@ export class DesktopComponent implements OnInit {
     this.taskbarPosition
       .pipe(filter(val => !!val))
       .subscribe((val) => {
-        console.log('变更', val);
+        // console.log('变更', val);
         ['top', 'right', 'bottom', 'left'].forEach((value) => {
           this.renderer.removeClass(this.elementRef.nativeElement, value)
         })
@@ -138,7 +130,7 @@ export class DesktopComponent implements OnInit {
       })
   }
   openWindow(item: IconItem) {
-    console.log(coerceCssPixelValue(item.config.top))
+    // console.log(coerceCssPixelValue(item.config.top))
     let strategy = this.overlay.position().global().top(coerceCssPixelValue(item.config.top))
       .left(coerceCssPixelValue(item.config.left))
     let overlayRef = this.overlay.create({
@@ -148,7 +140,7 @@ export class DesktopComponent implements OnInit {
     })
     let time = `${Date.now()}`;
     let injector = Injector.create([
-      { provide: WINDOW_COMPONENT, useValue: item.component },
+      // { provide: WINDOW_COMPONENT, useValue: item.component },
       { provide: WINDOW_DATA, useValue: item.data },
       { provide: WINDOW_CONFIG, useValue: item.config },
       { provide: WINDOW_ID, useValue: time }

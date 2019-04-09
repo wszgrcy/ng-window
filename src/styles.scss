@@ -1,6 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 @import './style/layout/layout.scss';
+@import 'style/layout/box-model.scss';
+// @import 'style/layout/box-model.scss';
+@import 'style/style';
 
 .no-pointer-events {
   pointer-events: none !important;
+}
+
+mat-icon {
+  // text-rendering: optimizeLegibility;
+  font-feature-settings: 'liga';
 }
