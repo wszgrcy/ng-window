@@ -9,6 +9,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { MaterialFormModule } from 'src/module/material.form.module';
 import { StrongInputComponent } from './strong-input/strong-input.component';
+import { PropertyConfigComponent } from './property-config/property-config.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,9 @@ import { StrongInputComponent } from './strong-input/strong-input.component';
     MatCardModule,
     MaterialFormModule
   ],
-  declarations: [NetworkDebuggingComponent, StrongInputComponent],
+  declarations: [
+    NetworkDebuggingComponent, StrongInputComponent, PropertyConfigComponent
+  ],
   providers: [
     HttpInterceptor
   ],

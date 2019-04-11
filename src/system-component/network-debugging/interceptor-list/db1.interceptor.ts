@@ -7,32 +7,28 @@ import { coerceToBoolean, coerceToNumber, coerceToString, coerceToRegexp } from 
 import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { ChangeType } from 'src/interface/interceptor.interface';
-import { firstUpperCase } from 'src/util/string-format';
 import { mixinObjectExtend } from 'src/util/mixinObjectExtend';
 @Injectable()
 export class Db1Intercepter implements HttpInterceptor {
     requestList: InterceptorItem['requestConfig'][] = []
     responseList: InterceptorItem['responseConfig'][] = []
     constructor(state: Store<any>) {
-        console.warn('拦截器构造')
         state.select(selectInterceptorConfig).pipe(
-
         ).subscribe((val: InterceptorItem[]) => {
-            console.warn('接受配置值订阅', val)
             this.requestList = val.map((item) => item.requestConfig)
             this.responseList = val.map((item) => item.responseConfig)
         })
     }
     intercept(req: HttpRequest<any>, next: HttpHandler) {
         /**查询在列表中的那个配置,用于新增修改删除 */
-        let result = this.requestList.findIndex(({ retrieve }, i) => {
-            return retrieve.every((value) => {
+        let result = this.requestList.findIndex(({ retrieve }) =>
+            retrieve.every((value) => {
                 if (this.searchMatchingRequest(req, value)) {
                     return true
                 }
                 return false
             })
-        })
+        )
         let newReq = req
         if (~result) {
             [this.requestList[result].create, this.requestList[result].update, this.requestList[result].delete,].forEach((list, j) => {
@@ -48,7 +44,6 @@ export class Db1Intercepter implements HttpInterceptor {
                         }
                         return
                     }
-                    console.warn('=====执行删除', value, i)
                     newReq = this.changeProperty(newReq, value, ChangeType.delete)
                 })
 
@@ -96,40 +91,16 @@ export class Db1Intercepter implements HttpInterceptor {
         item.value.forEach((value: CreateOrUpdateValue & KeyExtend, i) => {
             switch (item.property) {
                 case 'body'://可以新增
-                    req = this.changeHasKeyValue(req, value, changeType, 'body')
-                    // let result = this.findKeyInList(req.body, value.key, value.keyType);
-                    // if (!result) return
-                    // switch (changeType) {
-                    //     case ChangeType.create:
-                    //         req = req.clone({
-                    //             body: Object.assign({}, req.body, { [value.key as string]: value.change })
-                    //         })
-                    //         break;
-                    //     case ChangeType.update:
-                    //         req = req.clone({
-                    //             body: Object.assign({}, req.body, { [value.key as string]: value.change })
-                    //         })
-                    //         break;
-                    //     case ChangeType.delete:
-                    //         let body = req.body
-                    //         delete body[value.key as string]
-                    //         req = req.clone({
-                    //             body
-                    //         })
-                    //         break;
-                    //     default:
-                    //         break;
-                    // }
-                    return req
+                    return req = this.changeHasKeyValue(req, value, changeType, 'body')
                 case 'headers'://可以新增
                     return req = this.changeHasKeyValue(req, value, changeType, 'headers')
-                case 'method':
+                case 'method'://应该控制变更一次,不进行添加
                     return req = this.updateValue(req, value, changeType, item.property)
                 case 'params'://可以新增
                     return req = this.changeHasKeyValue(req, value, changeType, 'params')
-                case 'responseType':
+                case 'responseType'://应该控制变更一次,不进行添加
                     return req = this.updateValue(req, value, changeType, item.property)
-                case 'url':
+                case 'url'://应该控制变更一次,不进行添加
                     return req = this.updateValue(req, value, changeType, item.property)
                 case 'withCredentials':
                     return req = this.updateValue(req, value, changeType, item.property)
@@ -151,9 +122,7 @@ export class Db1Intercepter implements HttpInterceptor {
      */
     updateValue(req: HttpRequest<any>, value: CreateOrUpdateValue & KeyExtend, changeType: ChangeType, field) {
         if (changeType == ChangeType.update) {
-            req = req.clone(
-                { [field]: value.change }
-            )
+            req = req.clone({ [field]: value.change })
         }
         return req
     }
@@ -161,7 +130,7 @@ export class Db1Intercepter implements HttpInterceptor {
         let data = req[field]
         if (changeType === ChangeType.create && field === 'body') data = data || {}
         let fieldData = mixinObjectExtend(data)
-        let result = this.findKeyInList(this.getPropertyObject(fieldData), value.key, value.keyType);
+        let result = this.findKeyInList(this.convertToObject(fieldData), value.key, value.keyType);
         switch (changeType) {
             case ChangeType.create:
                 if (result) return req
@@ -184,31 +153,50 @@ export class Db1Intercepter implements HttpInterceptor {
         }
         return req
     }
+    /**
+     * 为了匹配查询项符合请求类型
+     * @author cyia
+     * @date 2019-04-09
+     * @param req
+     * @param item
+     * @param [changeType]
+     * @returns
+     * @memberof Db1Intercepter
+     */
     searchMatchingRequest(req: HttpRequest<any>, item: InterceptorRetrieveItem<RequestProperty<RetrieveValue>>, changeType?: ChangeType) {
         switch (item.property) {
             case 'body':
-                return this._searchUseKeyValue(req.body, item)
+                return this._isObjectMatchingWithKeyValue(req.body, item)
             case 'headers':
-                return this._searchUseKeyValue(this.getPropertyObject(req.headers), item)
+                return this._isObjectMatchingWithKeyValue(this.convertToObject(req.headers), item)
             case 'method':
                 if (changeType && changeType === ChangeType.update) return true
-                return this._searchUseValueMulti(req.method, item)
+                return this._isListMatchingWithValue(req.method, item)
             case 'params':
-                return this._searchUseKeyValue(this.getPropertyObject(req.params), item)
+                return this._isObjectMatchingWithKeyValue(this.convertToObject(req.params), item)
             case 'responseType':
                 if (changeType && changeType === ChangeType.update) return true
-                return this._searchUseValueMulti(req.responseType, item)
+                return this._isListMatchingWithValue(req.responseType, item)
             case 'url':
                 if (changeType && changeType === ChangeType.update) return true
-                return this._searchUseValueMulti(req.url, item)
+                return this._isListMatchingWithValue(req.url, item)
             case 'withCredentials':
                 if (changeType && changeType === ChangeType.update) return true
-                return this._searchUseValueMulti(req.withCredentials, item)
+                return this._isListMatchingWithValue(req.withCredentials, item)
             default:
                 break;
         }
     }
-    private getPropertyObject(value: { keys: Function, getAll: Function }): Object {
+    /**
+     * 把类对象转化为纯对象
+     * @author cyia
+     * @date 2019-04-09
+     * @private
+     * @param value
+     * @returns
+     * @memberof Db1Intercepter
+     */
+    private convertToObject(value: { keys: Function, getAll: Function }): Object {
         let obj = {}
         value.keys().forEach((key) => {
             obj[key] = value.getAll(key).toString()
@@ -217,6 +205,7 @@ export class Db1Intercepter implements HttpInterceptor {
     }
     /**
      * 符合其中之一的条件就行
+     * 匹配列表中是否能在对象中匹配到某一键值
      * @author cyia
      * @date 2019-04-06
      * @private
@@ -225,22 +214,28 @@ export class Db1Intercepter implements HttpInterceptor {
      * @returns
      * @memberof Db1Intercepter
      */
-    private _searchUseKeyValue(object: Object, item: InterceptorRetrieveItem<RequestProperty<RetrieveValue>>) {
+    private _isObjectMatchingWithKeyValue(object: Object, item: InterceptorRetrieveItem<RequestProperty<RetrieveValue>>) {
         if (!object) return false
         return item.value.some((val: RetrieveValue & KeyExtend) => {
-            for (const key in object) {
-                if (!object.hasOwnProperty(key)) continue
-                const value: string = object[key];
-                if (this.compareValue(key, val.key, val.keyType)) {
-                    if (val.value && val.type) {
-                        return this.compareValue(value, val.value, val.type)
-                    }
-                }
+            let key = this.findKeyInList(object, val.key, val.keyType)
+            if (key && val.value && val.type) {
+                return this.compareValue(object[key], val.value, val.type)
             }
             return false
         })
     }
-    private _searchUseValueMulti(value: any, item: InterceptorRetrieveItem<RequestProperty<RetrieveValue>>) {
+    /**
+     * 符合其中之一
+     * 查询列表中是否查询到匹配的值
+     * @author cyia
+     * @date 2019-04-09
+     * @private
+     * @param value 基本类型
+     * @param item
+     * @returns
+     * @memberof Db1Intercepter
+     */
+    private _isListMatchingWithValue(value: any, item: InterceptorRetrieveItem<RequestProperty<RetrieveValue>>) {
         if (!value) return false
         return item.value.some((val: RetrieveValue) => {
             if (this.compareValue(value, val.value, val.type)) {
@@ -264,11 +259,19 @@ export class Db1Intercepter implements HttpInterceptor {
         }
     }
 
-    findValueInArray(list: string[], value, type) {
-        return list.find((item) => this.compareValue(item, value, type))
-    }
-    findKeyInList(object, value, type) {
-        let list = Object.keys(object)
-        return this.findValueInArray(list, value, type)
+
+    /**
+     * 查询对象中是否匹配某一键名
+     *
+     * @author cyia
+     * @date 2019-04-09
+     * @param object
+     * @param key
+     * @param keyType
+     * @returns
+     * @memberof Db1Intercepter
+     */
+    findKeyInList(object, key, keyType) {
+        return Object.keys(object).find((item) => this.compareValue(item, key, keyType))
     }
 }

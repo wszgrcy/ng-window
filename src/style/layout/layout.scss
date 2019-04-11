@@ -25,6 +25,10 @@
   &>.#{$prefix}auto-1-1-0 {
     flex: 1 1 0;
   }
+
+  &>.#{$prefix}flex-0-0-0 {
+    flex: 0 0 0;
+  }
 }
 
 .row {
