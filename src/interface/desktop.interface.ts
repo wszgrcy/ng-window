@@ -24,12 +24,13 @@ export interface WindowConfig {
     component?: Type<{}>
     module?: NgCustomElement
     loadType?: LoadType
+    lazyModule?:string
 }
 export enum BootMethod {
     dragdrop,
 }
 export enum LoadType {
-    native, webComponent
+    native, webComponent, lazyModule
 }
 export interface NgCustomElement {
     import: () => Promise<any>,

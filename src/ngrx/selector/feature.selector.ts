@@ -42,7 +42,8 @@ export const selectWindowZIndex = createSelector(
         let item = state.windowHandle.find(({ id }) => id === selectId) || {}
         return {
             overlay: item.overlay,
-            zIndex: item.zIndex
+            zIndex: item.zIndex,
+            isActive: item.zIndex === state.windowHandle.length
         }
     }
 )

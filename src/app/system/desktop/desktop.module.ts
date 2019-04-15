@@ -1,14 +1,15 @@
 import { HelloComponentModule } from './../../../component/hello-component/hello-component.module';
 import { MaterialBaseModule } from './../../../module/material.base.module';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DesktopComponent } from './desktop.component';
 import { MatDialogModule, MatIconModule } from '@angular/material';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { FormComponentModule } from '../../../component/form/form.module';
-import { FormUploadModule } from '../../../component/form-upload/form-upload.module';
 import { NetworkDebuggingModule } from 'src/system-component/network-debugging/network-debugging.module';
 import { RequestTestModule } from 'src/component/request-test/request-test.module';
+import { ROUTES } from '@angular/router';
+import { COMPONENT_LIST, lazyModuleFactory, lazyModuleList as LAZY_MODULE_LIST } from 'src/const/component-list';
 
 @NgModule({
   imports: [
@@ -16,7 +17,6 @@ import { RequestTestModule } from 'src/component/request-test/request-test.modul
     MaterialBaseModule,
     HelloComponentModule,
     FormComponentModule,
-    FormUploadModule,
     MatDialogModule,
     OverlayModule,
     MatIconModule,
@@ -25,6 +25,8 @@ import { RequestTestModule } from 'src/component/request-test/request-test.modul
   ],
   declarations: [DesktopComponent],
   exports: [DesktopComponent],
-  // providers: [WindowService]
+  providers: [
+    { provide: ROUTES, useValue: LAZY_MODULE_LIST, multi: true }
+  ]
 })
 export class DesktopModule { }

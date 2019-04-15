@@ -4,7 +4,14 @@ import { FormComponent } from '@component/form/form.component';
 import { FormUploadComponent } from '@component/form-upload/form-upload.component';
 import { RequestTestComponent } from '@component/request-test/request-test.component';
 import { NetworkDebuggingComponent } from '../system-component/network-debugging/network-debugging.component';
-
+import { Routes } from '@angular/router';
+/**懒加载模块列表,依赖路由实现
+ * doc 其实可以不依赖路由实现,但是angular在编译过程中只识别路由部分的懒加载地址,所以说如果要实现不依赖路由的需要自己做编译配置
+ * 如果整个项目无路由的话,可以不用写path ,但是一旦用了路由,就必须写path
+ */
+export const lazyModuleList: Routes = [
+    { path: 'lazy-form-upload', loadChildren: '@component/form-upload/form-upload.module#FormUploadModule' }
+]
 export const COMPONENT_LIST: IconItem[] = [
     {
         name: 'ng-hello',
@@ -39,7 +46,8 @@ export const COMPONENT_LIST: IconItem[] = [
             title: '自定义表单控件',
             top: 123,
             component: FormUploadComponent,
-            loadType: LoadType.native
+            lazyModule: lazyModuleList.find((name) => 'lazy-form-upload' == name.path).loadChildren as string,
+            loadType: LoadType.lazyModule
         },
         icon: 'attachment',
     },
@@ -74,7 +82,7 @@ export const COMPONENT_LIST: IconItem[] = [
         icon: 'star_border',
     },
     {
-        name: 'vue-hello',
+        name: 'react-hello',
         method: BootMethod.dragdrop,
         data: {},
         config: {
@@ -111,3 +119,10 @@ export const COMPONENT_LIST: IconItem[] = [
         icon: 'attachment',
     },
 ]
+export function lazyModuleFactory() {
+    return COMPONENT_LIST
+        .filter((item) => item.config.loadType === LoadType.lazyModule)
+        .map((item) =>
+            ({ path: `lazy-111`, loadChildren: item.config.lazyModule })
+        )
+}

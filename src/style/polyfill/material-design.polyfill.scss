@@ -1,4 +1,13 @@
-.mat-button-wrapper {
-  vertical-align: middle;
+button span.mat-button-wrapper {
+
+  // vertical-align: middle;
+  // font-size: 0;
+  mat-icon {
+    vertical-align: top;
+  }
+}
+
+cyia-upload {
   font-size: 0;
+  line-height: 0;
 }

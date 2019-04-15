@@ -1,9 +1,13 @@
 @import '../../../style/variation/taskbar.variation.scss';
 
+
+
 :host {
+  // max-height: calc(100vh - #{$taskbar-height});
   display: block;
   border-radius: 4px;
   pointer-events: auto;
+  position: relative;
 }
 
 title {
@@ -43,25 +47,74 @@ header {
 main {
   background: white;
   display: flex;
-  max-height: calc(100% - #{$header-height});
+  // max-height: calc(100% - #{$header-height});
   overflow: auto;
+  flex: 1 1 auto;
 
-  ::ng-deep >*:first-child {
+  ::ng-deep>*:first-child {
     margin: auto;
   }
 }
 
 .window__container {
   background: rgba(0, 0, 0, 0.32);
-  max-height: calc(100vh - #{$taskbar-height});
+  // max-height: calc(100vh - #{$taskbar-height});
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
+//doc 自定义元素
 [class^=custom] {
   background: unset;
   display: inline;
   height: unset;
   width: unset;
   overflow: unset;
+}
+
+.resize {
+  position: absolute;
+  pointer-events: auto;
+  $size: 4px;
+
+  &.top {
+    top: -$size;
+  }
+
+  &.bottom {
+    bottom: -$size
+  }
+
+  &.left {
+    left: -$size;
+  }
+
+  &.right {
+    right: -$size;
+  }
+
+  &.top,
+  &.bottom {
+    left: 0;
+    right: 0;
+    height: $size;
+
+    &:hover {
+      cursor: ns-resize;
+    }
+  }
+
+  &.left,
+  &.right {
+    bottom: 0;
+    top: 0;
+    width: $size;
+
+    &:hover {
+      cursor: ew-resize;
+    }
+  }
+
+
 }
