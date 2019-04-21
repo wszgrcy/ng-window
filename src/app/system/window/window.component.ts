@@ -1,6 +1,6 @@
 import { Store, select } from '@ngrx/store';
 import { WindowConfig, NgCustomElement, LoadType } from './../../../interface/desktop.interface';
-import { Component, OnInit, Inject, Optional, Type, ComponentFactoryResolver, ViewChild, ViewContainerRef, Renderer2, ElementRef, ChangeDetectorRef, NgZone, NgModuleFactoryLoader, Injector, ApplicationRef } from '@angular/core';
+import { Component, OnInit, Inject, Optional, Type, ComponentFactoryResolver, ViewChild, ViewContainerRef, Renderer2, ElementRef, ChangeDetectorRef, NgZone, NgModuleFactoryLoader, Injector, ApplicationRef, HostBinding } from '@angular/core';
 import { ComponentFactory } from '@angular/core';
 import { WINDOW_COMPONENT, WINDOW_DATA, WINDOW_CONFIG, WINDOW_ID } from 'src/const/window.token';
 import { WindowHandle } from '@ngrx/store/window.store';
@@ -17,7 +17,8 @@ import { ROUTES } from '@angular/router';
   templateUrl: './window.component.html',
   styleUrls: ['./window.component.scss'],
   host: {
-    "(click)": "dispatchClick()"
+    "(click)": "dispatchClick()",
+    "[style.display]": "style.display"
   }
 })
 export class WindowComponent implements OnInit {

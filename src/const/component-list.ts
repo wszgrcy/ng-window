@@ -21,7 +21,7 @@ export const COMPONENT_LIST: IconItem[] = [
             top: 123,
             component: HelloComponentComponent,
             loadType: LoadType.native,
-
+            title: 'ng-hello1111111111'
         },
         iconBackground: '#3f51b5',
         icon: 'accessibility_new',
@@ -51,21 +51,21 @@ export const COMPONENT_LIST: IconItem[] = [
         },
         icon: 'attachment',
     },
-    {
-        name: '动画转换',
-        method: BootMethod.dragdrop,
-        data: {},
-        config: {
-            title: 'css关键帧提取转ng动画',
-            loadType: LoadType.webComponent,
-            top: 123,
-            module: {
-                import: () => import(`../web-component/ng/ng-animation.js`),
-                elementName: 'custom-root'
-            }
-        },
-        icon: 'star_border',
-    },
+    // {
+    //     name: '动画转换',
+    //     method: BootMethod.dragdrop,
+    //     data: {},
+    //     config: {
+    //         title: 'css关键帧提取转ng动画',
+    //         loadType: LoadType.webComponent,
+    //         top: 123,
+    //         module: {
+    //             import: () => import(`../web-component/ng/ng-animation.js`),
+    //             elementName: 'custom-root'
+    //         }
+    //     },
+    //     icon: 'star_border',
+    // },
     {
         name: 'vue-hello',
         method: BootMethod.dragdrop,

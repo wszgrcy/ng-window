@@ -13,7 +13,8 @@ export function WindowHandle_Reducer(state: WindowPayload[] = [], action: Window
     switch (action.type) {
         case '[WINDOW]init':
             action.payload.zIndex = state.length
-            return [...state, action.payload]
+            // console.log(action.payload)
+            return [...state, action.payload].sort((a, b) => b.id === a.id ? 1 : a.zIndex - b.zIndex).map((value, i) => ({ ...value, zIndex: action.payload.id === value.id ? state.length : i }))
         case '[WINDOW]min':
             //todo 查找某一个图标,更改为最小化(或者还原)
             state.filter(({ id }) => id == action.payload.id).forEach((value) => {
