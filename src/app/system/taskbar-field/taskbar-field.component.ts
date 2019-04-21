@@ -1,5 +1,5 @@
 import { TASKBAR_POSITION } from './../../../const/config.localStorage';
-import { Component, OnInit, ViewChildren, ViewContainerRef, QueryList, CompilerFactory, ComponentFactoryResolver, ViewChild, TemplateRef, ViewRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChildren, ViewContainerRef, QueryList, ComponentFactoryResolver, ViewChild, TemplateRef, ViewRef, Renderer2 } from '@angular/core';
 import { TaskbarComponent } from './taskbar/taskbar.component';
 import { TaskBarFieldOldData } from 'src/interface/taskbar.interface';
 import { Store } from '@ngrx/store';
@@ -40,7 +40,6 @@ export class TaskbarFieldComponent implements OnInit {
   ngOnInit() {
   }
   drop(e, i, list) {
-    console.log(list)
     this.changePosition(i, false)
   }
   ngAfterViewInit(): void {

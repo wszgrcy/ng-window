@@ -2,7 +2,6 @@ import { MaterialBaseModule } from './../module/material.base.module';
 import { ThemeService } from './../service/theme.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -11,6 +10,8 @@ import { CyiaHttpModule } from 'cyia-ngx-common';
 import { REQUEST_LIST } from 'src/const/http-list';
 import { HttpInterceptor } from '@system-component/network-debugging/interceptors';
 import { InterceptorChange_Reducer } from '@ngrx/store/intereptor.store';
+import { ROUTES } from '@angular/router';
+import { LAZY_MODULE_LIST } from 'src/const/component-list';
 
 @NgModule({
   declarations: [
@@ -23,9 +24,6 @@ import { InterceptorChange_Reducer } from '@ngrx/store/intereptor.store';
     MaterialBaseModule,
     StoreModule.forRoot({ intercept: InterceptorChange_Reducer }),
     CyiaHttpModule.forRoot(REQUEST_LIST)
-    // MaterialAllModule,
-    // FormsModule,
-    // ReactiveFormsModule
   ],
   providers: [
     {
@@ -36,7 +34,8 @@ import { InterceptorChange_Reducer } from '@ngrx/store/intereptor.store';
       deps: [ThemeService],
       multi: true
     },
-    HttpInterceptor
+    HttpInterceptor,
+    { provide: ROUTES, useValue: LAZY_MODULE_LIST, multi: true }
   ],
   bootstrap: [AppComponent]
 })

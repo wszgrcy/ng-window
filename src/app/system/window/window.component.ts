@@ -1,17 +1,16 @@
 import { Store, select } from '@ngrx/store';
-import { WindowConfig, NgCustomElement, LoadType } from './../../../interface/desktop.interface';
-import { Component, OnInit, Inject, Optional, Type, ComponentFactoryResolver, ViewChild, ViewContainerRef, Renderer2, ElementRef, ChangeDetectorRef, NgZone, NgModuleFactoryLoader, Injector, ApplicationRef, HostBinding } from '@angular/core';
+import { WindowConfig, LoadType } from './../../../interface/desktop.interface';
+import { Component, OnInit, Inject, Optional, ComponentFactoryResolver, ViewChild, ViewContainerRef, Renderer2, ElementRef, ChangeDetectorRef, NgModuleFactoryLoader, Injector } from '@angular/core';
 import { ComponentFactory } from '@angular/core';
-import { WINDOW_COMPONENT, WINDOW_DATA, WINDOW_CONFIG, WINDOW_ID } from 'src/const/window.token';
+import { WINDOW_DATA, WINDOW_CONFIG, WINDOW_ID } from 'src/const/window.token';
 import { WindowHandle } from '@ngrx/store/window.store';
 import { selectWindowHandleStatusById, selectDesktopSize, selectTaskbarPosition, selectWindowZIndex } from '@ngrx/selector/feature.selector';
-import { tap, skip, filter } from 'rxjs/operators';
+import { skip, filter } from 'rxjs/operators';
 import { WindowStatus } from 'src/interface/window.interface';
 import { DesktopSize } from '@ngrx/store/desktop.store';
-import { Subscription, config, Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { DragDrop, DragRef } from '@angular/cdk/drag-drop';
 import { coerceCssPixelValue } from "@angular/cdk/coercion";
-import { ROUTES } from '@angular/router';
 @Component({
   selector: 'app-window',
   templateUrl: './window.component.html',
@@ -58,11 +57,9 @@ export class WindowComponent implements OnInit {
     private dragdrop: DragDrop,
     private elementRef: ElementRef<HTMLElement>,
     private cd: ChangeDetectorRef,
-    private zone: NgZone,
     private loader: NgModuleFactoryLoader,
     private injector: Injector
   ) {
-    console.log('构造')
     this.hostElement = elementRef.nativeElement
     //TODO 深拷贝
     this.config = Object.assign({}, this.config)
@@ -72,7 +69,6 @@ export class WindowComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('初始化')
     //doc 正常模式载入
     if (this.config.loadType == LoadType.native) {
       this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.config.component)
@@ -80,18 +76,13 @@ export class WindowComponent implements OnInit {
     }
     //doc web-component模式载入
     else if (this.config.loadType == LoadType.webComponent) {
-      console.log('准备加载', this.config.module.import)
       this.config.module.import().then((val) => {
-        console.log('加载文件', val)
         let element = document.createElement(this.config.module.elementName)
         this.renderer.appendChild(this.main.nativeElement, element)
       })
     } else if (this.config.loadType === LoadType.lazyModule) {
-      console.log(this.injector.get(ROUTES))
       this.loader.load(this.config.lazyModule).then((ngModuleFactory) => {
-        console.log(ngModuleFactory)
         let ngModuleRef = ngModuleFactory.create(this.injector)
-        // console.log(ngModuleRef.injector.get(ApplicationRef))
         let { component } = ngModuleRef.instance
         let componentFactory = ngModuleRef.componentFactoryResolver.resolveComponentFactory(component)
         this.anchor.createComponent(componentFactory)
@@ -100,8 +91,6 @@ export class WindowComponent implements OnInit {
     //doc 创建拖动实例
     this.dragRef = this.dragdrop.createDrag(this.elementRef)
     this.dragRef.withHandles([this.header])
-
-
     this.subscriptionList.push(this.restoreWindowListener(), this.desktopSizeChangeListener(), this.taskbarPositionListener(), this.windowZIndexListener(), this.windowDragStartListener())
 
   }
@@ -160,9 +149,6 @@ export class WindowComponent implements OnInit {
 
    */
   private setWindowSize(width, height) {
-    // console.warn(coerceCssPixelValue(width), '|', coerceCssPixelValue(height))
-    // this.style.width = coerceCssPixelValue(width)
-    // this.style.height = coerceCssPixelValue(height)
     this.renderer.setStyle(this.hostElement, 'width', coerceCssPixelValue(width))
     this.renderer.setStyle(this.hostElement, 'height', coerceCssPixelValue(height))
   }
@@ -175,9 +161,6 @@ export class WindowComponent implements OnInit {
   private windowDragStartListener() {
     return this.dragRef.started.subscribe(() => {
       this.dispatchMove()
-      // console.log(this.dragRef.moved)
-      // this.windowMove=true
-      // this.dragRef.ended.subscribe
     })
   }
   public dispatchMove() {
@@ -204,10 +187,8 @@ export class WindowComponent implements OnInit {
   private windowZIndexListener() {
     return this.store.pipe(
       select(selectWindowZIndex, this.id),
-      // tap((val) => { console.log('监听层叠', val) }),
       filter((val) => val && !!Object.keys(val).length && val.zIndex !== undefined),
     ).subscribe(({ overlay, zIndex, isActive }) => {
-      // console.log('层叠变化', zIndex, isActive)
       this.renderer.setStyle(overlay.hostElement, 'z-index', zIndex)
       if (isActive) {
         this.renderer.addClass(this.hostElement, 'mat-elevation-z8')

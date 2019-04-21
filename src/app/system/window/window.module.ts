@@ -13,7 +13,6 @@ import { DirectiveModule } from 'src/directive/directive.module';
     DirectiveModule
   ],
   declarations: [WindowComponent],
-  exports: [WindowComponent],
   entryComponents: [WindowComponent]
 })
 export class WindowModule { }

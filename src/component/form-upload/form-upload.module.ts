@@ -15,7 +15,6 @@ import { MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule } fr
   ],
   declarations: [FormUploadComponent],
   entryComponents: [FormUploadComponent],
-  exports: [FormUploadComponent]
 })
 export class FormUploadModule {
   component = FormUploadComponent

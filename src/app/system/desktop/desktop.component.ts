@@ -1,42 +1,33 @@
-import { WindowService } from './../../../service/window.service';
-import { WINDOW_COMPONENT, WINDOW_DATA, WINDOW_CONFIG, WINDOW_SERVICE, WINDOW_ID as WINDOW_ID } from 'src/const/window.token';
-import { HelloComponentComponent } from './../../../component/hello-component/hello-component.component';
-import { Component, OnInit, Renderer2, ViewChild, ElementRef, NgZone, ViewContainerRef, TemplateRef, Inject, Injector } from '@angular/core';
+import { WINDOW_DATA, WINDOW_CONFIG, WINDOW_ID } from 'src/const/window.token';
+import { Component, OnInit, Renderer2, ViewChild, ElementRef, NgZone, Injector } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, fromEvent } from 'rxjs';
-import { POSITION } from 'src/ngrx/store/taskbar.store';
-import { selectTaskbarPosition, selectWindowHandleStatusById, selectWindowHandleCloseById } from 'src/ngrx/selector/feature.selector';
+import { POSITION } from '@ngrx/store/taskbar.store';
+import { selectTaskbarPosition, selectWindowHandleCloseById } from '@ngrx/selector/feature.selector';
 import { filter } from "rxjs/operators";
 import { moveItemInArray, CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ICON_MARGIN, ICON_SIZE, LABEL_HEIGHT } from 'src/const/desktop.config';
-import { IconItem, BootMethod, LoadType } from 'src/interface/desktop.interface';
-import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { IconItem } from 'src/interface/desktop.interface';
 import { Overlay } from '@angular/cdk/overlay';
-import { TemplatePortal, ComponentPortal } from '@angular/cdk/portal';
+import { ComponentPortal } from '@angular/cdk/portal';
 import { WindowComponent } from '../window/window.component';
-import { WindowHandle } from 'src/ngrx/store/window.store';
+import { WindowHandle } from '@ngrx/store/window.store';
 import { WindowStatus } from 'src/interface/window.interface';
-import { DesktopSizeChange } from 'src/ngrx/store/desktop.store';
+import { DesktopSizeChange } from '@ngrx/store/desktop.store';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
-import { FormComponent } from '../../../component/form/form.component';
-import { FormUploadComponent } from '../../../component/form-upload/form-upload.component';
 import { COMPONENT_LIST } from 'src/const/component-list';
+
 @Component({
   selector: 'app-desktop',
   templateUrl: './desktop.component.html',
   styleUrls: ['./desktop.component.scss']
 })
 export class DesktopComponent implements OnInit {
-  /**
-   * 应用需要固化排序
-   * 
-   * 
-   */
   @ViewChild('taskbarpatch') taskbarPatch: ElementRef
   taskbarPosition: Observable<POSITION>;
   /**原始图标列表,未排序 */
   rawList: IconItem[] = COMPONENT_LIST
+  // rawList: IconItem[] = []
   /**图标阵列,多行列显示用 */
   iconArray: IconItem[][] = []
   columnLength: number
@@ -45,17 +36,11 @@ export class DesktopComponent implements OnInit {
     private renderer: Renderer2,
     private elementRef: ElementRef<Element>,
     private zone: NgZone,
-    private router: Router,
-    private route: ActivatedRoute,
-    private dialog: MatDialog,
     private overlay: Overlay,
-    private injector: Injector,
-    private service: WindowService
   ) {
     this.taskbarPosition = store.select(selectTaskbarPosition)
   }
   drop(e: CdkDragDrop<any>) {
-    // console.log('测试', e.previousIndex, e.currentIndex)
     if (e.previousContainer === e.container) {
       moveItemInArray(e.container.data, e.previousIndex, e.currentIndex)
     } else {
@@ -121,7 +106,6 @@ export class DesktopComponent implements OnInit {
     this.taskbarPosition
       .pipe(filter(val => !!val))
       .subscribe((val) => {
-        // console.log('变更', val);
         ['top', 'right', 'bottom', 'left'].forEach((value) => {
           this.renderer.removeClass(this.elementRef.nativeElement, value)
         })

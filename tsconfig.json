@@ -29,7 +29,7 @@
       "@system-component/*": [
         "./src/system-component/*"
       ],
-      "@ngrx/*":[
+      "@ngrx/*": [
         "./src/ngrx/*"
       ]
     }

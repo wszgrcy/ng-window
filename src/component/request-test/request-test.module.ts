@@ -8,6 +8,7 @@ import { RequestTestComponent } from './request-test.component';
   ],
   declarations: [RequestTestComponent],
   entryComponents: [RequestTestComponent],
-  exports: [RequestTestComponent]
 })
-export class RequestTestModule { }
+export class RequestTestModule {
+  component = RequestTestComponent
+}
