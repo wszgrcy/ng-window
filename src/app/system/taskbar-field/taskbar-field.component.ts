@@ -1,12 +1,10 @@
-// import { TaskbarPosition } from './../../../store/taskbar.store';
 import { TASKBAR_POSITION } from './../../../const/config.localStorage';
 import { Component, OnInit, ViewChildren, ViewContainerRef, QueryList, CompilerFactory, ComponentFactoryResolver, ViewChild, TemplateRef, ViewRef, Renderer2 } from '@angular/core';
 import { TaskbarComponent } from './taskbar/taskbar.component';
 import { TaskBarFieldOldData } from 'src/interface/taskbar.interface';
 import { Store } from '@ngrx/store';
-import { TaskbarPosition } from 'src/ngrx/store/taskbar.store';
+import { TaskbarPosition } from '@ngrx/store/taskbar.store';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
-// import { ComponentFactoryResolver } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-taskbar-field',

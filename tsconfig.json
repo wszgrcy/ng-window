@@ -26,6 +26,9 @@
       "@component/*": [
         "./src/component/*"
       ],
+      "@system-component/*": [
+        "./src/system-component/*"
+      ],
       "@ngrx/*":[
         "./src/ngrx/*"
       ]

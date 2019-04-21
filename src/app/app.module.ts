@@ -6,13 +6,11 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { MaterialAllModule } from 'src/module/material.all.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { CyiaHttpModule } from 'cyia-ngx-common';
 import { REQUEST_LIST } from 'src/const/http-list';
-import { HttpInterceptor } from 'src/system-component/network-debugging/interceptors';
-import { InterceptorChange_Reducer } from 'src/ngrx/store/intereptor.store';
+import { HttpInterceptor } from '@system-component/network-debugging/interceptors';
+import { InterceptorChange_Reducer } from '@ngrx/store/intereptor.store';
 
 @NgModule({
   declarations: [

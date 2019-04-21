@@ -1,27 +1,13 @@
 # NgWindow
+## 安装
+- `npm i`
+- e2e部分(如果要跑),可能需要通过某种方式进行下载(仅在启动e2e测试时需要)
+- puppeteer 如果不跑e2e可以去掉此依赖包增加安装速度和未知报错(需要某种方式进行下载)
+## 启动
+- `npm start`
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.3.
+## 端对端测试
+- `npm run e2e`
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## 构建
+- `npm run build`
