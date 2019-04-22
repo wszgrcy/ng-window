@@ -1,4 +1,4 @@
-<div class="hint-wrapper hover-8 mat-elevation-z1 p-4" [ngClass]="status">
+<div class="hint-wrapper hover-8 mat-elevation-z1 p-4" [ngClass]="status" [@transition]="animationStatus" (@transition.done)="destoryComponent()">
   <div class="data">
     <ng-container [ngSwitch]="status">
       <mat-icon *ngSwitchCase="'success'">check_circle</mat-icon>
@@ -8,7 +8,7 @@
     <div>{{message}}</div>
 
   </div>
-  <div class="duration-bar" (animationend)="destoryComponent()"
+  <div class="duration-bar" (animationend)="beforeDestory()"
     [style.animation-duration]="options?options.duration+'s':''">
   </div>
 </div>

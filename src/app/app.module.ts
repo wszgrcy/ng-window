@@ -43,7 +43,7 @@ import { TOAST_POSITION } from 'src/const/toast.token';
     },
     HttpInterceptor,
     { provide: ROUTES, useValue: LAZY_MODULE_LIST, multi: true },
-    { provide: TOAST_POSITION, useValue: { horizontalPosition: 'center', verticalPosition: 'top' }, }
+    { provide: TOAST_POSITION, useValue: { horizontalPosition: 'right', verticalPosition: 'bottom' }, }
   ],
   bootstrap: [AppComponent]
 })

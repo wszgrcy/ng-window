@@ -1,9 +1,5 @@
-// import { HelloComponentComponent } from '@component/hello-component/hello-component.component';
+
 import { LoadType, IconItem, BootMethod } from '../interface/desktop.interface';
-import { FormComponent } from '@component/form/form.component';
-// import { FormUploadComponent } from '@component/form-upload/form-upload.component';
-import { RequestTestComponent } from '@component/request-test/request-test.component';
-import { NetworkDebuggingComponent } from '../system-component/network-debugging/network-debugging.component';
 import { Routes } from '@angular/router';
 /**懒加载模块列表,依赖路由实现
  * doc 其实可以不依赖路由实现,但是angular在编译过程中只识别路由部分的懒加载地址,所以说如果要实现不依赖路由的需要自己做编译配置
@@ -64,21 +60,21 @@ export const COMPONENT_LIST: IconItem[] = [
         },
         icon: 'attachment',
     },
-    // {
-    //     name: '动画转换',
-    //     method: BootMethod.dragdrop,
-    //     data: {},
-    //     config: {
-    //         title: 'css关键帧提取转ng动画',
-    //         loadType: LoadType.webComponent,
-    //         top: 123,
-    //         module: {
-    //             import: () => import(`../web-component/ng/ng-animation.js`),
-    //             elementName: 'custom-root'
-    //         }
-    //     },
-    //     icon: 'star_border',
-    // },
+    {
+        name: '动画转换',
+        method: BootMethod.dragdrop,
+        data: {},
+        config: {
+            title: 'css关键帧提取转ng动画',
+            loadType: LoadType.webComponent,
+            top: 123,
+            module: {
+                import: () => import(`../web-component/ng/ng-animation.js`),
+                elementName: 'custom-root'
+            }
+        },
+        icon: 'star_border',
+    },
     {
         name: 'vue-hello',
         method: BootMethod.dragdrop,

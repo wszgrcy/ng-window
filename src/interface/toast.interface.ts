@@ -4,6 +4,11 @@ export enum HintStatus {
 
 export interface HintOptions {
     duration: number;
+    // position: ToastPosition
+}
+export interface HintOptionsWithPosition extends HintOptions {
+    // duration: number;
+    position?: ToastPosition
 }
 export interface ToastPosition {
     horizontalPosition: 'left' | 'right' | 'center'
