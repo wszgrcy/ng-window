@@ -30,6 +30,7 @@ import { PropertyConfigComponent } from './property-config/property-config.compo
     HttpInterceptor
   ],
   entryComponents: [NetworkDebuggingComponent],
-  exports: [NetworkDebuggingComponent]
 })
-export class NetworkDebuggingModule { }
+export class NetworkDebuggingModule {
+  component = NetworkDebuggingComponent
+}
