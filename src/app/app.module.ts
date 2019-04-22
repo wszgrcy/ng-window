@@ -12,10 +12,15 @@ import { HttpInterceptor } from '@system-component/network-debugging/interceptor
 import { InterceptorChange_Reducer } from '@ngrx/store/intereptor.store';
 import { ROUTES } from '@angular/router';
 import { LAZY_MODULE_LIST } from 'src/const/component-list';
+import { MatSnackBarModule } from '@angular/material';
+import { DialogModule } from '@system-component/dialog/dialog.module';
+import { ToastContainerComponent } from '@system-component/dialog/toast-container/toast-container.component';
+import { TOAST_POSITION } from 'src/const/toast.token';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ToastContainerComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +28,9 @@ import { LAZY_MODULE_LIST } from 'src/const/component-list';
     BrowserAnimationsModule,
     MaterialBaseModule,
     StoreModule.forRoot({ intercept: InterceptorChange_Reducer }),
-    CyiaHttpModule.forRoot(REQUEST_LIST)
+    CyiaHttpModule.forRoot(REQUEST_LIST),
+    MatSnackBarModule,
+    DialogModule
   ],
   providers: [
     {
@@ -35,7 +42,8 @@ import { LAZY_MODULE_LIST } from 'src/const/component-list';
       multi: true
     },
     HttpInterceptor,
-    { provide: ROUTES, useValue: LAZY_MODULE_LIST, multi: true }
+    { provide: ROUTES, useValue: LAZY_MODULE_LIST, multi: true },
+    { provide: TOAST_POSITION, useValue: { horizontalPosition: 'center', verticalPosition: 'top' }, }
   ],
   bootstrap: [AppComponent]
 })

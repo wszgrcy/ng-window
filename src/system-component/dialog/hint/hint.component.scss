@@ -1,0 +1,92 @@
+// @import '../../../style/variation/theme.variation.scss';
+// $icon-color
+.hint-wrapper {
+  border-radius: 4px;
+  pointer-events: all;
+  cursor: pointer;
+  width: 20vw;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+
+  &.success {
+    $icon-color: #4CAF50;
+    //doc green-50
+    background: #E8F5E9;
+
+    mat-icon {
+      //doc green-500
+      color: $icon-color
+    }
+
+    .duration-bar {
+      background: $icon-color
+    }
+  }
+
+  &.warn {
+    $icon-color: #FF9800;
+    //doc orange-50
+    background: #fff3e0;
+
+    mat-icon {
+      //doc orange-500
+      color: $icon-color
+    }
+
+    .duration-bar {
+      background: $icon-color
+    }
+  }
+
+  &.error {
+    $icon-color: #F44336; //doc red-50
+    background: #FFEBEE;
+
+    mat-icon {
+      //doc red-500
+      color: $icon-color
+    }
+
+    .duration-bar {
+      background: $icon-color
+    }
+  }
+}
+
+.data {
+  display: flex;
+  align-items: center;
+
+}
+
+.duration-bar {
+  height: 4px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  animation: process linear 2s 1 reverse;
+  animation-fill-mode: forwards;
+  background: red;
+
+  @keyframes process {
+    from {
+      width: 0;
+    }
+
+    to {
+      width: 100%;
+    }
+  }
+}
+
+// :host{
+//     margin: 8px
+// }
+.hint-wrapper:hover {
+  .duration-bar {
+    animation-play-state: paused
+  }
+}
