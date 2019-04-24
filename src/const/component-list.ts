@@ -36,6 +36,9 @@ export const LAZY_MODULE_LIST: Routes = [
     {
         path: 'lazy-directive', loadChildren: '@component/directive/directive.module#DirectiveModule',
     },
+    {
+        path: 'lazy-docs', loadChildren: '@component/docs/docs.module#DocsModule',
+    },
 ]
 export const COMPONENT_LIST: IconItem[] = [
     {
@@ -145,7 +148,7 @@ export const COMPONENT_LIST: IconItem[] = [
             lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-network-debugging' == name.path).loadChildren as string,
             loadType: LoadType.lazyModule
         },
-        icon: 'attachment',
+        icon: 'http',
     },
     {
         name: '颜色选择',
@@ -167,7 +170,7 @@ export const COMPONENT_LIST: IconItem[] = [
             lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-component-toggle' == name.path).loadChildren as string,
             loadType: LoadType.lazyModule
         },
-        icon: 'color_lens',
+        icon: 'repeat',
     },
     {
         name: '组件注入',
@@ -178,7 +181,7 @@ export const COMPONENT_LIST: IconItem[] = [
             lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-inject' == name.path).loadChildren as string,
             loadType: LoadType.lazyModule
         },
-        icon: 'color_lens',
+        icon: 'merge_type',
     },
     {
         name: '系统设置',
@@ -199,6 +202,18 @@ export const COMPONENT_LIST: IconItem[] = [
         config: {
             title: '指令',
             lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-directive' == name.path).loadChildren as string,
+            loadType: LoadType.lazyModule
+        },
+        icon: 'settings_input_component',
+        iconBackground:'rgb(0, 120, 215)'
+    },
+    {
+        name: 'readme',
+        method: BootMethod.dragdrop,
+        data: {},
+        config: {
+            title: 'readme',
+            lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-docs' == name.path).loadChildren as string,
             loadType: LoadType.lazyModule
         },
         icon: 'settings_input_component',

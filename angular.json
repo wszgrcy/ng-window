@@ -35,6 +35,11 @@
                 "glob": "**/*",
                 "input": "./src/web-component/vue/assets",
                 "output": "./"
+              },
+              {
+                "glob": "README.md",
+                "input": ".",
+                "output": "./assets/docs"
               }
             ],
             "styles": [

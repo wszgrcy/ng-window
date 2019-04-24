@@ -1,0 +1,69 @@
+app-markdown {
+  @mixin markdown {
+    &[class*=fullwidth] {
+      width: 100%
+    }
+
+    &[class*=halfwidth] {
+      width: 50%
+    }
+
+    &[class*=display] {
+      display: block;
+    }
+  }
+
+  :host {
+    display: block;
+  }
+
+  //doc 默认不是充满宽度
+  mat-form-field {
+    width: 100%;
+  }
+
+  .markdown-container {
+    background: white;
+
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: space-between;
+    .editor {
+      // float: left;
+      // padding-right: 20px;
+      box-sizing: border-box;
+
+      .textarea {
+        width: 100%;
+        min-height: 300px;
+      }
+    }
+
+    // .display {
+    //   float: left;
+    // }
+    [class*=markdown-0] {
+      @include markdown()
+    }
+
+    [class*=markdown-1] {
+      @include markdown()
+    }
+
+    // .mamrkdown-0-fullwidth {
+    //   width: 100%;
+    // }
+  }
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+  table td,
+  table th {
+    border: 1px solid #dfe2e5;
+    padding: 6px 13px;
+  }
+  table tr:nth-child(2n) {
+    background-color: #f6f8fa;
+}
+}
