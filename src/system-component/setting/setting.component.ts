@@ -22,13 +22,11 @@ export class SettingComponent implements OnInit {
   themeOptions = ['deeppurple-amber', 'indigo-pink', 'pink-bluegrey', 'purple-green']
   taskbarOptions = ['left', 'right', 'top', 'bottom']
   ngOnInit() {
-    this.form = this.fb.group(
-      {
-        theme: [localStorage.getItem(THEME_CONFIG.storageName) || ''],
-        taskbar: ['']
-      }
-    )
-    this.store.pipe(select(selectTaskbarPosition), take(1)).subscribe((val) => {
+    this.form = this.fb.group({
+      theme: [localStorage.getItem(THEME_CONFIG.storageName) || ''],
+      taskbar: ['']
+    })
+    this.store.pipe(select(selectTaskbarPosition)).subscribe((val) => {
       this.form.get('taskbar').setValue(val)
     })
     this.form.get('theme').valueChanges.subscribe((val) => {
