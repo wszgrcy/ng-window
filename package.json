@@ -7,7 +7,8 @@
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e --webdriverUpdate=false"
+    "e2e-f": "ng e2e --webdriverUpdate=false",
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -31,7 +32,7 @@
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.4",
     "cyia-ngx-common": "^1.2.1",
-    "cyia-ngx-component": "0.0.10",
+    "cyia-ngx-component": "0.0.21",
     "cyia-ngx-form": "^1.2.0",
     "document-register-element": "^1.13.1",
     "image-compressor.js": "^1.1.4",

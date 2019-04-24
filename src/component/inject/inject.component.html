@@ -1,0 +1,13 @@
+<mat-paginator [length]="length" [pageSize]="5" cyiaPaginatorPatch [template]="template1" color="primary"
+  (page)="test($event)">
+</mat-paginator>
+<ng-template #template1 let-content>
+  <div>
+    <button mat-icon-button *ngFor="let item of content.list;let i=index" class=" page-num " (click)="item.click()"
+      [class.active]="item.active">
+      <!-- <mat-icon>{{i+1}}</mat-icon> -->
+      {{item.index}}
+    </button>
+  </div>
+</ng-template>
+

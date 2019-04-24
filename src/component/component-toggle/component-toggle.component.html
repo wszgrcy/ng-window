@@ -1,0 +1,57 @@
+<div class="mat-elevation-z1 padding-2 margin-bottom-4 hover-8">
+  <h2 class="">基本调用</h2>
+  <div>
+    <cyia-component-toggle [duration]="1000" #el>
+      <ng-template [cyiaTemplateAnchor]="'front'">
+        <div class="mat-elevation-z1 p-2 b-r-1">这是一条表面显示的信息</div>
+      </ng-template>
+      <ng-template [cyiaTemplateAnchor]="'end'">
+        <div class="mat-elevation-z1 p-2 b-r-1">背面也有信息</div>
+      </ng-template>
+    </cyia-component-toggle>
+    <button mat-button (click)="el.toggle()">切换</button>
+  </div>
+</div>
+<div class="mat-elevation-z1 padding-2 margin-bottom-4 hover-8">
+  <h2 class="">调整参数</h2>
+  <div>
+    <form #form="ngForm">
+      <div class="row center">
+        <div class="col-3">持续时间</div>
+        <div class="col-9">
+          <mat-form-field>
+            <input matInput placeholder="持续时间(ms)" name="duration" type="number" ngModel>
+          </mat-form-field>
+
+        </div>
+      </div>
+      <div class="row center">
+        <div class="col-3">旋转方向</div>
+        <div class="col-9">
+          <mat-select placeholder="旋转方向" name="direction" ngModel>
+            <mat-option *ngFor="let item of ['x','y','z']" [value]="item">
+              {{item}}
+            </mat-option>
+          </mat-select>
+        </div>
+      </div>
+      <div class="row center">
+        <div class="col-3">旋转原点</div>
+        <div class="col-9">
+          <mat-form-field>
+            <input matInput placeholder="transform-origin的输入值" name="origin" ngModel>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+    <cyia-component-toggle [duration]="form.value.duration" #el [direction]="form.value.direction" [origin]="form.value.origin">
+      <ng-template [cyiaTemplateAnchor]="'front'">
+        <div class="mat-elevation-z1 p-2 b-r-1">这是一条表面显示的信息</div>
+      </ng-template>
+      <ng-template [cyiaTemplateAnchor]="'end'">
+        <div class="mat-elevation-z1 p-2 b-r-1">背面也有信息</div>
+      </ng-template>
+    </cyia-component-toggle>
+    <button mat-button (click)="el.toggle()">切换</button>
+  </div>
+</div>

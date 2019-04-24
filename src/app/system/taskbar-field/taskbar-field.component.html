@@ -15,16 +15,14 @@
     <div #slot>
     </div>
   </div> -->
-  <div *ngFor="let item of slotList;let i=index" cdkDropList [cdkDropListData]="item.list" (cdkDropListDropped)="drop($event,i,list)"
-    class="taskbar--field--slot__{{item.prefix}}" #list [class.slotted]="item.slotted">
+  <div *ngFor="let item of slotList;let i=index" cdkDropList [cdkDropListData]="item.list"
+    (cdkDropListDropped)="drop($event,i,list)" class="taskbar--field--slot__{{item.prefix}}" #list
+    [class.slotted]="item.slotted">
     <div cdkDrag>
       <ng-template #slot></ng-template>
     </div>
   </div>
 </div>
-<ng-template #taskbar>
-  <!-- <div cdkDrag>
-    
-  </div> -->
+<!-- <ng-template #taskbar>
   <app-taskbar></app-taskbar>
-</ng-template>
+</ng-template> -->

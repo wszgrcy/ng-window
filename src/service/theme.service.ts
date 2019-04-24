@@ -1,5 +1,6 @@
 import { ThemeItem, THEME_CONFIG, ThemeConfig } from './../const/theme.config';
 import { Injectable } from '@angular/core';
+import { callNgModuleLifecycle } from '@angular/core/src/view/ng_module';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,9 @@ export class ThemeService {
     this.changeTheme(THEME_CONFIG.list.find(({ class: itemClass }) => itemClass === themeClass) || THEME_CONFIG.list[0])
   }
 
+  getThemeItem(className: string) {
+    return THEME_CONFIG.list.find(({ class: itemClass }) => className == itemClass)
+  }
   changeTheme(themeItem: ThemeItem) {
     let selector = `link`
     selector = THEME_CONFIG.prefix ? `${selector}[class^=${THEME_CONFIG.prefix}]` : selector;

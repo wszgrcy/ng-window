@@ -21,6 +21,18 @@ export const LAZY_MODULE_LIST: Routes = [
     {
         path: 'lazy-network-debugging', loadChildren: '@system-component/network-debugging/network-debugging.module#NetworkDebuggingModule',
     },
+    {
+        path: 'lazy-setting', loadChildren: '@system-component/setting/setting.module#SettingModule',
+    },
+    {
+        path: 'lazy-color-picker', loadChildren: '@component/color-picker/color-picker.module#ColorPickerModule',
+    },
+    {
+        path: 'lazy-component-toggle', loadChildren: '@component/component-toggle/component-toggle.module#ComponentToggleModule',
+    },
+    {
+        path: 'lazy-inject', loadChildren: '@component/inject/inject.module#InjectModule',
+    },
 ]
 export const COMPONENT_LIST: IconItem[] = [
     {
@@ -131,6 +143,51 @@ export const COMPONENT_LIST: IconItem[] = [
             loadType: LoadType.lazyModule
         },
         icon: 'attachment',
+    },
+    {
+        name: '颜色选择',
+        method: BootMethod.dragdrop,
+        data: {},
+        config: {
+            title: '颜色选择器,用于补全material-design缺失的颜色选择器',
+            lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-color-picker' == name.path).loadChildren as string,
+            loadType: LoadType.lazyModule
+        },
+        icon: 'color_lens',
+    },
+    {
+        name: '切换组件',
+        method: BootMethod.dragdrop,
+        data: {},
+        config: {
+            title: '卡片正反面切换',
+            lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-component-toggle' == name.path).loadChildren as string,
+            loadType: LoadType.lazyModule
+        },
+        icon: 'color_lens',
+    },
+    {
+        name: '组件注入',
+        method: BootMethod.dragdrop,
+        data: {},
+        config: {
+            title: 'matd相关组件注入补丁',
+            lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-inject' == name.path).loadChildren as string,
+            loadType: LoadType.lazyModule
+        },
+        icon: 'color_lens',
+    },
+    {
+        name: '系统设置',
+        method: BootMethod.dragdrop,
+        data: {},
+        config: {
+            title: '系统设置',
+            lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-setting' == name.path).loadChildren as string,
+            loadType: LoadType.lazyModule
+        },
+        icon: 'settings',
+        iconBackground:'rgb(0, 120, 215)'
     },
 ]
 // export function lazyModuleFactory() {

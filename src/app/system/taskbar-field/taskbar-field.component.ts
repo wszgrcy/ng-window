@@ -1,10 +1,12 @@
 import { TASKBAR_POSITION } from './../../../const/config.localStorage';
-import { Component, OnInit, ViewChildren, ViewContainerRef, QueryList, ComponentFactoryResolver, ViewChild, TemplateRef, ViewRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChildren, ViewContainerRef, QueryList, ComponentFactoryResolver, ViewChild, TemplateRef, ViewRef, Renderer2, NgZone } from '@angular/core';
 import { TaskbarComponent } from './taskbar/taskbar.component';
 import { TaskBarFieldOldData } from 'src/interface/taskbar.interface';
 import { Store } from '@ngrx/store';
 import { TaskbarPosition } from '@ngrx/store/taskbar.store';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
+import { take, filter } from 'rxjs/operators';
+import { selectTaskbarPosition } from '@ngrx/selector/feature.selector';
 
 @Component({
   selector: 'app-taskbar-field',
@@ -19,7 +21,7 @@ export class TaskbarFieldComponent implements OnInit {
    */
 
   @ViewChildren('slot', { read: ViewContainerRef }) slotViewContainerRefList: QueryList<ViewContainerRef>
-  @ViewChild('taskbar') taskbarTemplate: TemplateRef<any>
+  // @ViewChild('taskbar') taskbarTemplate: TemplateRef<any>
   readonly slotList = [
     { prefix: 'top', list: [], slotted: false },
     { prefix: 'right', list: [], active: false },
@@ -34,19 +36,22 @@ export class TaskbarFieldComponent implements OnInit {
   constructor(
     private resolver: ComponentFactoryResolver,
     private renderer: Renderer2,
-    private store: Store<any>
+    private store: Store<any>,
+    private ngZone: NgZone
   ) { }
 
   ngOnInit() {
+    this.taskbarPositionChange()
   }
   drop(e, i, list) {
     this.changePosition(i, false)
   }
   ngAfterViewInit(): void {
     let index = this.getInitPosition()
-    setTimeout(() => {
+    this.ngZone.onStable.pipe(take(1)).subscribe(() => {
       this.changePosition(index, true)
-    });
+    })
+
   }
 
   /**
@@ -58,7 +63,10 @@ export class TaskbarFieldComponent implements OnInit {
    */
   getInitPosition(): number {
     let position = localStorage.getItem(TASKBAR_POSITION) || 'bottom';
-    let index = this.slotList.findIndex(({ prefix }) => prefix == position)
+    return this.findSlotByPrefix(position)
+  }
+  private findSlotByPrefix(searchPrefix: string) {
+    let index = this.slotList.findIndex(({ prefix }) => prefix == searchPrefix)
     return ~index ? index : 0
   }
   /**
@@ -68,29 +76,33 @@ export class TaskbarFieldComponent implements OnInit {
    * @memberof TaskbarFieldComponent
    */
   changePosition(i = 0, init: boolean = false) {
-    let viewContainerRef = this.slotViewContainerRefList.toArray()[i];
-    if (init) {
-      /**采用动态创建组件的方式 */
-      let component = this.resolver.resolveComponentFactory(TaskbarComponent)
-
-      viewContainerRef.createComponent(component);
-      /**-------------- */
-      this.taskbar = viewContainerRef.get(0)
-      this.old.viewContainerRef = viewContainerRef
-    } else {
-      this.old.viewContainerRef.detach(0)
-      viewContainerRef.insert(this.taskbar)
-      this.old.viewContainerRef = viewContainerRef
-      localStorage.setItem(TASKBAR_POSITION, this.slotList[i].prefix)
-    }
-
-    this.slotList.forEach((item, index) => {
-      item.slotted = index == i ? true : false
-    })
     this.store.dispatch(new TaskbarPosition(this.slotList[i].prefix as any))
   }
-  enterPredicate = (drag: CdkDrag, drop: CdkDropList) => {
-    // console.log('判断', drag, drop)
-    return true
+
+  taskbarPositionChange() {
+    this.store.select(selectTaskbarPosition)
+      .pipe(filter((val) => !!val))
+      .subscribe((value) => {
+        let i = this.findSlotByPrefix(value)
+        let viewContainerRef = this.slotViewContainerRefList.toArray()[i];
+        if (!this.taskbar) {
+          /**采用动态创建组件的方式 */
+          let component = this.resolver.resolveComponentFactory(TaskbarComponent)
+
+          viewContainerRef.createComponent(component);
+          /**-------------- */
+          this.taskbar = viewContainerRef.get(0)
+          this.old.viewContainerRef = viewContainerRef
+        } else {
+          this.old.viewContainerRef.detach(0)
+          viewContainerRef.insert(this.taskbar)
+          this.old.viewContainerRef = viewContainerRef
+          localStorage.setItem(TASKBAR_POSITION, this.slotList[i].prefix)
+        }
+
+        this.slotList.forEach((item, index) => {
+          item.slotted = index == i ? true : false
+        })
+      })
   }
 }

@@ -65,14 +65,13 @@
               "extractLicenses": true,
               "vendorChunk": true,
               "buildOptimizer": true,
+              "commonChunk": true,
               "budgets": [{
                 "type": "initial",
                 "maximumWarning": "2mb",
                 "maximumError": "5mb"
-              }],
-              "lazyModules": ["./src/component/hello-component/hello-component.module",
-                "./src/module/material.base.module"
-              ]
+              }]
+          
             }
           }
         },

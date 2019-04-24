@@ -72,6 +72,9 @@
     justify-content: space-between;
   }
 
+  &.no-wrap {
+    flex-wrap: nowrap;
+  }
 }
 
 .border-box {

@@ -28,4 +28,8 @@
 
 
   }
+
+  .b-r-#{$num} {
+    border-radius: $num * 4px;
+  }
 }
