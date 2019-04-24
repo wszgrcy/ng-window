@@ -216,7 +216,7 @@ export const COMPONENT_LIST: IconItem[] = [
             lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-docs' == name.path).loadChildren as string,
             loadType: LoadType.lazyModule
         },
-        icon: 'settings_input_component',
+        icon: 'book',
         iconBackground:'rgb(0, 120, 215)'
     },
 ]
