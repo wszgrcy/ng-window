@@ -33,6 +33,9 @@ export const LAZY_MODULE_LIST: Routes = [
     {
         path: 'lazy-inject', loadChildren: '@component/inject/inject.module#InjectModule',
     },
+    {
+        path: 'lazy-directive', loadChildren: '@component/directive/directive.module#DirectiveModule',
+    },
 ]
 export const COMPONENT_LIST: IconItem[] = [
     {
@@ -187,6 +190,18 @@ export const COMPONENT_LIST: IconItem[] = [
             loadType: LoadType.lazyModule
         },
         icon: 'settings',
+        iconBackground:'rgb(0, 120, 215)'
+    },
+    {
+        name: '指令',
+        method: BootMethod.dragdrop,
+        data: {},
+        config: {
+            title: '指令',
+            lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-directive' == name.path).loadChildren as string,
+            loadType: LoadType.lazyModule
+        },
+        icon: 'settings_input_component',
         iconBackground:'rgb(0, 120, 215)'
     },
 ]
