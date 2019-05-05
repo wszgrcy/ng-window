@@ -41,6 +41,11 @@ header {
       background: rgb(199, 202, 207);
       cursor: pointer;
     }
+
+    &.close-btn:hover {
+      background: rgb(232, 17, 35);
+      color: rgb(255, 255, 255);
+    }
   }
 }
 
