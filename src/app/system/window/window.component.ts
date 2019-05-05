@@ -119,17 +119,23 @@ export class WindowComponent implements OnInit {
   toggleMax() {
     this.flag.max = !this.flag.max;
     if (this.flag.max) {
-      ['width', 'height'].forEach((str) => {
+      ['width', 'height', 'left', 'top'].forEach((str) => {
         this.style[str] = this.hostElement.style[str]
+        this.renderer.setStyle(this.hostElement, str, '')
       })
       this.setWindowSize(this.maxSize.width, this.maxSize.height)
       this.dragRef.disabled = true;
       this.transform = this.hostElement.style.transform;
+
       this.renderer.setStyle(this.hostElement, 'transform', `translate3d(calc(-${coerceCssPixelValue(this.config.left || 0)} + ${coerceCssPixelValue(this.maxSize.left || 0)}),calc(-${coerceCssPixelValue(this.config.top || 0)} + ${coerceCssPixelValue(this.maxSize.top || 0)}), 0px)`)
     } else {
       this.renderer.setStyle(this.hostElement, 'transform', this.transform)
-      this.dragRef.disabled = false
-      this.setWindowSize(this.style.width, this.style.height)
+      this.dragRef.disabled = false;
+      // this.setWindowSize(this.style.width, this.style.height);
+      ['width', 'height', 'left', 'top'].forEach((str) => {
+        // this.style[str] = this.hostElement.style[str]
+        this.renderer.setStyle(this.hostElement, str, this.style[str])
+      })
     }
   }
 
