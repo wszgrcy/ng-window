@@ -10,8 +10,8 @@ export class HelloComponentComponent implements OnInit {
 
   constructor(
     @Optional() private windowComponent: WindowComponent) {
-    console.log('hello构造')
-    console.log(windowComponent)
+    console.log('hello构造');
+    console.log(windowComponent);
   }
 
   ngOnInit() {
@@ -20,7 +20,7 @@ export class HelloComponentComponent implements OnInit {
   ngAfterViewInit(): void {
   }
   ngOnDestroy(): void {
-    console.log('hello', '销毁')
+    console.log('hello', '销毁');
   }
 
 }

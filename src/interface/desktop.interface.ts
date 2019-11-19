@@ -3,28 +3,28 @@ import { Type } from '@angular/core';
 import { CompilerConfig } from '@angular/compiler';
 export interface IconItem {
     name: string;
-    method: BootMethod
+    method: BootMethod;
 
-    config?: WindowConfig
-    data?: any
+    config?: WindowConfig;
+    data?: any;
     // token?: string
     icon?: string;
-    iconBackground?: string
-    iconCOlor?: string
+    iconBackground?: string;
+    iconCOlor?: string;
     // route: Route
-    [name: string]: any
+    [name: string]: any;
 
 }
 export interface WindowConfig {
-    width?: number | string,
-    height?: number | string
-    title?: string
-    top?: number | string
-    left?: number | string
-    component?: Type<{}>
-    module?: NgCustomElement
-    loadType?: LoadType
-    lazyModule?:string|LoadChildren
+    width?: number | string;
+    height?: number | string;
+    title?: string;
+    top?: number | string;
+    left?: number | string;
+    component?: Type<{}>;
+    module?: NgCustomElement;
+    loadType?: LoadType;
+    lazyModule?: string|LoadChildren;
 }
 export enum BootMethod {
     dragdrop,
@@ -33,6 +33,6 @@ export enum LoadType {
     native, webComponent, lazyModule
 }
 export interface NgCustomElement {
-    import: () => Promise<any>,
-    elementName: string
+    import: () => Promise<any>;
+    elementName: string;
 }

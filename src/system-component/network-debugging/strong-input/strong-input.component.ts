@@ -13,37 +13,37 @@ import { PROPERTYTYPE_OPTIONS } from 'src/const/interceptor.const';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StrongInputComponent implements OnInit, ControlValueAccessor {
-  @Input() propertyTypeOptions: (keyof QueryType)[] = PROPERTYTYPE_OPTIONS
-  @Input() typeName: string
-  @Input() valueName: string
-  @Input() placeholder: string = '输入值'
-  _type: keyof QueryType = null;
-  _value: QueryType[keyof QueryType]
   get type() {
-    return this._type
+    return this._type;
   }
   set type(value) {
-    this._type = value
-    this.initValue()
-    this.valueChange({ [this.typeName]: this.type, [this.valueName]: this.value })
+    this._type = value;
+    this.initValue();
+    this.valueChange({ [this.typeName]: this.type, [this.valueName]: this.value });
   }
   get value() {
-    return this._value
+    return this._value;
   }
   set value(value) {
-    this._value = value
-    this.valueChange({ [this.typeName]: this.type, [this.valueName]: this.value })
+    this._value = value;
+    this.valueChange({ [this.typeName]: this.type, [this.valueName]: this.value });
   }
+  constructor() { }
+  @Input() propertyTypeOptions: (keyof QueryType)[] = PROPERTYTYPE_OPTIONS;
+  @Input() typeName: string;
+  @Input() valueName: string;
+  @Input() placeholder = '输入值';
+  _type: keyof QueryType = null;
+  _value: QueryType[keyof QueryType];
+  objectValue;
   private changeFn: Function = () => { };
   private touchedFn: Function = () => { };
-  objectValue
-  constructor() { }
 
   ngOnInit() { }
   writeValue(value) {
     if (value !== undefined && value !== null) {
-      ({ [this.typeName]: this._type, [this.valueName]: this._value } = value)
-      this.objectValue = value
+      ({ [this.typeName]: this._type, [this.valueName]: this._value } = value);
+      this.objectValue = value;
     }
   }
   registerOnChange(fn) {
@@ -61,23 +61,23 @@ export class StrongInputComponent implements OnInit, ControlValueAccessor {
    */
   valueChange(value) {
 
-    this.changeFn(Object.assign(this.objectValue, value))
-    this.touchedFn(Object.assign(this.objectValue, value))
+    this.changeFn(Object.assign(this.objectValue, value));
+    this.touchedFn(Object.assign(this.objectValue, value));
   }
 
   initValue() {
     switch (this._type) {
       case 'boolean':
-        this._value = false
+        this._value = false;
         break;
       case 'number':
         this._value = 0;
-        break
+        break;
       case 'regexp':
-        if (typeof this._value !== 'string') this._value = ''
+        if (typeof this._value !== 'string') { this._value = ''; }
         break;
       case 'string':
-        if (typeof this._value !== 'string') this._value = ''
+        if (typeof this._value !== 'string') { this._value = ''; }
         break;
     }
   }

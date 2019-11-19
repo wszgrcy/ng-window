@@ -14,5 +14,5 @@ import { FormsModule } from '@angular/forms';
   entryComponents: [DocsComponent]
 })
 export class DocsModule {
-  component = DocsComponent
+  component = DocsComponent;
 }

@@ -17,5 +17,5 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   entryComponents: [SettingComponent]
 })
 export class SettingModule {
-  component = SettingComponent
+  component = SettingComponent;
 }

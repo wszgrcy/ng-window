@@ -1,1 +1,1 @@
-export type ArrayAction = 'add' | 'remove'
+export type ArrayAction = 'add' | 'remove';

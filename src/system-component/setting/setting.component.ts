@@ -13,29 +13,29 @@ import { take, skip } from 'rxjs/operators';
   styleUrls: ['./setting.component.scss']
 })
 export class SettingComponent implements OnInit {
-  form: FormGroup
+  form: FormGroup;
   constructor(
     private themeService: ThemeService,
     private fb: FormBuilder,
     private store: Store<any>
   ) { }
-  themeOptions = ['deeppurple-amber', 'indigo-pink', 'pink-bluegrey', 'purple-green']
-  taskbarOptions = ['left', 'right', 'top', 'bottom']
+  themeOptions = ['deeppurple-amber', 'indigo-pink', 'pink-bluegrey', 'purple-green'];
+  taskbarOptions = ['left', 'right', 'top', 'bottom'];
   ngOnInit() {
     this.form = this.fb.group({
       theme: [localStorage.getItem(THEME_CONFIG.storageName) || ''],
       taskbar: ['']
-    })
+    });
     this.store.pipe(select(selectTaskbarPosition)).subscribe((val) => {
-      this.form.get('taskbar').setValue(val)
-    })
+      this.form.get('taskbar').setValue(val);
+    });
     this.form.get('theme').valueChanges.subscribe((val) => {
-      this.themeService.changeTheme(this.themeService.getThemeItem(val))
-    })
+      this.themeService.changeTheme(this.themeService.getThemeItem(val));
+    });
     this.form.get('taskbar').valueChanges
       .subscribe((val) => {
-        this.store.dispatch(new TaskbarPosition(val))
-      })
+        this.store.dispatch(new TaskbarPosition(val));
+      });
   }
 
 }

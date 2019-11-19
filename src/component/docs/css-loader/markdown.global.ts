@@ -14,4 +14,4 @@ export const markdownCssClassArray: MarkdownCssClass[] = [
         fullwidth: false,
         display: true
     }
-]
+];

@@ -8,9 +8,9 @@ export interface HintOptions {
 }
 export interface HintOptionsWithPosition extends HintOptions {
     // duration: number;
-    position?: ToastPosition
+    position?: ToastPosition;
 }
 export interface ToastPosition {
-    horizontalPosition: 'left' | 'right' | 'center'
-    verticalPosition: 'top' | 'bottom' | 'center'
+    horizontalPosition: 'left' | 'right' | 'center';
+    verticalPosition: 'top' | 'bottom' | 'center';
 }

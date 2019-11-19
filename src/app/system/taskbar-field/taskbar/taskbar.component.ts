@@ -14,22 +14,22 @@ import { WindowHandle } from '@ngrx/store/window.store';
   styleUrls: ['./taskbar.component.scss']
 })
 export class TaskbarComponent implements OnInit {
-  windowList$: Observable<WindowPayload[]>
+  windowList$: Observable<WindowPayload[]>;
   position$: Observable<POSITION>;
-  public readonly WINDOWSTATUS = WindowStatus
+  public readonly WINDOWSTATUS = WindowStatus;
   constructor(
     private store: Store<any>
   ) { }
 
   ngOnInit() {
-    this.windowList$ = this.store.select(selectWindowHandle)
+    this.windowList$ = this.store.select(selectWindowHandle);
     this.position$ = this.store.pipe(
       select(selectTaskbarPosition),
       filter(val => !!val),
-    )
+    );
   }
 
   open(item: WindowPayload) {
-    this.store.dispatch(new WindowHandle('[WINDOW]restore', { id: item.id }))
+    this.store.dispatch(new WindowHandle('[WINDOW]restore', { id: item.id }));
   }
 }

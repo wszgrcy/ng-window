@@ -1,9 +1,9 @@
-export const PRISM_OBJ = { classname: 'prism-theme-' }
+export const PRISM_OBJ = { classname: 'prism-theme-' };
 export interface ThemeObj {
     name?: string;
     classPrefix?: string;
     index?: number;
-    url?: string
+    url?: string;
 }
 export const PRISM_THEME: ThemeObj[] = [
     { name: 'default', classPrefix: 'default', index: 1, url: './css/prism.css' },
@@ -14,4 +14,4 @@ export const PRISM_THEME: ThemeObj[] = [
     { name: 'solarizedlight', classPrefix: 'solarizedlight', index: 6, url: './css/prism-solarizedlight.css' },
     { name: 'tomorrow', classPrefix: 'tomorrow', index: 7, url: './css/prism-tomorrow.css' },
     { name: 'twilight', classPrefix: 'twilight', index: 8, url: './css/prism-twilight.css' },
-]
+];

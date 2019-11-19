@@ -1,20 +1,20 @@
-import * as puppeteer from "puppeteer";
+import * as puppeteer from 'puppeteer';
 import { mousePositionCenter } from '../common/common.mouse';
 export class PageP {
-  mouse: puppeteer.Mouse
-  frame: puppeteer.Frame
+  mouse: puppeteer.Mouse;
+  frame: puppeteer.Frame;
   constructor(private browser: puppeteer.Browser, private page: puppeteer.Page) {
-    this.mouse = this.page.mouse
-    this.frame = this.page.mainFrame()
+    this.mouse = this.page.mouse;
+    this.frame = this.page.mainFrame();
   }
-  openAppNumber = 0
+  openAppNumber = 0;
   navigateTo() {
-    return this.page.goto('http://localhost:4200')
+    return this.page.goto('http://localhost:4200');
   }
 
 
   async openApp(appElement: puppeteer.ElementHandle) {
-    return appElement.click({ clickCount: 2 })
+    return appElement.click({ clickCount: 2 });
   }
   /**
    * 等待页面初始化
@@ -24,7 +24,7 @@ export class PageP {
    * @returns
    */
   pageInit() {
-    return Promise.all([this.page.waitFor('.icon--group', { visible: true, hidden: false, timeout: 5000 }), this.page.waitFor('.app--list', { visible: true, hidden: false, timeout: 5000 })])
+    return Promise.all([this.page.waitFor('.icon--group', { visible: true, hidden: false, timeout: 5000 }), this.page.waitFor('.app--list', { visible: true, hidden: false, timeout: 5000 })]);
   }
 
   /**
@@ -35,34 +35,34 @@ export class PageP {
    * @returns
    */
   waitAppOpen() {
-    let count = this.openAppNumber
+    const count = this.openAppNumber;
     // return this.page.waitFor(3000)
     return this.page.waitForFunction((openAppNumber) => {
-      let count = document.querySelectorAll('.cdk-global-overlay-wrapper app-window').length;
+      const count = document.querySelectorAll('.cdk-global-overlay-wrapper app-window').length;
       if (count > openAppNumber) {
-        return true
+        return true;
       }
-      return false
+      return false;
     }, {}, count).then(() => {
-      this.openAppNumber++
-    })
+      this.openAppNumber++;
+    });
   }
   findWindowList() {
-    return this.page.$$('.cdk-global-overlay-wrapper')
+    return this.page.$$('.cdk-global-overlay-wrapper');
   }
 
   async findActiveWindow() {
-    let windowList = await this.findWindowList();
-    let windowZList = []
+    const windowList = await this.findWindowList();
+    const windowZList = [];
     for (let i = 0; i < windowList.length; i++) {
       const element = windowList[i];
-      let zIndex = +await this.page.mainFrame().evaluate((el: HTMLElement) => {
-        return Promise.resolve(el.style.zIndex)
-      }, element)
-      windowZList.push({ index: i, zIndex: zIndex })
+      const zIndex = +await this.page.mainFrame().evaluate((el: HTMLElement) => {
+        return Promise.resolve(el.style.zIndex);
+      }, element);
+      windowZList.push({ index: i, zIndex });
     }
-    windowZList.sort((a, b) => b.zIndex - a.zIndex)
-    return windowList[+windowZList[0].index]
+    windowZList.sort((a, b) => b.zIndex - a.zIndex);
+    return windowList[+windowZList[0].index];
   }
   /**
    * 移动应用图标
@@ -73,32 +73,32 @@ export class PageP {
    * @returns
    */
   async moveAppIcon(appElement: puppeteer.ElementHandle) {
-    let boundingBox = await appElement.boundingBox()
-    let pos = mousePositionCenter(boundingBox)
-    await this.mouse.move(pos.x, pos.y)
-    await this.mouse.down()
-    await this.mouse.move(pos.x, pos.y + 100)
-    return this.mouse.up()
+    const boundingBox = await appElement.boundingBox();
+    const pos = mousePositionCenter(boundingBox);
+    await this.mouse.move(pos.x, pos.y);
+    await this.mouse.down();
+    await this.mouse.move(pos.x, pos.y + 100);
+    return this.mouse.up();
   }
 
   async appMax(elementFinder: puppeteer.ElementHandle) {
-    let maxFinder = (await elementFinder.$$('header mat-icon'))[1]
-    let pos = mousePositionCenter(await maxFinder.boundingBox())
-    return this.mouse.click(pos.x, pos.y)
+    const maxFinder = (await elementFinder.$$('header mat-icon'))[1];
+    const pos = mousePositionCenter(await maxFinder.boundingBox());
+    return this.mouse.click(pos.x, pos.y);
   }
   async appMaxRestore(elementFinder: puppeteer.ElementHandle) {
-    let maxFinder = (await elementFinder.$$('header mat-icon'))[1]
-    let pos = mousePositionCenter(await maxFinder.boundingBox())
-    return this.mouse.click(pos.x, pos.y)
+    const maxFinder = (await elementFinder.$$('header mat-icon'))[1];
+    const pos = mousePositionCenter(await maxFinder.boundingBox());
+    return this.mouse.click(pos.x, pos.y);
   }
   async appMin(elementFinder: puppeteer.ElementHandle) {
-    let maxFinder = (await elementFinder.$$('header mat-icon'))[0]
-    let pos = mousePositionCenter(await maxFinder.boundingBox())
-    return this.mouse.click(pos.x, pos.y)
+    const maxFinder = (await elementFinder.$$('header mat-icon'))[0];
+    const pos = mousePositionCenter(await maxFinder.boundingBox());
+    return this.mouse.click(pos.x, pos.y);
   }
 
   getAppList() {
-    return this.page.$$('.app--container')
+    return this.page.$$('.app--container');
   }
 
 }

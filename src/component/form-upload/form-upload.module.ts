@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormUploadComponent } from './form-upload.component';
-import { CyiaUploadModule, CyiaUpload4ImageModule, CyiaDirectiveModule } from "cyia-ngx-component";
+import { CyiaUploadModule, CyiaUpload4ImageModule, CyiaDirectiveModule } from 'cyia-ngx-component';
 import { MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 @NgModule({
   imports: [
@@ -17,5 +17,5 @@ import { MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule } fr
   entryComponents: [FormUploadComponent],
 })
 export class FormUploadModule {
-  component = FormUploadComponent
+  component = FormUploadComponent;
 }

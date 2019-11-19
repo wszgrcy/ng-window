@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./form-upload.component.scss']
 })
 export class FormUploadComponent implements OnInit {
-files
+files;
   constructor() { }
 
   ngOnInit() {

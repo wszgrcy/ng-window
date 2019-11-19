@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormComponent } from './form.component';
-import { CyiaDatePickerModule, CyiaUploadModule, CyiaUpload4ImageModule } from "cyia-ngx-component";
+import { CyiaDatePickerModule, CyiaUploadModule, CyiaUpload4ImageModule } from 'cyia-ngx-component';
 import { MatFormFieldModule, } from '@angular/material/form-field';
 import { MatDatepickerModule, MatButtonModule } from '@angular/material';
-import { CyiaCustompickerModule } from "cyia-ngx-component/custompicker";
+import { CyiaCustompickerModule } from 'cyia-ngx-component/custompicker';
 import { CustomDialogModule } from './custom-dialog/custom-dialog.module';
 
 @NgModule({
@@ -23,5 +23,5 @@ import { CustomDialogModule } from './custom-dialog/custom-dialog.module';
   entryComponents: [FormComponent],
 })
 export class FormComponentModule {
-  component = FormComponent
+  component = FormComponent;
 }

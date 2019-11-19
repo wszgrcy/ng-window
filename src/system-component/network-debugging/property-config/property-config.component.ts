@@ -10,12 +10,12 @@ import { RequestProperty, InterceptorItem } from '@ngrx/store/intereptor.store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PropertyConfigComponent implements OnInit {
-  @Input() item
+  @Input() item;
   /**用于操作的方法,查询,新增,修改,删除 */
-  @Input() readonly operate: keyof InterceptorItem['requestConfig']
-  readonly ALLOW_PROPERTY_OBJECT = ALLOW_PROPERTY_OBJECT
+  @Input() readonly operate: keyof InterceptorItem['requestConfig'];
+  readonly ALLOW_PROPERTY_OBJECT = ALLOW_PROPERTY_OBJECT;
   constructor() { }
-  @Output() delete = new EventEmitter()
+  @Output() delete = new EventEmitter();
   ngOnInit() {
   }
 
@@ -33,10 +33,10 @@ export class PropertyConfigComponent implements OnInit {
   arrayAction(array: Array<any>, action: ArrayAction, index: number = null, value: any = null) {
     switch (action) {
       case 'add':
-        array.push(JSON.parse(JSON.stringify(value)))
+        array.push(JSON.parse(JSON.stringify(value)));
         break;
       case 'remove':
-        array.splice(index, 1)
+        array.splice(index, 1);
         break;
       default:
         break;
@@ -44,10 +44,10 @@ export class PropertyConfigComponent implements OnInit {
   }
 
   strongType(disableTypeName: 'key' | 'value' | 'change', disableTypePropertyName: keyof RequestProperty<any>) {
-    let disableTypeOptions = DISABLE_TYPE_OBJECT[disableTypeName] || [], disableTypePropertyOptions = DISABLE_TYPE_PROPERTY_OBJECT[disableTypePropertyName] || []
+    const disableTypeOptions = DISABLE_TYPE_OBJECT[disableTypeName] || [], disableTypePropertyOptions = DISABLE_TYPE_PROPERTY_OBJECT[disableTypePropertyName] || [];
 
-    let disableOptions = [...new Set([...disableTypeOptions, ...disableTypePropertyOptions])]
-    return PROPERTYTYPE_OPTIONS.filter((value) => !disableOptions.some((option) => option == value))
+    const disableOptions = [...new Set([...disableTypeOptions, ...disableTypePropertyOptions])];
+    return PROPERTYTYPE_OPTIONS.filter((value) => !disableOptions.some((option) => option == value));
   }
   displayField(fieldName: 'key' | 'value' | 'change') {
     return {
@@ -55,6 +55,6 @@ export class PropertyConfigComponent implements OnInit {
       retrieve: ['key', 'value'],
       update: ['key', 'change'],
       create: ['key', 'change']
-    }[this.operate].some((val) => val === fieldName)
+    }[this.operate].some((val) => val === fieldName);
   }
 }

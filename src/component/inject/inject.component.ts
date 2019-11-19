@@ -6,12 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./inject.component.css']
 })
 export class InjectComponent implements OnInit {
-  length = 20
+  length = 20;
   constructor() { }
 
   ngOnInit() {
   }
   test(e) {
-    console.log(e)
+    console.log(e);
   }
 }

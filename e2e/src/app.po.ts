@@ -1,7 +1,7 @@
 import { browser, by, element, WebElement, $, $$, ElementFinder, ElementArrayFinder } from 'protractor';
 
 export class Page {
-  openAppNumber = 0
+  openAppNumber = 0;
   navigateTo() {
     return browser.get(browser.baseUrl) as Promise<any>;
   }
@@ -14,7 +14,7 @@ export class Page {
     return await browser.actions()
       .mouseMove(appElement)
       .doubleClick(appElement)
-      .perform()
+      .perform();
   }
   /**
    * 等待页面初始化
@@ -25,8 +25,8 @@ export class Page {
    */
   pageInit() {
     return browser.wait(() => {
-      return $('.icon--group').isPresent() && $('.app--list').isPresent()
-    }, 10 * 1000, '页面初始化失败')
+      return $('.icon--group').isPresent() && $('.app--list').isPresent();
+    }, 10 * 1000, '页面初始化失败');
   }
 
   /**
@@ -37,18 +37,18 @@ export class Page {
    * @returns
    */
   waitAppOpen() {
-    // return 
+    // return
     return browser.wait(async () => {
-      let count = await $$('.cdk-global-overlay-wrapper app-window').count()
+      const count = await $$('.cdk-global-overlay-wrapper app-window').count();
       if (count > this.openAppNumber) {
-        this.openAppNumber = count
-        return true
+        this.openAppNumber = count;
+        return true;
       }
       // console.log(count, this.openAppNumber)
-    }, 5000, '应用打开失败')
+    }, 5000, '应用打开失败');
   }
   findWindowList() {
-    return $$('.cdk-global-overlay-wrapper')
+    return $$('.cdk-global-overlay-wrapper');
   }
   // elementArrayFinder2Array(elementArrayFinder: ElementArrayFinder) {
   //   Object.defineProperty(elementArrayFinder, 'length', {
@@ -56,15 +56,15 @@ export class Page {
   //   })
   // }
   async findActiveWindow(): Promise<ElementFinder> {
-    let windowList = this.findWindowList();
-    let windowZList = []
-    let windowListCount = await windowList.count()
+    const windowList = this.findWindowList();
+    const windowZList = [];
+    const windowListCount = await windowList.count();
     for (let i = 0; i < windowListCount; i++) {
-      const element: ElementFinder = await windowList.get(i)
-      windowZList.push({ index: i, zIndex: +await element.getCssValue('z-index') })
+      const element: ElementFinder = await windowList.get(i);
+      windowZList.push({ index: i, zIndex: +await element.getCssValue('z-index') });
     }
-    console.log('查找结束', windowZList.sort((a, b) => b.zIndex - a.zIndex))
-    return windowList.get(+windowZList[0].index)
+    console.log('查找结束', windowZList.sort((a, b) => b.zIndex - a.zIndex));
+    return windowList.get(+windowZList[0].index);
   }
   /**
    * 移动应用图标
@@ -79,34 +79,34 @@ export class Page {
       .mouseDown(appElement)
       .mouseMove({ x: 0, y: 100 })
       .mouseUp()
-      .perform()
+      .perform();
   }
 
   async appMax(elementFinder: ElementFinder) {
-    let maxFinder = elementFinder.$$('header mat-icon').get(1)
-    console.log('最大化', await maxFinder.getText())
+    const maxFinder = elementFinder.$$('header mat-icon').get(1);
+    console.log('最大化', await maxFinder.getText());
     return browser.actions()
       .mouseMove(await maxFinder.getWebElement())
       .click(await maxFinder.getWebElement())
-      .perform()
+      .perform();
   }
   async appMaxRestore(elementFinder: ElementFinder) {
-    let maxFinder = elementFinder.$$('header mat-icon').get(1)
+    const maxFinder = elementFinder.$$('header mat-icon').get(1);
     return browser.actions()
       .click(maxFinder.getWebElement())
-      .perform()
+      .perform();
   }
   async appMin(elementFinder: ElementFinder) {
-    let minFinder = elementFinder.$$('header mat-icon').get(0)
+    const minFinder = elementFinder.$$('header mat-icon').get(0);
     // console.log(, '最小化图标')
-    await expect(await minFinder.getText()).toEqual('minimize')
+    await expect(await minFinder.getText()).toEqual('minimize');
     return browser.actions()
       .mouseMove(await minFinder.getWebElement())
       .click(await minFinder.getWebElement())
-      .perform()
+      .perform();
   }
 
   getAppList() {
-    return $$('.app--container')
+    return $$('.app--container');
   }
 }

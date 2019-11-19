@@ -7,9 +7,9 @@ import { CustomDialogComponent } from './custom-dialog/custom-dialog.component';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit {
-  dialog = CustomDialogComponent
+  dialog = CustomDialogComponent;
   constructor() {
-    console.log(this.dialog)
+    console.log(this.dialog);
    }
 
   ngOnInit() {

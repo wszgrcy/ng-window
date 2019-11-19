@@ -8,11 +8,11 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./docs.component.css']
 })
 export class DocsComponent implements OnInit {
-  data
+  data;
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.data = this.http.get('./assets/docs/README.md', { responseType: 'text' })
+    this.data = this.http.get('./assets/docs/README.md', { responseType: 'text' });
   }
 
 }

@@ -4,8 +4,8 @@ export function openApp(appElement: WebElement) {
     return browser.actions()
         .mouseMove(appElement)
         .doubleClick()
-        .perform()
+        .perform();
 }
-export function pageInit(){
-    
+export function pageInit() {
+
 }

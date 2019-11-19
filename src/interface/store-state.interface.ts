@@ -5,7 +5,7 @@ import { DesktopSize } from 'src/ngrx/store/desktop.store';
 // import { POSITION } from '../store/taskbar.store';
 
 export interface StoreState {
-    taskbarPosition: POSITION
-    windowHandle: WindowPayload[]
-    desktopSize: DesktopSize
+    taskbarPosition: POSITION;
+    windowHandle: WindowPayload[];
+    desktopSize: DesktopSize;
 }

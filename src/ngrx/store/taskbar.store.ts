@@ -1,6 +1,6 @@
 import { Action, State } from '@ngrx/store';
 // import { type } from 'os';
-const NAME = '[TASKBAR]'
+const NAME = '[TASKBAR]';
 
 // export class TaskbarPositionTop implements Action {
 //     type = `${NAME}top`;
@@ -19,10 +19,10 @@ const NAME = '[TASKBAR]'
 //     constructor(public payload) { }
 // }
 export class TaskbarPosition {
-    type = `${NAME}change`
+    type = `${NAME}change`;
     constructor(public payload: POSITION) { }
 }
-export type POSITION = 'top' | 'right' | 'bottom' | 'left'
+export type POSITION = 'top' | 'right' | 'bottom' | 'left';
 // export type TaskbarPosition = TaskbarPositionTop | TaskbarPositionBottom | TaskbarPositionLeft | TaskbarPositionRight
 
 
@@ -31,9 +31,9 @@ export function taskbarPosition_Reducer(state, action: TaskbarPosition): POSITIO
     // console.warn(action.type, action.payload)
     switch (action.type) {
         case `${NAME}change`:
-            return action.payload
+            return action.payload;
         default:
             break;
     }
-    return state
+    return state;
 }

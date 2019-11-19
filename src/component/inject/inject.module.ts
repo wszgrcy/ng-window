@@ -15,5 +15,5 @@ import { MatPaginatorModule, MatButton, MatButtonModule } from '@angular/materia
   entryComponents: [InjectComponent]
 })
 export class InjectModule {
-  component = InjectComponent
+  component = InjectComponent;
 }

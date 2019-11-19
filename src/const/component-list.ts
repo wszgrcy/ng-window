@@ -7,7 +7,7 @@ import { Routes } from '@angular/router';
  */
 export const LAZY_MODULE_LIST: Routes = [
     {
-        //doc ng8版本载入模块
+        // doc ng8版本载入模块
         path: 'lazy-form-upload', loadChildren: () => import('@component/form-upload/form-upload.module').then((e) => e.FormUploadModule)
     },
     {
@@ -40,7 +40,7 @@ export const LAZY_MODULE_LIST: Routes = [
     {
         path: 'lazy-docs', loadChildren: '@component/docs/docs.module#DocsModule',
     },
-]
+];
 export const COMPONENT_LIST: IconItem[] = [
     {
         name: 'ng-hello',
@@ -145,7 +145,7 @@ export const COMPONENT_LIST: IconItem[] = [
         data: {},
         config: {
             title: '用于进行请求测试拦截器的组件',
-            //doc 普通的将组件导入到MainModule
+            // doc 普通的将组件导入到MainModule
             // component: RequestTestComponent,
             // loadType: LoadType.native,
             lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-request-test' == name.path).loadChildren as string,
@@ -235,7 +235,7 @@ export const COMPONENT_LIST: IconItem[] = [
         icon: 'book',
         iconBackground: 'rgb(0, 120, 215)'
     },
-]
+];
 // export function lazyModuleFactory() {
 //     return COMPONENT_LIST
 //         .filter((item) => item.config.loadType === LoadType.lazyModule)

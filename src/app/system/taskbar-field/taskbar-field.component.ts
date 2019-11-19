@@ -20,19 +20,19 @@ export class TaskbarFieldComponent implements OnInit {
    * 只初始化一次
    */
 
-  @ViewChildren('slot', { read: ViewContainerRef }) slotViewContainerRefList: QueryList<ViewContainerRef>
+  @ViewChildren('slot', { read: ViewContainerRef }) slotViewContainerRefList: QueryList<ViewContainerRef>;
   // @ViewChild('taskbar') taskbarTemplate: TemplateRef<any>
   readonly slotList = [
     { prefix: 'top', list: [], slotted: false },
     { prefix: 'right', list: [], active: false },
     { prefix: 'bottom', list: [], active: false },
     { prefix: 'left', list: [], active: false },
-  ]
+  ];
   old: TaskBarFieldOldData = {
     viewContainerRef: null,
-  }
+  };
   /**实例化的任务栏 */
-  taskbar: ViewRef
+  taskbar: ViewRef;
   constructor(
     private resolver: ComponentFactoryResolver,
     private renderer: Renderer2,
@@ -41,16 +41,16 @@ export class TaskbarFieldComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.taskbarPositionChange()
+    this.taskbarPositionChange();
   }
   drop(e, i, list) {
-    this.changePosition(i, false)
+    this.changePosition(i, false);
   }
   ngAfterViewInit(): void {
-    let index = this.getInitPosition()
+    const index = this.getInitPosition();
     this.ngZone.onStable.pipe(take(1)).subscribe(() => {
-      this.changePosition(index, true)
-    })
+      this.changePosition(index, true);
+    });
 
   }
 
@@ -62,12 +62,12 @@ export class TaskbarFieldComponent implements OnInit {
    * @memberof TaskbarFieldComponent
    */
   getInitPosition(): number {
-    let position = localStorage.getItem(TASKBAR_POSITION) || 'bottom';
-    return this.findSlotByPrefix(position)
+    const position = localStorage.getItem(TASKBAR_POSITION) || 'bottom';
+    return this.findSlotByPrefix(position);
   }
   private findSlotByPrefix(searchPrefix: string) {
-    let index = this.slotList.findIndex(({ prefix }) => prefix == searchPrefix)
-    return ~index ? index : 0
+    const index = this.slotList.findIndex(({ prefix }) => prefix == searchPrefix);
+    return ~index ? index : 0;
   }
   /**
    * @description 找到原位置,移除,放到新位置
@@ -76,33 +76,33 @@ export class TaskbarFieldComponent implements OnInit {
    * @memberof TaskbarFieldComponent
    */
   changePosition(i = 0, init: boolean = false) {
-    this.store.dispatch(new TaskbarPosition(this.slotList[i].prefix as any))
+    this.store.dispatch(new TaskbarPosition(this.slotList[i].prefix as any));
   }
 
   taskbarPositionChange() {
     this.store.select(selectTaskbarPosition)
       .pipe(filter((val) => !!val))
       .subscribe((value) => {
-        let i = this.findSlotByPrefix(value)
-        let viewContainerRef = this.slotViewContainerRefList.toArray()[i];
+        const i = this.findSlotByPrefix(value);
+        const viewContainerRef = this.slotViewContainerRefList.toArray()[i];
         if (!this.taskbar) {
           /**采用动态创建组件的方式 */
-          let component = this.resolver.resolveComponentFactory(TaskbarComponent)
+          const component = this.resolver.resolveComponentFactory(TaskbarComponent);
 
           viewContainerRef.createComponent(component);
           /**-------------- */
-          this.taskbar = viewContainerRef.get(0)
-          this.old.viewContainerRef = viewContainerRef
+          this.taskbar = viewContainerRef.get(0);
+          this.old.viewContainerRef = viewContainerRef;
         } else {
-          this.old.viewContainerRef.detach(0)
-          viewContainerRef.insert(this.taskbar)
-          this.old.viewContainerRef = viewContainerRef
-          localStorage.setItem(TASKBAR_POSITION, this.slotList[i].prefix)
+          this.old.viewContainerRef.detach(0);
+          viewContainerRef.insert(this.taskbar);
+          this.old.viewContainerRef = viewContainerRef;
+          localStorage.setItem(TASKBAR_POSITION, this.slotList[i].prefix);
         }
 
         this.slotList.forEach((item, index) => {
-          item.slotted = index == i ? true : false
-        })
-      })
+          item.slotted = index == i ? true : false;
+        });
+      });
   }
 }

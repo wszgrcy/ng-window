@@ -10,18 +10,18 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class CustomDialogComponent extends Custompicker {
   outputValue = {
     value: undefined, display: undefined
-  }
+  };
   constructor(
     @Optional() public matdialogref: MatDialogRef<any, any>,
     @Optional() @Inject(MAT_DIALOG_DATA) data,
   ) {
-    super()
+    super();
   }
 
   ngOnInit() {
   }
   change(e) {
-    this.outputValue = { display: `显示:${e}`, value: e }
+    this.outputValue = { display: `显示:${e}`, value: e };
   }
 
 }

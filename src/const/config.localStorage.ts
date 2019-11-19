@@ -1,1 +1,1 @@
-export const TASKBAR_POSITION='taskBar-position'
+export const TASKBAR_POSITION = 'taskBar-position';

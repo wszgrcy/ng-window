@@ -19,5 +19,5 @@ import { FormsModule } from '@angular/forms';
   entryComponents: [ComponentToggleComponent]
 })
 export class ComponentToggleModule {
-  component = ComponentToggleComponent
+  component = ComponentToggleComponent;
 }

@@ -9,7 +9,7 @@ import { CyiaHttpService } from 'cyia-ngx-common';
 export class RequestTestComponent implements OnInit {
 
   constructor(private http: CyiaHttpService) {
-    console.log(this)
+    console.log(this);
    }
 
   ngOnInit() {
@@ -20,13 +20,13 @@ export class RequestTestComponent implements OnInit {
 
     this.http.request({
       token: 'article', options: {
-        headers: { test: ['345','435'] },
+        headers: { test: ['345', '435'] },
         params: { a: '324' }
       }
     }).subscribe((res) => {
-      console.log('返回', res)
-    },(error) => {
-      console.log('返回错误',error)
-    })
+      console.log('返回', res);
+    }, (error) => {
+      console.log('返回错误', error);
+    });
   }
 }

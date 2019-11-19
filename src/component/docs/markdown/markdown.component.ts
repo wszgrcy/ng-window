@@ -11,35 +11,37 @@ const MARKDOWN_CONTROL: Provider = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => MarkdownComponent),
   multi: true
-}
+};
 @Component({
   selector: 'app-markdown',
   templateUrl: './markdown.component.html',
   styleUrls: ['./markdown.component.scss'],
   providers: [MARKDOWN_CONTROL],
-  encapsulation:ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
 export class MarkdownComponent implements OnInit, ControlValueAccessor {
-  @Input() length = 200;
-  private _plainText = '';
-  /**渲染文本 */
-  markedDownText: any = ''
   /**纯文本 */
   get plainText() {
-    return this._plainText
+    return this._plainText;
   }
   set plainText(val) {
     this._plainText = val;
-    this.changeFn(val)
-    this.touchedFn(val)
+    this.changeFn(val);
+    this.touchedFn(val);
   }
+
+  constructor(private service: CssLoaderService,
+              private domSanitizer: DomSanitizer
+  ) { }
+  @Input() length = 200;
+  private _plainText = '';
+  /**渲染文本 */
+  markedDownText: any = '';
   option: md.MarkedOptions;
   renderer: md.Renderer = new md.Renderer();
   prismTheme = PRISM_THEME;
-
-  constructor(private service: CssLoaderService,
-    private domSanitizer: DomSanitizer
-  ) { }
+  changeFn: Function;
+  touchedFn: Function;
 
   ngOnInit() {
     this.setRenderer();
@@ -102,8 +104,6 @@ export class MarkdownComponent implements OnInit, ControlValueAccessor {
     this.service.load(themeObj);
 
   }
-  changeFn: Function;
-  touchedFn: Function;
 
   /**
    * @description 写入值是纯文本
@@ -114,15 +114,15 @@ export class MarkdownComponent implements OnInit, ControlValueAccessor {
    * @memberof MarkdownComponent
    */
   writeValue(val) {
-    if (val === undefined) return;
+    if (val === undefined) { return; }
     // console.log('输入值', val)
-    this._plainText = val || ''
-    this.change()
+    this._plainText = val || '';
+    this.change();
   }
   registerOnChange(fn) {
-    this.changeFn = fn
+    this.changeFn = fn;
   }
   registerOnTouched(fn) {
-    this.touchedFn = fn
+    this.touchedFn = fn;
   }
 }

@@ -10,5 +10,5 @@ import { HelloComponentComponent } from './hello-component.component';
   entryComponents: [HelloComponentComponent]
 })
 export class HelloComponentModule {
-  component = HelloComponentComponent
+  component = HelloComponentComponent;
 }

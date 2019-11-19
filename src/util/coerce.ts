@@ -1,12 +1,12 @@
 export function coerceToBoolean(value): boolean {
-    return !!value
+    return !!value;
 }
 export function coerceToNumber(value): number {
-    return +value
+    return +value;
 }
 export function coerceToString(value): string {
-    return `${value}`
+    return `${value}`;
 }
 export function coerceToRegexp(value): RegExp {
-    return new RegExp(coerceToString(value))
+    return new RegExp(coerceToString(value));
 }

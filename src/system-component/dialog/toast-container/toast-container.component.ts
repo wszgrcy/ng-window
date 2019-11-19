@@ -11,7 +11,7 @@ export class ToastContainerComponent implements OnInit {
   constructor(public toastService: ToastService) { }
 
   ngOnInit() {
-    this.toastService.hintList.subscribe(() => { })
+    this.toastService.hintList.subscribe(() => { });
   }
 
 }

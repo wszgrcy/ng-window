@@ -32,5 +32,5 @@ import { PropertyConfigComponent } from './property-config/property-config.compo
   entryComponents: [NetworkDebuggingComponent],
 })
 export class NetworkDebuggingModule {
-  component = NetworkDebuggingComponent
+  component = NetworkDebuggingComponent;
 }

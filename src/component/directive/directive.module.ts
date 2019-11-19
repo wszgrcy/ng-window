@@ -15,5 +15,5 @@ import { MatButtonModule, MatIconModule } from '@angular/material';
   entryComponents: [DirectiveComponent]
 })
 export class DirectiveModule {
-  component = DirectiveComponent
+  component = DirectiveComponent;
 }

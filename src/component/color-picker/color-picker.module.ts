@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ColorPickerComponent } from './color-picker.component';
-import { CyiaDirectiveModule, CyiaColorpickerModule } from "cyia-ngx-component";
+import { CyiaDirectiveModule, CyiaColorpickerModule } from 'cyia-ngx-component';
 import { MatIconModule, MatButtonModule } from '@angular/material';
 @NgModule({
   imports: [
@@ -16,5 +16,5 @@ import { MatIconModule, MatButtonModule } from '@angular/material';
   entryComponents: [ColorPickerComponent]
 })
 export class ColorPickerModule {
-  component = ColorPickerComponent
+  component = ColorPickerComponent;
 }

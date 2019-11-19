@@ -11,9 +11,9 @@ export class MainComponent implements OnInit {
   constructor(private toast: ToastService) { }
 
   ngOnInit() {
-    this.toast.success('成功')
-    this.toast.warn('警告')
-    this.toast.error('报错')
+    this.toast.success('成功');
+    this.toast.warn('警告');
+    this.toast.error('报错');
   }
 
 }

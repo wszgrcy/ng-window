@@ -10,5 +10,5 @@ import { RequestTestComponent } from './request-test.component';
   entryComponents: [RequestTestComponent],
 })
 export class RequestTestModule {
-  component = RequestTestComponent
+  component = RequestTestComponent;
 }
