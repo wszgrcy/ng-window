@@ -1,7 +1,6 @@
-<div class="resize top" [appResize]="'top'" [resizeableElement]="hostElement" ></div>
-<div class="resize left" [appResize]="'left'" [resizeableElement]="hostElement" ></div>
-<div  class="window__container"
-  #resizeableElement>
+<div class="resize top" [appResize]="'top'" [resizeableElement]="hostElement"></div>
+<div class="resize left" [appResize]="'left'" [resizeableElement]="hostElement"></div>
+<div class="window__container" #resizeableElement>
   <header #header>
     <title>{{config.title}}</title>
     <div class="divider"></div>
@@ -11,9 +10,12 @@
       <mat-icon (click)="close()" class="close-btn">close</mat-icon>
     </div>
   </header>
-  <main #main>
+  <main #main class="mat-drawer-container">
+    <div style="width: 100px;height: 100px;" *ngIf="!flag.inited">
+      <mat-spinner></mat-spinner>
+    </div>
     <ng-template #anchor></ng-template>
   </main>
 </div>
-<div class="resize right" [appResize]="'right'" [resizeableElement]="hostElement" ></div>
-<div class="resize bottom" [appResize]="'bottom'" [resizeableElement]="hostElement" ></div>
+<div class="resize right" [appResize]="'right'" [resizeableElement]="hostElement"></div>
+<div class="resize bottom" [appResize]="'bottom'" [resizeableElement]="hostElement"></div>

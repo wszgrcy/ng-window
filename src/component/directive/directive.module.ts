@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DirectiveComponent } from './directive.component';
 import { CyiaDirectiveModule } from 'cyia-ngx-component';
-import { MatButtonModule, MatIconBase, MatIconModule } from '@angular/material';
+import { MatButtonModule, MatIconModule } from '@angular/material';
 
 @NgModule({
   imports: [

@@ -12,6 +12,7 @@
     "importHelpers": true,
     "target": "es5",
     "downlevelIteration": true,
+    "allowSyntheticDefaultImports": true,
     "typeRoots": [
       "node_modules/@types"
     ],

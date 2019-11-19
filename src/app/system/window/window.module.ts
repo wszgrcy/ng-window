@@ -4,13 +4,15 @@ import { CommonModule } from '@angular/common';
 import { WindowComponent } from './window.component';
 import { MatIconModule } from '@angular/material';
 import { DirectiveModule } from 'src/directive/directive.module';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialBaseModule,
     MatIconModule,
-    DirectiveModule
+    DirectiveModule,
+    MatProgressSpinnerModule
   ],
   declarations: [WindowComponent],
   entryComponents: [WindowComponent]

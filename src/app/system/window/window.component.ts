@@ -22,11 +22,11 @@ import { coerceCssPixelValue } from "@angular/cdk/coercion";
 })
 export class WindowComponent implements OnInit {
   /***插入组件位置 */
-  @ViewChild('anchor', { read: ViewContainerRef }) anchor: ViewContainerRef
+  @ViewChild('anchor', { read: ViewContainerRef, static: true }) anchor: ViewContainerRef
   /**标题栏 */
-  @ViewChild('header') header: ElementRef<HTMLElement>
+  @ViewChild('header', { static: true }) header: ElementRef<HTMLElement>
   /**用来插入web-component */
-  @ViewChild('main') main: ElementRef<HTMLElement>
+  @ViewChild('main', { static: true }) main: ElementRef<HTMLElement>
   /**仅在原生模式使用 */
   componentFactory: ComponentFactory<{}>
   style = {
@@ -40,7 +40,8 @@ export class WindowComponent implements OnInit {
   subscriptionList: Subscription[] = []
   dragRef: DragRef<WindowComponent>
   flag = {
-    max: false
+    max: false,
+    inited: false
   }
   // onDestroy = new Subject()
   hostElement: HTMLElement
@@ -68,7 +69,7 @@ export class WindowComponent implements OnInit {
     this.setWindowSize(this.config.width, this.config.height)
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     //doc 正常模式载入
     if (this.config.loadType == LoadType.native) {
       this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.config.component)
@@ -81,13 +82,14 @@ export class WindowComponent implements OnInit {
         this.renderer.appendChild(this.main.nativeElement, element)
       })
     } else if (this.config.loadType === LoadType.lazyModule) {
-      this.loader.load(this.config.lazyModule).then((ngModuleFactory) => {
+      await this.loader.load(this.config.lazyModule).then((ngModuleFactory) => {
         let ngModuleRef = ngModuleFactory.create(this.injector)
         let { component } = ngModuleRef.instance
         let componentFactory = ngModuleRef.componentFactoryResolver.resolveComponentFactory(component)
         this.anchor.createComponent(componentFactory)
       })
     }
+    this.flag.inited = true
     //doc 创建拖动实例
     this.dragRef = this.dragdrop.createDrag(this.elementRef)
     this.dragRef.withHandles([this.header])

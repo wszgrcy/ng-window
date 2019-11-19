@@ -1,6 +1,5 @@
 import { ThemeItem, THEME_CONFIG, ThemeConfig } from './../const/theme.config';
 import { Injectable } from '@angular/core';
-import { callNgModuleLifecycle } from '@angular/core/src/view/ng_module';
 
 @Injectable({
   providedIn: 'root'

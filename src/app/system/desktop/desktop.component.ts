@@ -23,7 +23,7 @@ import { COMPONENT_LIST } from 'src/const/component-list';
   styleUrls: ['./desktop.component.scss']
 })
 export class DesktopComponent implements OnInit {
-  @ViewChild('taskbarpatch') taskbarPatch: ElementRef
+  // @ViewChild('taskbarpatch', { static: true }) taskbarPatch: ElementRef
   taskbarPosition: Observable<POSITION>;
   /**原始图标列表,未排序 */
   rawList: IconItem[] = COMPONENT_LIST
