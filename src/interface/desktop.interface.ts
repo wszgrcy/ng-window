@@ -1,4 +1,4 @@
-import { Route } from '@angular/router';
+import { Route, LoadChildren } from '@angular/router';
 import { Type } from '@angular/core';
 import { CompilerConfig } from '@angular/compiler';
 export interface IconItem {
@@ -24,7 +24,7 @@ export interface WindowConfig {
     component?: Type<{}>
     module?: NgCustomElement
     loadType?: LoadType
-    lazyModule?:string
+    lazyModule?:string|LoadChildren
 }
 export enum BootMethod {
     dragdrop,

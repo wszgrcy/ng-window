@@ -1,4 +1,5 @@
 # NgWindow
+
 ## 安装
 - `npm i`
 - e2e部分(如果要跑),可能需要通过某种方式进行下载(仅在启动e2e测试时需要)
@@ -11,7 +12,7 @@
 
 ## 构建
 - `npm run build`
-## 特点
+## 说明
 - 支持各种框架的web-componet组件及原生写法的引入
 - 支持angular的模块懒加载
 - 窗口模式,支持多任务切换和显示
@@ -20,22 +21,26 @@
 
 ---
 
-## 组件
+## 组件(平时写的组件库展示在这里,更新延迟)
+- [项目地址](https://github.com/wszgrcy/cyia-ngx-component)
 - 需要安装`cyia-ngx-component`
 - 所有组件均有实例
 
 
 | 组件名     | 描述                                                | 引入模块                  | 选择器                | 备注                                                                                                                                    |
 | ---------- | --------------------------------------------------- | ------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+|自定义选择器|仿照日期选择器的风格,为了适应不同的输入模式开发|CyiaCustompickerModule|`cyia-custompicker-toggle`,`cyia-custompicker-wrapper`|支持弹窗模式与附加模式,弹窗模式因为无法手动传入相关参数,导致不能支持异步加载|
 | 颜色选择器 | 为了支持(补全)ie11上无法应用选择器而开发的组件,     | CyiaColorPickerModule     | cyia-colorpicker      |
 | 上传       | 为了补全material-design上没有相关上传组件而开发     | CyiaUploadModule          | cyia-upload           | 引入后其父元素的点击事件会触发上传,建议如下使用 ```<button mat-button color="primary">Primary<cyia-upload></cyia-upload></button>   ``` |
 | 时间选择器 | 为了给material-design的日期选择增加小时和分钟的设置 | CyiaDatePickerModule      | cyia-datepicker       | 与日期选择器中的`<input matInput [matDatepicker]="picker" >`使用一致,替换其标签                                                         |
 | 切换组件   | 类似名片的正反面,通过切换显示另一面                 | CyiaComponentToggleModule | cyia-component-toggle | 需要两个模板作为正面显示和反面显示                                                                                                      |
 
+### 自定义选择器
+- 通过自己定义相关逻辑,将控件融合到matd风格的表单中
+- 支持同步加载和异步加载组件
+- 支持dialog和overlay两种显示模式
+
 ### 颜色选择器
-
-
-
 - 一个angular的自定义表单控件
 - 支持模板驱动表单和动态表单
 - 返回16进制的颜色
@@ -70,6 +75,8 @@
 | unit       | {value,label} | 显示大小,value:b,kb,mb,gb;label为要显示的单位,例如:兆 |
 | depth      | number        | 和父元素相隔的层级,默认为依据mat-button设计           | 2                                                    |
 | multiple   | boolean       | 是否是多文件                                          | false                                                |
+
+
 ### 时间选择器
 - 一个angular的自定义表单控件
 - 支持模板驱动表单和动态表单
@@ -138,7 +145,17 @@ export interface PositionStrategy {
 
 ---
 
+## 待完善文档
+- `markdown`
+> 使用monaco-editor来实现的编辑功能,显示功能可以通过自定义的类名对不同标签处理  
+> 支持自定义编辑,可以将自己的组件用angular的自定义元素的方法(angular官网采用的方法)进行显示
+- `formgroup`
+> 将matd的多种输入控件融合在一起的表单,通过配置显示
+- `dynamic-component/dynamic-control`
+> 用于解决某些组件使用较少,但是确实会被使用,而采用按需加载,减少请求时间
+
 ## 已知问题
 - 当angular编写的组件封装为web-component引入时,先点击angular的封装组件,再点击其他的web-component组件时,会引入失效
+> 封装的angular组件自身的路由会将项目的路由覆盖掉,导致其他的组件无法加载.  
 > 可能要从angular自身的编译配置查看为何会失效
 

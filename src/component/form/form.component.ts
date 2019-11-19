@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CustomDialogComponent } from './custom-dialog/custom-dialog.component';
 
 @Component({
   selector: 'app-form',
@@ -6,8 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit {
-
-  constructor() { }
+  dialog = CustomDialogComponent
+  constructor() {
+    console.log(this.dialog)
+   }
 
   ngOnInit() {
   }

@@ -33,7 +33,7 @@
     "classlist.js": "^1.1.20150312",
     "core-js": "^3.4.1",
     "cyia-ngx-common": "^2.0.4",
-    "cyia-ngx-component": "0.1.11",
+    "cyia-ngx-component": "0.1.12",
     "document-register-element": "^1.14.3",
     "image-compressor.js": "^1.1.4",
     "moment": "^2.24.0",

@@ -32,3 +32,17 @@
     </button>
   </div>
 </div>
+<div class="row center">
+  <label class="col-auto">
+    自定义选择器
+  </label>
+  <div class="col-auto" style="max-width: 300px">
+    <mat-form-field>
+      <input matInput type="text" [cyiaCustompickerInput]="custom" [ngModel]="1" placeholder="占位符">
+      <cyia-custompicker-toggle [for]="custom" matSuffix></cyia-custompicker-toggle>
+      <cyia-custompicker-wrapper #custom [component]="dialog" [mode]="1">
+
+      </cyia-custompicker-wrapper>
+    </mat-form-field>
+  </div>
+</div>

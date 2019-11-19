@@ -1,6 +1,6 @@
 import { Store, select } from '@ngrx/store';
 import { WindowConfig, LoadType } from './../../../interface/desktop.interface';
-import { Component, OnInit, Inject, Optional, ComponentFactoryResolver, ViewChild, ViewContainerRef, Renderer2, ElementRef, ChangeDetectorRef, NgModuleFactoryLoader, Injector } from '@angular/core';
+import { Component, OnInit, Inject, Optional, ComponentFactoryResolver, ViewChild, ViewContainerRef, Renderer2, ElementRef, ChangeDetectorRef, NgModuleFactoryLoader, Injector, NgModuleFactory, Compiler } from '@angular/core';
 import { ComponentFactory } from '@angular/core';
 import { WINDOW_DATA, WINDOW_CONFIG, WINDOW_ID } from 'src/const/window.token';
 import { WindowHandle } from '@ngrx/store/window.store';
@@ -52,6 +52,7 @@ export class WindowComponent implements OnInit {
     @Optional() @Inject(WINDOW_DATA) data: any,
     @Inject(WINDOW_CONFIG) public config: WindowConfig,
     @Inject(WINDOW_ID) private readonly id: string,
+    @Optional() private compiler: Compiler,
     private componentFactoryResolver: ComponentFactoryResolver,
     private store: Store<any>,
     private renderer: Renderer2,
@@ -82,12 +83,19 @@ export class WindowComponent implements OnInit {
         this.renderer.appendChild(this.main.nativeElement, element)
       })
     } else if (this.config.loadType === LoadType.lazyModule) {
-      await this.loader.load(this.config.lazyModule).then((ngModuleFactory) => {
-        let ngModuleRef = ngModuleFactory.create(this.injector)
-        let { component } = ngModuleRef.instance
-        let componentFactory = ngModuleRef.componentFactoryResolver.resolveComponentFactory(component)
-        this.anchor.createComponent(componentFactory)
-      })
+      let ngModuleFactory: NgModuleFactory<any>
+      if (typeof this.config.lazyModule == 'function') {
+        let result = await this.config.lazyModule()
+        //doc 使用compiler是因为调试运行时,需要编译,构建aot后不需要
+        ngModuleFactory = result instanceof NgModuleFactory ? result : await this.compiler.compileModuleAsync(result)
+      } else {
+        //doc ng8以下使用载入方法,ng8及以上废弃
+        ngModuleFactory = await this.loader.load(this.config.lazyModule)
+      }
+      let ngModuleRef = ngModuleFactory.create(this.injector)
+      let { component } = ngModuleRef.instance
+      let componentFactory = ngModuleRef.componentFactoryResolver.resolveComponentFactory(component)
+      this.anchor.createComponent(componentFactory)
     }
     this.flag.inited = true
     //doc 创建拖动实例

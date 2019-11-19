@@ -7,34 +7,35 @@ import { Routes } from '@angular/router';
  */
 export const LAZY_MODULE_LIST: Routes = [
     {
-        path: 'lazy-form-upload', loadChildren: '@component/form-upload/form-upload.module#FormUploadModule',
+        //doc ng8版本载入模块
+        path: 'lazy-form-upload', loadChildren: () => import('@component/form-upload/form-upload.module').then((e) => e.FormUploadModule)
     },
     {
-        path: 'lazy-hello', loadChildren: '@component/hello-component/hello-component.module#HelloComponentModule',
+        path: 'lazy-hello', loadChildren: () => import('@component/hello-component/hello-component.module').then((e) => e.HelloComponentModule)
     },
     {
-        path: 'lazy-form', loadChildren: '@component/form/form.module#FormComponentModule',
+        path: 'lazy-form', loadChildren: () => import('@component/form/form.module').then((e) => e.FormComponentModule),
     },
     {
-        path: 'lazy-request-test', loadChildren: '@component/request-test/request-test.module#RequestTestModule',
+        path: 'lazy-request-test', loadChildren: () => import('@component/request-test/request-test.module').then((e) => e.RequestTestModule),
     },
     {
-        path: 'lazy-network-debugging', loadChildren: '@system-component/network-debugging/network-debugging.module#NetworkDebuggingModule',
+        path: 'lazy-network-debugging', loadChildren: () => import('@system-component/network-debugging/network-debugging.module').then((e) => e.NetworkDebuggingModule),
     },
     {
-        path: 'lazy-setting', loadChildren: '@system-component/setting/setting.module#SettingModule',
+        path: 'lazy-setting', loadChildren: () => import('@system-component/setting/setting.module').then((e) => e.SettingModule),
     },
     {
-        path: 'lazy-color-picker', loadChildren: '@component/color-picker/color-picker.module#ColorPickerModule',
+        path: 'lazy-color-picker', loadChildren: () => import('@component/color-picker/color-picker.module').then((e) => e.ColorPickerModule),
     },
     {
-        path: 'lazy-component-toggle', loadChildren: '@component/component-toggle/component-toggle.module#ComponentToggleModule',
+        path: 'lazy-component-toggle', loadChildren: () => import('@component/component-toggle/component-toggle.module').then((e) => e.ComponentToggleModule),
     },
     {
-        path: 'lazy-inject', loadChildren: '@component/inject/inject.module#InjectModule',
+        path: 'lazy-inject', loadChildren: () => import('@component/inject/inject.module').then((e) => e.InjectModule),
     },
     {
-        path: 'lazy-directive', loadChildren: '@component/directive/directive.module#DirectiveModule',
+        path: 'lazy-directive', loadChildren: () => import('@component/directive/directive.module').then((e) => e.DirectiveModule),
     },
     {
         path: 'lazy-docs', loadChildren: '@component/docs/docs.module#DocsModule',
@@ -89,6 +90,21 @@ export const COMPONENT_LIST: IconItem[] = [
             module: {
                 import: () => import(`../web-component/ng/ng-animation.js`),
                 elementName: 'custom-root'
+            }
+        },
+        icon: 'star_border',
+    },
+    {
+        name: 'js-hello',
+        method: BootMethod.dragdrop,
+        data: {},
+        config: {
+            title: '',
+            loadType: LoadType.webComponent,
+            top: 123,
+            module: {
+                import: () => import(`../web-component/plain-js/demo.js`),
+                elementName: 'custom-anchor'
             }
         },
         icon: 'star_border',
@@ -193,7 +209,7 @@ export const COMPONENT_LIST: IconItem[] = [
             loadType: LoadType.lazyModule
         },
         icon: 'settings',
-        iconBackground:'rgb(0, 120, 215)'
+        iconBackground: 'rgb(0, 120, 215)'
     },
     {
         name: '指令',
@@ -205,7 +221,7 @@ export const COMPONENT_LIST: IconItem[] = [
             loadType: LoadType.lazyModule
         },
         icon: 'settings_input_component',
-        iconBackground:'rgb(0, 120, 215)'
+        iconBackground: 'rgb(0, 120, 215)'
     },
     {
         name: 'readme',
@@ -217,7 +233,7 @@ export const COMPONENT_LIST: IconItem[] = [
             loadType: LoadType.lazyModule
         },
         icon: 'book',
-        iconBackground:'rgb(0, 120, 215)'
+        iconBackground: 'rgb(0, 120, 215)'
     },
 ]
 // export function lazyModuleFactory() {

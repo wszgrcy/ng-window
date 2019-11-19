@@ -11,7 +11,7 @@
     </div>
   </header>
   <main #main class="mat-drawer-container">
-    <div style="width: 100px;height: 100px;" *ngIf="!flag.inited">
+    <div style="width: 100px;height: 100px;overflow: hidden;" *ngIf="!flag.inited">
       <mat-spinner></mat-spinner>
     </div>
     <ng-template #anchor></ng-template>

@@ -1,7 +1,7 @@
 <div class="mat-elevation-z1 padding-2 margin-bottom-4 hover-8">
   <h2 class="">基本调用</h2>
   <div>
-    <cyia-component-toggle [duration]="1000" #el>
+    <cyia-component-toggle [duration]="1000" #base>
       <ng-template [cyiaTemplateAnchor]="'front'">
         <div class="mat-elevation-z1 p-2 b-r-1">这是一条表面显示的信息</div>
       </ng-template>
@@ -9,7 +9,7 @@
         <div class="mat-elevation-z1 p-2 b-r-1">背面也有信息</div>
       </ng-template>
     </cyia-component-toggle>
-    <button mat-button (click)="el.toggle()">切换</button>
+    <button mat-button (click)="base.toggle()">切换</button>
   </div>
 </div>
 <div class="mat-elevation-z1 padding-2 margin-bottom-4 hover-8">
