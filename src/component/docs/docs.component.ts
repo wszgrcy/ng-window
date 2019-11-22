@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./docs.component.css']
 })
 export class DocsComponent implements OnInit {
-  data;
+  data; // 需要类型标注
   constructor(private http: HttpClient) { }
 
   ngOnInit() {

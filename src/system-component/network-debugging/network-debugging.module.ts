@@ -27,7 +27,7 @@ import { PropertyConfigComponent } from './property-config/property-config.compo
     NetworkDebuggingComponent, StrongInputComponent, PropertyConfigComponent
   ],
   providers: [
-    HttpInterceptor
+    HttpInterceptor // Interceptor 用得不错
   ],
   entryComponents: [NetworkDebuggingComponent],
 })

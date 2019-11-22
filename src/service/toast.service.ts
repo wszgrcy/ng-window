@@ -19,6 +19,7 @@ export class ToastService {
         // private viewContainerRef: ViewContainerRef
     ) {
         this.applicationRef = this.injector.get<ApplicationRef>(ApplicationRef);
+        // 最好不要用 DOM 操作，建议改用 ToastService + ToastComponent 实现
         this.container = document.createElement('div');
         this.container.classList.add('toast-container');
         document.querySelector('body').appendChild(this.container);

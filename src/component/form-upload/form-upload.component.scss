@@ -22,7 +22,7 @@
 
 .dropArea {
   &.dropped {
-    background: greenyellow;
+    background: greenyellow; // 应该使用变量定义，如 $dropped 或更广义的 $highlight
   }
 
   &.dropenter {
