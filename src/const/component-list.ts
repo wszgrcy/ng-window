@@ -38,6 +38,9 @@ export const LAZY_MODULE_LIST: Routes = [
         path: 'lazy-directive', loadChildren: () => import('@component/directive/directive.module').then((e) => e.DirectiveModule),
     },
     {
+        path: 'lazy-entity-request', loadChildren: () => import('@component/entity-request/entity-request.module').then((e) => e.EntityRequestModule),
+    },
+    {
         path: 'lazy-docs', loadChildren: '@component/docs/docs.module#DocsModule',
     },
 ];
@@ -195,6 +198,17 @@ export const COMPONENT_LIST: IconItem[] = [
         config: {
             title: 'matd相关组件注入补丁',
             lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-inject' == name.path).loadChildren as string,
+            loadType: LoadType.lazyModule
+        },
+        icon: 'merge_type',
+    },
+    {
+        name: '实体化请求',
+        method: BootMethod.dragdrop,
+        data: {},
+        config: {
+            title: '将请求返回强类型化',
+            lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-entity-request' == name.path).loadChildren as string,
             loadType: LoadType.lazyModule
         },
         icon: 'merge_type',

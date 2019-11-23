@@ -1,0 +1,9 @@
+{
+    "id": "main",
+    "name": "main-class",
+    "manyToOne": "manytooneid",
+    "jsonObj": {
+        "data": 1234,
+        "name":"json-obj"
+    }
+}
