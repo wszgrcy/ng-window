@@ -3,6 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { QueryType } from '@ngrx/store/intereptor.store';
 import { PROPERTYTYPE_OPTIONS } from 'src/const/interceptor.const';
 
+// 命名有点迷
 @Component({
   selector: 'app-strong-input',
   templateUrl: './strong-input.component.html',

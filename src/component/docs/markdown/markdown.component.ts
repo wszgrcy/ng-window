@@ -19,7 +19,7 @@ const MARKDOWN_CONTROL: Provider = {
   providers: [MARKDOWN_CONTROL],
   encapsulation: ViewEncapsulation.None
 })
-export class MarkdownComponent implements OnInit, ControlValueAccessor {
+export class MarkdownComponent implements OnInit, ControlValueAccessor { // ControlValueAccessor 在这个场景下不是必要的，因为它不是输入组件
   /**纯文本 */
   get plainText() {
     return this._plainText;
@@ -87,6 +87,7 @@ export class MarkdownComponent implements OnInit, ControlValueAccessor {
     // console.log(this.plainText, this.option);
     md(this.plainText || '', this.option, (err, res) => {
       // console.log(res);
+      // 可以考虑抽成一个 pipe
       this.markedDownText = this.domSanitizer.bypassSecurityTrustHtml(res);
     });
 
@@ -95,7 +96,7 @@ export class MarkdownComponent implements OnInit, ControlValueAccessor {
   /**
    * doc 目前自动调用主题,读时调用
    *
-   * @param {ThemeObj} themeObj
+   * @param {ThemeObj} themeObj // 如果不解释参数含义，只有名字和类型，这些就没必要了。ts 的类型信息已经完全包含了它们，写上还得维护
    * @memberof MarkdownComponent
    */
   changeTheme(themeObj: ThemeObj) {
@@ -113,7 +114,7 @@ export class MarkdownComponent implements OnInit, ControlValueAccessor {
    * @returns
    * @memberof MarkdownComponent
    */
-  writeValue(val) {
+  writeValue(val) { // val 应该标注类型，其它函数的参数也是一样
     if (val === undefined) { return; }
     // console.log('输入值', val)
     this._plainText = val || '';
