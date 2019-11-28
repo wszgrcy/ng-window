@@ -15,7 +15,7 @@ export class EntityRequestComponent implements OnInit {
   }
   requestData() {
     this.http.getEntity(MainEntity)().subscribe((item) => {
-      console.log(item)
-    })
+      console.log(item);
+    });
   }
 }

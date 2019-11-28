@@ -41,6 +41,9 @@ export const LAZY_MODULE_LIST: Routes = [
         path: 'lazy-entity-request', loadChildren: () => import('@component/entity-request/entity-request.module').then((e) => e.EntityRequestModule),
     },
     {
+        path: 'lazy-loading-hint', loadChildren: () => import('@component/loading-hint/loading-hint.module').then((e) => e.LoadingHintModule),
+    },
+    {
         path: 'lazy-docs', loadChildren: '@component/docs/docs.module#DocsModule',
     },
 ];
@@ -212,6 +215,17 @@ export const COMPONENT_LIST: IconItem[] = [
             loadType: LoadType.lazyModule
         },
         icon: 'merge_type',
+    },
+    {
+        name: '载入提示',
+        method: BootMethod.dragdrop,
+        data: {},
+        config: {
+            title: '使用装饰器加载请求',
+            lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-loading-hint' == name.path).loadChildren as string,
+            loadType: LoadType.lazyModule
+        },
+        icon: 'sync',
     },
     {
         name: '系统设置',

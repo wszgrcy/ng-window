@@ -12,5 +12,5 @@ import { CyiaHttpModule } from 'cyia-ngx-common';
   entryComponents: [EntityRequestComponent]
 })
 export class EntityRequestModule {
-  component = EntityRequestComponent
+  component = EntityRequestComponent;
 }
