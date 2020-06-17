@@ -44,7 +44,7 @@ export const LAZY_MODULE_LIST: Routes = [
         path: 'lazy-loading-hint', loadChildren: () => import('@component/loading-hint/loading-hint.module').then((e) => e.LoadingHintModule),
     },
     {
-        path: 'lazy-docs', loadChildren: '@component/docs/docs.module#DocsModule',
+        path: 'lazy-docs', loadChildren: () => import('@component/docs/docs.module').then(m => m.DocsModule),
     },
 ];
 export const COMPONENT_LIST: IconItem[] = [

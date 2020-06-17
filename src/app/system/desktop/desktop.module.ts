@@ -2,7 +2,7 @@ import { MaterialBaseModule } from './../../../module/material.base.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DesktopComponent } from './desktop.component';
-import { MatIconModule } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
 import { OverlayModule } from '@angular/cdk/overlay';
 // import { NetworkDebuggingModule } from '@system-component/network-debugging/network-debugging.module';
 // import { RequestTestModule } from '@component/request-test/request-test.module';

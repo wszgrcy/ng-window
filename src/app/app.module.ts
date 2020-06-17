@@ -12,39 +12,46 @@ import { HttpInterceptor } from '@system-component/network-debugging/interceptor
 import { InterceptorChange_Reducer } from '@ngrx/store/intereptor.store';
 import { ROUTES } from '@angular/router';
 import { LAZY_MODULE_LIST } from 'src/const/component-list';
-import { MatSnackBarModule } from '@angular/material';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DialogModule } from '@system-component/dialog/dialog.module';
 import { ToastContainerComponent } from '@system-component/dialog/toast-container/toast-container.component';
 import { TOAST_POSITION } from 'src/const/toast.token';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ToastContainerComponent
-  ],
+  declarations: [AppComponent, ToastContainerComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialBaseModule,
-    StoreModule.forRoot({ intercept: InterceptorChange_Reducer }),
+    StoreModule.forRoot(
+      { intercept: InterceptorChange_Reducer },
+      {
+        runtimeChecks: {
+          strictStateImmutability: false,
+          strictActionImmutability: false,
+        },
+      }
+    ),
     CyiaHttpModule.forRoot(REQUEST_LIST),
     MatSnackBarModule,
-    DialogModule
+    DialogModule,
   ],
   providers: [
     {
       provide: APP_INITIALIZER,
-      useFactory: (service: ThemeService) =>
-        () => Promise.resolve(service.init())
-      ,
+      useFactory: (service: ThemeService) => () =>
+        Promise.resolve(service.init()),
       deps: [ThemeService],
-      multi: true
+      multi: true,
     },
     HttpInterceptor,
     { provide: ROUTES, useValue: LAZY_MODULE_LIST, multi: true },
-    { provide: TOAST_POSITION, useValue: { horizontalPosition: 'right', verticalPosition: 'bottom' }, }
+    {
+      provide: TOAST_POSITION,
+      useValue: { horizontalPosition: 'right', verticalPosition: 'bottom' },
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

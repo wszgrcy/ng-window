@@ -70,7 +70,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": true,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": true,
               "buildOptimizer": true,
@@ -80,6 +79,10 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "100kb"
                 }
               ]
             }
@@ -165,5 +168,8 @@
       }
     }
   },
-  "defaultProject": "ng-window"
+  "defaultProject": "ng-window",
+  "cli": {
+    "analytics": false
+  }
 }

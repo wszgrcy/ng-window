@@ -2,7 +2,7 @@ import { MaterialBaseModule } from './../../../module/material.base.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WindowComponent } from './window.component';
-import { MatIconModule } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
 import { DirectiveModule } from 'src/directive/directive.module';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 

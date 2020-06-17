@@ -1,6 +1,6 @@
 @import '../../../style/variation/taskbar.variation.scss';
 
-[class^=taskbar--field--slot__] {
+[class*=taskbar--field--slot__] {
   position: fixed;
 
   //   background: red;

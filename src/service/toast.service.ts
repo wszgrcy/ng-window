@@ -1,5 +1,4 @@
 import { Injectable, ViewContainerRef, ComponentFactoryResolver, Injector, ApplicationRef, ComponentRef } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
 import { HintComponent } from '@system-component/dialog/hint/hint.component';
 import { HintStatus, ToastPosition, HintOptions, HintOptionsWithPosition } from 'src/interface/toast.interface';
 import { Subject } from 'rxjs';

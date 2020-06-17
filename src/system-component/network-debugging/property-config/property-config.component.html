@@ -22,15 +22,15 @@
       </button>
       <div class="row column col-flex-0-0-0">
 
-        <app-strong-input [(ngModel)]="valueItem" [typeName]="'keyType'" [valueName]="'key'"
+        <app-strong-input [(ngModel)]="item.value[j]" [typeName]="'keyType'" [valueName]="'key'"
           *ngIf="displayField('key')&&(item.property=='body'||item.property=='headers'||item.property=='params')"
           [placeholder]="'键值'" [propertyTypeOptions]="strongType('key',valueItem.property)">
         </app-strong-input>
 
-        <app-strong-input [(ngModel)]="valueItem" [typeName]="'changeType'" [valueName]="'change'" [placeholder]="'添加值'"
+        <app-strong-input [(ngModel)]="item.value[j]" [typeName]="'changeType'" [valueName]="'change'" [placeholder]="'添加值'"
           [propertyTypeOptions]="strongType('change',valueItem.property)" *ngIf="displayField('change')">
         </app-strong-input>
-        <app-strong-input [(ngModel)]="valueItem" [typeName]="'type'" [valueName]="'value'"
+        <app-strong-input [(ngModel)]="item.value[j]" [typeName]="'type'" [valueName]="'value'"
           [propertyTypeOptions]="strongType('value',valueItem.property)" [placeholder]="'查询值'"
           *ngIf="displayField('value')">
         </app-strong-input>
