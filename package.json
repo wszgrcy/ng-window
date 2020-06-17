@@ -12,10 +12,7 @@
     "update": "ng update --all --force"
   },
   "private": true,
-  "peerDependencies": {
-    "puppeteer": "^2.0.0",
-    "@types/puppeteer": "^1.20.2"
-  },
+  "peerDependencies": {},
   "dependencies": {
     "@angular/animations": "^8.2.14",
     "@angular/cdk": "^8.2.3",
@@ -50,6 +47,8 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
+    "puppeteer": "^2.0.0",
+    "@types/puppeteer": "^1.20.2",
     "@angular-devkit/build-angular": "~0.803.19",
     "@angular/cli": "~8.3.19",
     "@angular/compiler-cli": "~8.2.14",
