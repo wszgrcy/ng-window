@@ -1,1 +1,15 @@
-<button (click)="requestData()">request</button>
+<button (click)="requestData()">强类型化请求</button>
+相关请求返回结构可在Console中查看
+<div style="display: flex;;">
+    <markdown>
+        {{example}}
+    </markdown>
+    <markdown>
+        {{request}}
+    </markdown>
+
+    <markdown [data]="response$|async">
+
+    </markdown>
+
+</div>

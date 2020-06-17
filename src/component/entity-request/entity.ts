@@ -1,46 +1,53 @@
-import { Entity, EntityColumn, PrimaryColumn, OneToOne, ManyToOne, Source, OneToMany } from 'cyia-ngx-common';
+import {
+  ClassDataSource,
+  PropertyDataSource,
+  StronglyTyped,
+} from 'cyia-ngx-common/repository';
+import { of } from 'rxjs';
 
-@Entity({
-    request: {
-        url: 'assets/mock/main.json'
-    }
+@ClassDataSource({
+  source: (http) => {
+    return http.get('assets/mock/link-data.json');
+  },
+})
+export class LinkEntity {
+  id: string;
+  name: string;
+}
+@ClassDataSource({
+  source: (http) => {
+    return http.get('assets/mock/filter-data.json');
+  },
+})
+export class FilterEntity {
+  id: string;
+  name: string;
+  mainId: string;
+}
+export class JsonEntity {
+  data: number;
+  name: string;
+}
+
+@ClassDataSource({
+  source: (http) => {
+    return http.get('assets/mock/main.json');
+  },
 })
 export class MainEntity {
-    @PrimaryColumn()
-    id: string;
-    @ManyToOne(() => ManyToOneEntity, (type) => type.id)
-    manyToOne: ManyToOneEntity;
-    name: string;
-    @EntityColumn(() => JsonEntity)
-    jsonObj: JsonEntity;
-    @OneToMany(() => OneToManyEntity, (type) => type.mainId)
-    oneToMany: OneToManyEntity;
-}
-@Entity({
-    request: {
-        url: 'assets/mock/manytoone.json'
-    }
-})
-export class ManyToOneEntity {
-    @PrimaryColumn()
-    id: string;
-    name: string;
-}
-@Entity({
-    request: {
-        url: 'assets/mock/onetomany.json'
-    },
-
-})
-export class OneToManyEntity {
-    @PrimaryColumn()
-    id: string;
-    name: string;
-    mainId: string;
-}
-
-@Entity({ method: Source.structure })
-export class JsonEntity {
-    data: number;
-    name: string;
+  id: string;
+  @PropertyDataSource({
+    entity: LinkEntity,
+    itemSelect: (item, key, index, result) => of(result),
+  })
+  linkEntity: LinkEntity;
+  name: string;
+  @StronglyTyped(JsonEntity)
+  jsonObj: JsonEntity;
+  @PropertyDataSource({
+    entity: FilterEntity,
+    itemSelect: (item, key, index, result: any[]) =>
+      of(result.filter((res) => res.mainId === item[key])),
+  })
+  filterEntity: FilterEntity;
 }

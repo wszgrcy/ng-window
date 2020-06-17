@@ -1,0 +1,12 @@
+[
+    {
+        "id": "filterEntity1",
+        "mainId": "filterEntityid",
+        "name": "sub-class"
+    },
+    {
+        "id": "filterEntity2",
+        "mainId": "filterEntityid",
+        "name": "sub-class"
+    }
+]
