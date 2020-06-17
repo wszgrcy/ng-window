@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+env:
+  REPOSITORY_PATH: https://${{secrets.ACCESS_TOKEN}}@github.com/
+  # GITHUB_TOKEN: ${{secrets.ACCESS_TOKEN}}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: init
+        run: |
+          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global user.email "${GITHUB_ACTOR}@gmail.com"
+      - name: pull-code
+        uses: actions/checkout@v2
+      # - name: git
+      #   run: |
+      #     git clone ${REPOSITORY_PATH}${GITHUB_REPOSITORY}.git
+      # - uses: actions/checkout@v2-beta
+      #   with:
+      #     token: ${{ secrets.ACCESS_TOKEN }}
+      - name: install-node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: install-dependencies
+        run: |
+          npm i
+      # - name: unit-test
+      #   run: |
+      #     npm run test
+      # - name: e2e-test
+      #   run: |
+      #     npm run e2e
+      - name: build
+        run: |
+          npm run build
+          cp -rp dist/ng-window/ ../dist
+          git branch gh-pages
+          git checkout gh-pages
+          rm -rf *
+          cp -rp ../dist/* .
+          git status
+          git add -A
+          git commit -m '页面构建'
+          git push --force "${REPOSITORY_PATH}${GITHUB_REPOSITORY}.git" gh-pages
+          # git pull
