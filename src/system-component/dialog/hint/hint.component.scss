@@ -11,46 +11,46 @@
   overflow: hidden;
 
   &.success {
-    $icon-color: #4CAF50;
+    $icon-color: #4caf50;
     //doc green-50
-    background: #E8F5E9;
+    background: #e8f5e9;
 
     mat-icon {
       //doc green-500
-      color: $icon-color
+      color: $icon-color;
     }
 
     .duration-bar {
-      background: $icon-color
+      background: $icon-color;
     }
   }
 
   &.warn {
-    $icon-color: #FF9800;
+    $icon-color: #ff9800;
     //doc orange-50
     background: #fff3e0;
 
     mat-icon {
       //doc orange-500
-      color: $icon-color
+      color: $icon-color;
     }
 
     .duration-bar {
-      background: $icon-color
+      background: $icon-color;
     }
   }
 
   &.error {
-    $icon-color: #F44336; //doc red-50
-    background: #FFEBEE;
+    $icon-color: #f44336; //doc red-50
+    background: #ffebee;
 
     mat-icon {
       //doc red-500
-      color: $icon-color
+      color: $icon-color;
     }
 
     .duration-bar {
-      background: $icon-color
+      background: $icon-color;
     }
   }
 }
@@ -58,7 +58,6 @@
 .data {
   display: flex;
   align-items: center;
-
 }
 
 .duration-bar {
@@ -87,6 +86,10 @@
 // }
 .hint-wrapper:hover {
   .duration-bar {
-    animation-play-state: paused
+    animation-play-state: paused;
   }
+}
+
+:host {
+  margin-bottom: 8px;
 }
