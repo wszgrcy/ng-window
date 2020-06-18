@@ -70,6 +70,8 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": true,
+              "aot": true,
+              "deployUrl": "/ng-window/",
               "extractLicenses": true,
               "vendorChunk": true,
               "buildOptimizer": true,
