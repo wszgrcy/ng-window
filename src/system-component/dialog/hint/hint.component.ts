@@ -3,7 +3,18 @@ import { HINT_DATA } from 'src/const/toast.token';
 import { Subject } from 'rxjs';
 import { HintStatus, HintOptionsWithPosition } from 'src/interface/toast.interface';
 import { trigger, transition, useAnimation } from '@angular/animations';
-import { bounceInLeft, bounceInRight, bounceInUp, bounceInDown, bounceIn, bounceOutLeft, bounceOutRight, bounceOutUp, bounceOutDown, bounceOut } from 'src/animation/animate.css';
+import {
+  bounceInLeft,
+  bounceInRight,
+  bounceInUp,
+  bounceInDown,
+  bounceIn,
+  bounceOutLeft,
+  bounceOutRight,
+  bounceOutUp,
+  bounceOutDown,
+  bounceOut,
+} from 'src/animation/animate.css';
 
 @Component({
   selector: 'app-hint',
@@ -15,38 +26,18 @@ import { bounceInLeft, bounceInRight, bounceInUp, bounceInDown, bounceIn, bounce
    */
   animations: [
     trigger('transition', [
-      transition('*=>inLeft', [
-        useAnimation(bounceInLeft)
-      ]),
-      transition('*=>inRight', [
-        useAnimation(bounceInRight)
-      ]),
-      transition('*=>inUp', [
-        useAnimation(bounceInUp)
-      ]),
-      transition('*=>inDown', [
-        useAnimation(bounceInDown)
-      ]),
-      transition('*=>in', [
-        useAnimation(bounceIn)
-      ]),
-      transition('*=>outLeft', [
-        useAnimation(bounceOutLeft)
-      ]),
-      transition('*=>outRight', [
-        useAnimation(bounceOutRight)
-      ]),
-      transition('*=>outUp', [
-        useAnimation(bounceOutUp)
-      ]),
-      transition('*=>outDown', [
-        useAnimation(bounceOutDown)
-      ]),
-      transition('*=>out', [
-        useAnimation(bounceOut)
-      ]),
-    ])
-  ]
+      transition('*=>inLeft', [useAnimation(bounceInLeft)]),
+      transition('*=>inRight', [useAnimation(bounceInRight)]),
+      transition('*=>inUp', [useAnimation(bounceInUp)]),
+      transition('*=>inDown', [useAnimation(bounceInDown)]),
+      transition('*=>in', [useAnimation(bounceIn)]),
+      transition('*=>outLeft', [useAnimation(bounceOutLeft)]),
+      transition('*=>outRight', [useAnimation(bounceOutRight)]),
+      transition('*=>outUp', [useAnimation(bounceOutUp)]),
+      transition('*=>outDown', [useAnimation(bounceOutDown)]),
+      transition('*=>out', [useAnimation(bounceOut)]),
+    ]),
+  ],
 })
 export class HintComponent implements OnInit {
   constructor(@Inject(HINT_DATA) data) {
@@ -67,7 +58,7 @@ export class HintComponent implements OnInit {
     [/center_bottom/, { in: 'inUp', out: 'outDown' }],
   ]);
 
-  onDestroy = new Subject();
+  onDestroy = new Subject<never>();
 
   getAnimationStatus() {
     for (const regExp of this.statusMap.keys()) {
@@ -76,13 +67,14 @@ export class HintComponent implements OnInit {
       }
     }
   }
-  ngOnInit() {
-  }
+  ngOnInit() {}
   countDown(time: number) {
     this.options.duration;
   }
   destoryComponent() {
-    if (!/^out/.test(this.animationStatus)) { return; }
+    if (!/^out/.test(this.animationStatus)) {
+      return;
+    }
     this.onDestroy.next();
   }
   beforeDestory() {
