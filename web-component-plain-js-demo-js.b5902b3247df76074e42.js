@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[89],{jYqi:function(e,n){class t extends HTMLElement{constructor(){super();let e=this.attachShadow({mode:"open"}),n=document.createElement("a");n.href="https://angular.cn",n.innerText="angular",e.appendChild(n)}}customElements.define("custom-anchor",t)}}]);

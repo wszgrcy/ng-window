@@ -1,6 +1,0 @@
-<div class="windowList {{position$|async}}">
-  <div class="window__icon__container" *ngFor="let item of windowList$|async;let i=index" (click)="open(item)"
-    [class.active]="item.status!=WINDOWSTATUS.min&&item.status!=WINDOWSTATUS.close">
-    <mat-icon>{{item.icon}}</mat-icon>
-  </div>
-</div>
