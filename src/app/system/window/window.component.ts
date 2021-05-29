@@ -1,24 +1,47 @@
 import { Store, select } from '@ngrx/store';
 import { WindowConfig, LoadType } from './../../../interface/desktop.interface';
-import { Component, OnInit, Inject, Optional, ComponentFactoryResolver, ViewChild, ViewContainerRef, Renderer2, ElementRef, ChangeDetectorRef, NgModuleFactoryLoader, Injector, NgModuleFactory, Compiler } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  Optional,
+  ComponentFactoryResolver,
+  ViewChild,
+  ViewContainerRef,
+  Renderer2,
+  ElementRef,
+  ChangeDetectorRef,
+  NgModuleFactoryLoader,
+  Injector,
+  NgModuleFactory,
+  Compiler,
+} from '@angular/core';
 import { ComponentFactory } from '@angular/core';
 import { WINDOW_DATA, WINDOW_CONFIG, WINDOW_ID } from 'src/const/window.token';
-import { WindowHandle } from '@ngrx/store/window.store';
-import { selectWindowHandleStatusById, selectDesktopSize, selectTaskbarPosition, selectWindowZIndex } from '@ngrx/selector/feature.selector';
-import { skip, filter } from 'rxjs/operators';
+// import { WindowHandle } from '@ngrx/store/window.store';
+// import {
+//   // selectWindowHandleStatusById,
+//   // selectDesktopSize,
+//   // selectTaskbarPosition,
+//   // selectWindowZIndex,
+// } from '@ngrx/selector/feature.selector';
+import { skip, filter, map } from 'rxjs/operators';
 import { WindowStatus } from 'src/interface/window.interface';
 import { DesktopSize } from '@ngrx/store/desktop.store';
 import { Subscription } from 'rxjs';
 import { DragDrop, DragRef } from '@angular/cdk/drag-drop';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
+import { DesktopStoreService } from 'src/store/desktop.store';
+import { TaskbarStoreService } from 'src/store/taskbar.store';
+import { WindowsStoreService } from 'src/store/window.store';
 @Component({
   selector: 'app-window',
   templateUrl: './window.component.html',
   styleUrls: ['./window.component.scss'],
   host: {
     '(click)': 'dispatchClick()',
-    '[style.display]': 'style.display'
-  }
+    '[style.display]': 'style.display',
+  },
 })
 export class WindowComponent implements OnInit {
   /**
@@ -30,13 +53,16 @@ export class WindowComponent implements OnInit {
     @Inject(WINDOW_ID) private readonly id: string,
     @Optional() private compiler: Compiler,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private store: Store<any>,
+    // private store: Store<any>,
     private renderer: Renderer2,
     private dragdrop: DragDrop,
     private elementRef: ElementRef<HTMLElement>,
     private cd: ChangeDetectorRef,
     private loader: NgModuleFactoryLoader,
-    private injector: Injector
+    private injector: Injector,
+    private desktopStore: DesktopStoreService,
+    private taskbarStore: TaskbarStoreService,
+    private windowStore: WindowsStoreService
   ) {
     this.hostElement = elementRef.nativeElement;
     // TODO 深拷贝
@@ -57,7 +83,7 @@ export class WindowComponent implements OnInit {
     height: null,
     width: null,
     display: '',
-    transform: ''
+    transform: '',
   };
   /**最大化时最大尺寸 */
   maxSize: DesktopSize = {};
@@ -65,7 +91,7 @@ export class WindowComponent implements OnInit {
   dragRef: DragRef<WindowComponent>;
   flag = {
     max: false,
-    inited: false
+    inited: false,
   };
   // onDestroy = new Subject()
   hostElement: HTMLElement;
@@ -102,11 +128,16 @@ export class WindowComponent implements OnInit {
     // doc 创建拖动实例
     this.dragRef = this.dragdrop.createDrag(this.elementRef);
     this.dragRef.withHandles([this.header]);
-    this.subscriptionList.push(this.restoreWindowListener(), this.desktopSizeChangeListener(), this.taskbarPositionListener(), this.windowZIndexListener(), this.windowDragStartListener());
-
+    this.subscriptionList.push(
+      this.restoreWindowListener(),
+      this.desktopSizeChangeListener(),
+      this.taskbarPositionListener(),
+      this.windowZIndexListener(),
+      this.windowDragStartListener()
+    );
   }
 
-  ngAfterViewInit(): void { }
+  ngAfterViewInit(): void {}
 
   /**
    * TODO 最小化动画
@@ -115,9 +146,12 @@ export class WindowComponent implements OnInit {
    */
   min() {
     this.style.display = 'none';
-    this.store.dispatch(new WindowHandle('[WINDOW]min', {
-      id: this.id
-    }));
+    this.windowStore.min({
+      id: this.id,
+    });
+    // this.store.dispatch(
+    //   new WindowHandle('[WINDOW]min', )
+    // );
   }
 
   /**
@@ -136,7 +170,13 @@ export class WindowComponent implements OnInit {
       this.dragRef.disabled = true;
       this.transform = this.hostElement.style.transform;
 
-      this.renderer.setStyle(this.hostElement, 'transform', `translate3d(calc(-${coerceCssPixelValue(this.config.left || 0)} + ${coerceCssPixelValue(this.maxSize.left || 0)}),calc(-${coerceCssPixelValue(this.config.top || 0)} + ${coerceCssPixelValue(this.maxSize.top || 0)}), 0px)`);
+      this.renderer.setStyle(
+        this.hostElement,
+        'transform',
+        `translate3d(calc(-${coerceCssPixelValue(this.config.left || 0)} + ${coerceCssPixelValue(
+          this.maxSize.left || 0
+        )}),calc(-${coerceCssPixelValue(this.config.top || 0)} + ${coerceCssPixelValue(this.maxSize.top || 0)}), 0px)`
+      );
     } else {
       this.renderer.setStyle(this.hostElement, 'transform', this.transform);
       this.dragRef.disabled = false;
@@ -149,9 +189,12 @@ export class WindowComponent implements OnInit {
   }
 
   close() {
-    this.store.dispatch(new WindowHandle('[WINDOW]onclose', {
-      id: this.id
-    }));
+    this.windowStore.onclose({
+      id: this.id,
+    });
+    // this.store.dispatch(
+    //   new WindowHandle('[WINDOW]onclose', )
+    // );
     this.style.display = 'none';
     this.anchor.clear();
   }
@@ -179,7 +222,8 @@ export class WindowComponent implements OnInit {
     });
   }
   public dispatchMove() {
-    this.store.dispatch(new WindowHandle('[WINDOW]move', { id: this.id }));
+    this.windowStore.move({ id: this.id });
+    // this.store.dispatch(new WindowHandle('[WINDOW]move', ));
   }
   /**
    * 当页面被点击时触发
@@ -188,7 +232,8 @@ export class WindowComponent implements OnInit {
    * @date 2019-04-11
    */
   public dispatchClick() {
-    this.store.dispatch(new WindowHandle('[WINDOW]click', { id: this.id }));
+    this.windowStore.click({ id: this.id });
+    // this.store.dispatch(new WindowHandle('[WINDOW]click', ));
   }
   /**
    * z轴变化
@@ -199,17 +244,28 @@ export class WindowComponent implements OnInit {
    * @returns
    */
   private windowZIndexListener() {
-    return this.store.pipe(
-      select(selectWindowZIndex, this.id),
-      filter((val) => val && !!Object.keys(val).length && val.zIndex !== undefined),
-    ).subscribe(({ overlay, zIndex, isActive }) => {
-      this.renderer.setStyle(overlay.hostElement, 'z-index', zIndex);
-      if (isActive) {
-        this.renderer.addClass(this.hostElement, 'mat-elevation-z8');
-      } else {
-        this.renderer.removeClass(this.hostElement, 'mat-elevation-z8');
-      }
-    });
+    return this.windowStore
+      .pipe(
+        filter((item) => !!item),
+        map((list) => {
+          let item = list.find(({ id }) => id === this.id) || {};
+          return {
+            overlay: item.overlay,
+            zIndex: item.zIndex,
+            isActive: item.zIndex === list.length,
+          };
+        }),
+        // select(selectWindowZIndex, this.id),
+        filter((val) => val && !!Object.keys(val).length && val.zIndex !== undefined)
+      )
+      .subscribe(({ overlay, zIndex, isActive }) => {
+        this.renderer.setStyle(overlay.hostElement, 'z-index', zIndex);
+        if (isActive) {
+          this.renderer.addClass(this.hostElement, 'mat-elevation-z8');
+        } else {
+          this.renderer.removeClass(this.hostElement, 'mat-elevation-z8');
+        }
+      });
   }
   /**
    * @description 还原窗口
@@ -218,26 +274,26 @@ export class WindowComponent implements OnInit {
 
    */
   private restoreWindowListener() {
-    return this.store.pipe(
-      skip(1), // doc 跳过第一个初始化
-      select(selectWindowHandleStatusById, this.id),
-      filter((val) => val == WindowStatus.normal),
-    ).subscribe((val) => {
-      this.style.display = '';
-    });
+    return this.windowStore
+      .pipe(
+        skip(1), // doc 跳过第一个初始化
+        filter((item) => !!item),
+        map((list) => (list.find(({ id }) => id == this.id) || {}).status),
+        // select(selectWindowHandleStatusById, this.id),
+        filter((val) => val == WindowStatus.normal)
+      )
+      .subscribe((val) => {
+        this.style.display = '';
+      });
   }
   private desktopSizeChangeListener() {
-    return this.store.pipe(
-      select(selectDesktopSize),
-      filter((val) => !!val)
-    ).subscribe((value) => {
+    return this.desktopStore.pipe(filter((val) => !!val)).subscribe((value) => {
       Object.assign(this.maxSize, value);
       if (this.flag.max) {
         this.setWindowSize(value.width, value.height);
         this.cd.detectChanges();
       }
     });
-
   }
 
   /**
@@ -247,10 +303,7 @@ export class WindowComponent implements OnInit {
    * @memberof DesktopComponent
    */
   private taskbarPositionListener() {
-    return this.store.pipe(
-      select(selectTaskbarPosition),
-      filter(val => !!val),
-    ).subscribe((val) => {
+    return this.taskbarStore.pipe(filter((val) => !!val)).subscribe((val) => {
       this.maxSize.top = ``;
       this.maxSize.left = ``;
       if (val == 'top') {

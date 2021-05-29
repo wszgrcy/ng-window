@@ -3126,10 +3126,10 @@ cyclist@^1.0.1:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
 
-cyia-ngx-common@^11.1.1:
-  version "11.1.1"
-  resolved "https://registry.yarnpkg.com/cyia-ngx-common/-/cyia-ngx-common-11.1.1.tgz#95ea15ee0452652663f5c10c3cf0b0c6d3d793cf"
-  integrity sha512-vj7V62W/PdbT7D1T5a90L1802syPHEpl6xr/uB49eo7ZyJ53FH2/OSNg44rfWRtbTXfHBoEkSZdsVIUBgRk1Rw==
+cyia-ngx-common@^11.1.2:
+  version "11.1.2"
+  resolved "https://registry.yarnpkg.com/cyia-ngx-common/-/cyia-ngx-common-11.1.2.tgz#2051fcb6f834d8ba90fd55f3dc4072b32827af46"
+  integrity sha512-+3KVam6ZRFWXbbTHJnErGRHlcVu4RrREIjremkqRRo3CRgAII97/ArM/jV5T/qub7Ze944nOHp6M1OXu6qPuqg==
   dependencies:
     tslib "^2.0.0"
 

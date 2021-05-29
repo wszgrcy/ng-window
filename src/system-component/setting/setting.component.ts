@@ -3,9 +3,10 @@ import { ThemeService } from 'src/service/theme.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { THEME_CONFIG } from 'src/const/theme.config';
 import { Store, select } from '@ngrx/store';
-import { TaskbarPosition } from '@ngrx/store/taskbar.store';
-import { selectTaskbarPosition } from '@ngrx/selector/feature.selector';
+// import { TaskbarPosition } from '@ngrx/store/taskbar.store';
+// import { selectTaskbarPosition } from '@ngrx/selector/feature.selector';
 import { take, skip } from 'rxjs/operators';
+import { TaskbarStoreService } from 'src/store/taskbar.store';
 
 @Component({
   selector: 'app-setting',
@@ -17,7 +18,8 @@ export class SettingComponent implements OnInit {
   constructor(
     private themeService: ThemeService,
     private fb: FormBuilder,
-    private store: Store<any>
+    private store: Store<any>,
+    private taskbarStore:TaskbarStoreService
   ) { }
   themeOptions = ['deeppurple-amber', 'indigo-pink', 'pink-bluegrey', 'purple-green'];
   taskbarOptions = ['left', 'right', 'top', 'bottom'];
@@ -26,7 +28,7 @@ export class SettingComponent implements OnInit {
       theme: [localStorage.getItem(THEME_CONFIG.storageName) || ''],
       taskbar: ['']
     });
-    this.store.pipe(select(selectTaskbarPosition)).subscribe((val) => {
+    this.taskbarStore.subscribe((val) => {
       this.form.get('taskbar').setValue(val);
     });
     this.form.get('theme').valueChanges.subscribe((val) => {
@@ -34,7 +36,8 @@ export class SettingComponent implements OnInit {
     });
     this.form.get('taskbar').valueChanges
       .subscribe((val) => {
-        this.store.dispatch(new TaskbarPosition(val));
+        this.taskbarStore.change(val)
+        // this.store.dispatch(new TaskbarPosition(val));
       });
   }
 
