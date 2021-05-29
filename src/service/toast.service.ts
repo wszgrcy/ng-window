@@ -49,7 +49,7 @@ export class ToastService {
     return this._hint(HintStatus.error, message, options);
   }
   _hint(status: HintStatus, message: string, options: HintOptions) {
-    return new Promise((res) => {
+    return new Promise<void>((res) => {
       setTimeout(() => {
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(HintComponent);
         // const anchor = document.createElement('div');
