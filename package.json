@@ -9,7 +9,12 @@
     "lint": "ng lint",
     "e2e-f": "ng e2e --webdriverUpdate=false",
     "e2e": "ng e2e",
-    "update": "ng update @angular/cdk@^11 @angular/core@^11 @angular/cli@^11 @angular/common@^11 @angular/material@^11  @ngrx/store@^11 --force @ngrx/store-devtools@^11 --allow-dirty "
+    "update": "ng update @angular/cdk@^11 @angular/core@^11 @angular/cli@^11 @angular/common@^11 @angular/material@^11  @ngrx/store@^11 --force @ngrx/store-devtools@^11 --allow-dirty ",
+    "start:center-main": "ng serve --configuration center-main",
+    "build:center-main": "ng build --configuration center-main",
+    "build:center-main:prod": "ng build --configuration center-main-prod",
+    "build:center-dll": "ng build --configuration center-dll",
+    "build:center-dll:prod": "ng build --configuration center-dll-prod"
   },
   "private": true,
   "peerDependencies": {},
@@ -47,8 +52,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "puppeteer": "^4.0.0",
-    "@types/puppeteer": "^3.0.0",
+    "@angular-builders/custom-webpack": "^11.1.1",
     "@angular-devkit/build-angular": "~0.1102.13",
     "@angular/cli": "~11.2.13",
     "@angular/compiler-cli": "~11.2.14",
@@ -56,6 +60,7 @@
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.8",
     "@types/node": "^12.11.1",
+    "@types/puppeteer": "^3.0.0",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
@@ -64,9 +69,13 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "ngx-center": "^0.1.0",
     "protractor": "~7.0.0",
+    "puppeteer": "^4.0.0",
     "ts-node": "~8.10.2",
     "tslint": "~6.1.0",
-    "typescript": "4.1.5"
+    "typescript": "4.1.5",
+    "webpack-bootstrap-assets-plugin": "1.0.8",
+    "webpack-ng-dll-plugin": "2.1.10"
   }
 }

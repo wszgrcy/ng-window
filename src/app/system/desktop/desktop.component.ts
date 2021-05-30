@@ -11,11 +11,11 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { WindowComponent } from '../window/window.component';
 import { WindowStatus } from 'src/interface/window.interface';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
-import { COMPONENT_LIST } from 'src/const/component-list';
 import { DesktopStoreService } from 'src/store/desktop.store';
 import { TaskbarStoreService } from 'src/store/taskbar.store';
 import { WindowsStoreService } from 'src/store/window.store';
 import { POSITION } from 'src/interface/store.interface';
+import { ApplicationStoreService } from '@center-main/store/application.store';
 
 @Component({
   selector: 'app-desktop',
@@ -25,8 +25,13 @@ import { POSITION } from 'src/interface/store.interface';
 export class DesktopComponent implements OnInit {
   // @ViewChild('taskbarpatch', { static: true }) taskbarPatch: ElementRef
   taskbarPosition: Observable<POSITION>;
-  /**原始图标列表,未排序 */
-  rawList: IconItem[] = COMPONENT_LIST;
+
+  /**
+   * 改为订阅式,返回就添加
+   * store化
+   *
+   */
+  rawList: Observable<IconItem[]> = this.appliactionStore.state$;
   // rawList: IconItem[] = []
   /**图标阵列,多行列显示用 */
   iconArray: IconItem[][] = [];
@@ -38,9 +43,9 @@ export class DesktopComponent implements OnInit {
     private overlay: Overlay,
     private desktopStore: DesktopStoreService,
     private taskbarStore: TaskbarStoreService,
-    private windowStore: WindowsStoreService
+    private windowStore: WindowsStoreService,
+    private appliactionStore: ApplicationStoreService
   ) {
-
     this.taskbarPosition = this.taskbarStore.state$;
   }
   drop(e: CdkDragDrop<any>) {
@@ -92,7 +97,7 @@ export class DesktopComponent implements OnInit {
     this.columnLength = ((height - ICON_MARGIN) / (ICON_MARGIN + ICON_SIZE.height + LABEL_HEIGHT)) | 0;
 
     let i = -1;
-    this.rawList.forEach((val, j) => {
+    this.appliactionStore.snapshot.forEach((val, j) => {
       if (!(j % this.columnLength)) {
         this.iconArray[++i] = [];
       }

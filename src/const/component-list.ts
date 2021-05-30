@@ -167,7 +167,7 @@ export const COMPONENT_LIST: IconItem[] = [
             title: '用于查看请求,替换请求,返回值等的系统组件',
             // component: NetworkDebuggingComponent,
             // loadType: LoadType.native,
-            lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-network-debugging' == name.path).loadChildren as string,
+            lazyModule: () => import('@system-component/network-debugging/network-debugging.module').then((e) => e.NetworkDebuggingModule),
             loadType: LoadType.lazyModule
         },
         icon: 'http',
@@ -233,7 +233,7 @@ export const COMPONENT_LIST: IconItem[] = [
         data: {},
         config: {
             title: '系统设置',
-            lazyModule: LAZY_MODULE_LIST.find((name) => 'lazy-setting' == name.path).loadChildren as string,
+            lazyModule: () => import('@system-component/setting/setting.module').then((e) => e.SettingModule),
             loadType: LoadType.lazyModule
         },
         icon: 'settings',

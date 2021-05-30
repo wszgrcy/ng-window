@@ -33,6 +33,6 @@
       "@ngrx/*": [
         "./src/ngrx/*"
       ]
-    }
+    ,"@center-main/*":["src/*"]}
   }
 }
