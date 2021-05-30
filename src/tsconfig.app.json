@@ -9,6 +9,6 @@
     "polyfills.ts","export-module.ts"
   ],
   "include": [
-    "src/**/*.d.ts"
+    "**/*.d.ts"
   ]
 }

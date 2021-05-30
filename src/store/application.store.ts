@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { BootMethod, IconItem, LoadType } from '@center-main/interface/desktop.interface';
 import { NgrxAction, NgrxStore, StoreBase } from 'cyia-ngx-common/store';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 @NgrxStore()
 export class ApplicationStoreService extends StoreBase<IconItem[]> {
   initState: IconItem[] = [
@@ -28,6 +26,18 @@ export class ApplicationStoreService extends StoreBase<IconItem[]> {
       config: {
         title: '系统设置',
         lazyModule: () => import('@system-component/setting/setting.module').then((e) => e.SettingModule),
+        loadType: LoadType.lazyModule,
+      },
+      icon: 'settings',
+      iconBackground: 'rgb(0, 120, 215)',
+    },
+    {
+      name: '应用调试',
+      method: BootMethod.dragdrop,
+      data: {},
+      config: {
+        title: '应用调试',
+        lazyModule: () => import('@system-component/application-debug/application-debug.module').then((e) => e.ApplicationDebugModule),
         loadType: LoadType.lazyModule,
       },
       icon: 'settings',

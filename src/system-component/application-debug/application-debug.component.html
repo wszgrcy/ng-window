@@ -1,0 +1,8 @@
+<form class="example-form" (ngSubmit)="submit()">
+  <mat-form-field>
+    <mat-label>调试应用资源配置</mat-label>
+    <textarea matInput [(ngModel)]="config" name="config"></textarea>
+  </mat-form-field>
+
+  <button mat-raised-button>请求</button>
+</form>
