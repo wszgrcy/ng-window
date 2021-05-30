@@ -33,7 +33,7 @@
     "@webcomponents/webcomponentsjs": "^2.4.3",
     "classlist.js": "^1.1.20150312",
     "core-js": "^3.6.5",
-    "cyia-ngx-common": "^11.1.2",
+    "cyia-ngx-common": "^11.1.7",
     "cyia-ngx-component": "0.1.13",
     "document-register-element": "^1.14.3",
     "image-compressor.js": "^1.1.4",

@@ -15,10 +15,8 @@ import {
 import { TaskbarComponent } from './taskbar/taskbar.component';
 import { TaskBarFieldOldData } from 'src/interface/taskbar.interface';
 import { Store } from '@ngrx/store';
-// import { TaskbarPosition } from '@ngrx/store/taskbar.store';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { take, filter } from 'rxjs/operators';
-// import { selectTaskbarPosition } from '@ngrx/selector/feature.selector';
 import { TaskbarStoreService } from 'src/store/taskbar.store';
 
 @Component({
@@ -49,7 +47,6 @@ export class TaskbarFieldComponent implements OnInit {
   constructor(
     private resolver: ComponentFactoryResolver,
     private renderer: Renderer2,
-    private store: Store<any>,
     private ngZone: NgZone,
     private taskbarStore: TaskbarStoreService
   ) {}
@@ -90,7 +87,6 @@ export class TaskbarFieldComponent implements OnInit {
    */
   changePosition(i = 0, init: boolean = false) {
     this.taskbarStore.change(this.slotList[i].prefix as any);
-    // this.store.dispatch(new TaskbarPosition(this.slotList[i].prefix as any));
   }
 
   taskbarPositionChange() {

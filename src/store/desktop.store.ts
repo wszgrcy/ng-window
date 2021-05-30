@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { DesktopSize } from '@ngrx/store/desktop.store';
 import { NgrxAction, NgrxStore } from 'cyia-ngx-common/store';
 import { StoreBase } from 'cyia-ngx-common/store';
-@Injectable({
-  providedIn: 'root',
-})
+import { DesktopSize } from 'src/interface/store.interface';
+@Injectable()
 @NgrxStore()
 export class DesktopStoreService extends StoreBase<DesktopSize> {
-  sizeChange(state:DesktopSize): DesktopSize {
+  @NgrxAction()
+  sizeChange(state: DesktopSize): DesktopSize {
     return state;
   }
 }

@@ -18,22 +18,15 @@ import {
 } from '@angular/core';
 import { ComponentFactory } from '@angular/core';
 import { WINDOW_DATA, WINDOW_CONFIG, WINDOW_ID } from 'src/const/window.token';
-// import { WindowHandle } from '@ngrx/store/window.store';
-// import {
-//   // selectWindowHandleStatusById,
-//   // selectDesktopSize,
-//   // selectTaskbarPosition,
-//   // selectWindowZIndex,
-// } from '@ngrx/selector/feature.selector';
 import { skip, filter, map } from 'rxjs/operators';
 import { WindowStatus } from 'src/interface/window.interface';
-import { DesktopSize } from '@ngrx/store/desktop.store';
 import { Subscription } from 'rxjs';
 import { DragDrop, DragRef } from '@angular/cdk/drag-drop';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { DesktopStoreService } from 'src/store/desktop.store';
 import { TaskbarStoreService } from 'src/store/taskbar.store';
 import { WindowsStoreService } from 'src/store/window.store';
+import { DesktopSize } from 'src/interface/store.interface';
 @Component({
   selector: 'app-window',
   templateUrl: './window.component.html',
@@ -53,7 +46,6 @@ export class WindowComponent implements OnInit {
     @Inject(WINDOW_ID) private readonly id: string,
     @Optional() private compiler: Compiler,
     private componentFactoryResolver: ComponentFactoryResolver,
-    // private store: Store<any>,
     private renderer: Renderer2,
     private dragdrop: DragDrop,
     private elementRef: ElementRef<HTMLElement>,
@@ -149,9 +141,6 @@ export class WindowComponent implements OnInit {
     this.windowStore.min({
       id: this.id,
     });
-    // this.store.dispatch(
-    //   new WindowHandle('[WINDOW]min', )
-    // );
   }
 
   /**
@@ -223,7 +212,6 @@ export class WindowComponent implements OnInit {
   }
   public dispatchMove() {
     this.windowStore.move({ id: this.id });
-    // this.store.dispatch(new WindowHandle('[WINDOW]move', ));
   }
   /**
    * 当页面被点击时触发
@@ -233,7 +221,6 @@ export class WindowComponent implements OnInit {
    */
   public dispatchClick() {
     this.windowStore.click({ id: this.id });
-    // this.store.dispatch(new WindowHandle('[WINDOW]click', ));
   }
   /**
    * z轴变化
@@ -248,14 +235,13 @@ export class WindowComponent implements OnInit {
       .pipe(
         filter((item) => !!item),
         map((list) => {
-          let item = list.find(({ id }) => id === this.id) || {};
+          const item = list.find(({ id }) => id === this.id) || {};
           return {
             overlay: item.overlay,
             zIndex: item.zIndex,
             isActive: item.zIndex === list.length,
           };
         }),
-        // select(selectWindowZIndex, this.id),
         filter((val) => val && !!Object.keys(val).length && val.zIndex !== undefined)
       )
       .subscribe(({ overlay, zIndex, isActive }) => {
@@ -279,7 +265,6 @@ export class WindowComponent implements OnInit {
         skip(1), // doc 跳过第一个初始化
         filter((item) => !!item),
         map((list) => (list.find(({ id }) => id == this.id) || {}).status),
-        // select(selectWindowHandleStatusById, this.id),
         filter((val) => val == WindowStatus.normal)
       )
       .subscribe((val) => {

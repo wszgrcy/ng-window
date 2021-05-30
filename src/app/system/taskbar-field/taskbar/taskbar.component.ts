@@ -1,16 +1,11 @@
 import { WindowStatus } from './../../../../interface/window.interface';
-import { POSITION } from 'src/ngrx/store/taskbar.store';
-import { Store, select } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { WindowPayload } from 'src/interface/window.interface';
 import { Observable } from 'rxjs';
-// import { selectWindowHandle, 
-  // selectTaskbarPosition
-//  } from '@ngrx/selector/feature.selector';
 import { WindowsStoreService } from 'src/store/window.store';
 import { TaskbarStoreService } from 'src/store/taskbar.store';
-// import { WindowHandle } from '@ngrx/store/window.store';
+import { POSITION } from 'src/interface/store.interface';
 
 @Component({
   selector: 'app-taskbar',
@@ -22,9 +17,8 @@ export class TaskbarComponent implements OnInit {
   position$: Observable<POSITION>;
   public readonly WINDOWSTATUS = WindowStatus;
   constructor(
-    private store: Store<any>,
-    private windowStore:WindowsStoreService,
-    private taskbarStore:TaskbarStoreService
+    private windowStore: WindowsStoreService,
+    private taskbarStore: TaskbarStoreService
   ) { }
 
   ngOnInit() {
@@ -35,7 +29,6 @@ export class TaskbarComponent implements OnInit {
   }
 
   open(item: WindowPayload) {
-    this.windowStore.restore({ id: item.id })
-    // this.store.dispatch(new WindowHandle('[WINDOW]restore', { id: item.id }));
+    this.windowStore.restore({ id: item.id });
   }
 }

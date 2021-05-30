@@ -2,11 +2,6 @@ import { WINDOW_DATA, WINDOW_CONFIG, WINDOW_ID } from 'src/const/window.token';
 import { Component, OnInit, Renderer2, ViewChild, ElementRef, NgZone, Injector } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, fromEvent } from 'rxjs';
-import { POSITION } from '@ngrx/store/taskbar.store';
-// import {
-//   // selectTaskbarPosition,
-//   // selectWindowHandleCloseById,
-// } from '@ngrx/selector/feature.selector';
 import { filter, map } from 'rxjs/operators';
 import { moveItemInArray, CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ICON_MARGIN, ICON_SIZE, LABEL_HEIGHT } from 'src/const/desktop.config';
@@ -14,14 +9,13 @@ import { IconItem } from 'src/interface/desktop.interface';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { WindowComponent } from '../window/window.component';
-// import { WindowHandle } from '@ngrx/store/window.store';
 import { WindowStatus } from 'src/interface/window.interface';
-// import { DesktopSizeChange } from '@ngrx/store/desktop.store';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { COMPONENT_LIST } from 'src/const/component-list';
 import { DesktopStoreService } from 'src/store/desktop.store';
 import { TaskbarStoreService } from 'src/store/taskbar.store';
 import { WindowsStoreService } from 'src/store/window.store';
+import { POSITION } from 'src/interface/store.interface';
 
 @Component({
   selector: 'app-desktop',
@@ -38,7 +32,6 @@ export class DesktopComponent implements OnInit {
   iconArray: IconItem[][] = [];
   columnLength: number;
   constructor(
-    private store: Store<any>,
     private renderer: Renderer2,
     private elementRef: ElementRef<Element>,
     private zone: NgZone,
@@ -47,7 +40,7 @@ export class DesktopComponent implements OnInit {
     private taskbarStore: TaskbarStoreService,
     private windowStore: WindowsStoreService
   ) {
-  
+
     this.taskbarPosition = this.taskbarStore.state$;
   }
   drop(e: CdkDragDrop<any>) {
@@ -95,9 +88,6 @@ export class DesktopComponent implements OnInit {
     this.iconArray = [];
     const { clientWidth: width, clientHeight: height } = this.elementRef.nativeElement;
     this.desktopStore.sizeChange({ width, height });
-    // this.store.dispatch(
-    //   new DesktopSizeChange('[DesktopSize]change', { width, height })
-    // );
     /**每列的长度,每列最大可以摆放的图标个数 */
     this.columnLength = ((height - ICON_MARGIN) / (ICON_MARGIN + ICON_SIZE.height + LABEL_HEIGHT)) | 0;
 
@@ -145,9 +135,6 @@ export class DesktopComponent implements OnInit {
       status: WindowStatus.normal,
       overlay: overlayRef,
     });
-    // this.store.dispatch(
-    //   new WindowHandle('[WINDOW]init', )
-    // );
   }
   /**
    * @description 监听窗口关闭销毁窗口
@@ -160,14 +147,12 @@ export class DesktopComponent implements OnInit {
       .pipe(
         filter((item) => !!item),
         map((list) => list.filter(({ status }) => status == WindowStatus.close)),
-        // select(selectWindowHandleCloseById),
         filter((val) => !!val)
       )
       .subscribe((list) => {
         list.forEach((item) => {
           item.overlay.detach();
           this.windowStore.closed(item);
-          // this.store.dispatch(new WindowHandle('[WINDOW]closed', ));
         });
       });
   }
