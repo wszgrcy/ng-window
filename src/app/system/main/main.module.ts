@@ -10,6 +10,7 @@ import { CyiaStoreModule } from 'cyia-ngx-common/store';
 import { DesktopStoreService } from 'src/store/desktop.store';
 import { TaskbarStoreService } from 'src/store/taskbar.store';
 import { WindowsStoreService } from 'src/store/window.store';
+import { ApplicationStoreService } from '@center-main/store/application.store';
 
 const MAIN_TOKEN = new InjectionToken('');
 
@@ -19,7 +20,7 @@ const MAIN_TOKEN = new InjectionToken('');
     TaskbarFieldModule,
     MainRoutes,
     StoreModule.forFeature('main', MAIN_TOKEN),
-    CyiaStoreModule.forFeature({name: 'main', token: MAIN_TOKEN, stores: [WindowsStoreService, DesktopStoreService, TaskbarStoreService] }),
+    CyiaStoreModule.forFeature({name: 'main', token: MAIN_TOKEN, stores: [WindowsStoreService, DesktopStoreService, TaskbarStoreService, ApplicationStoreService] }),
     DesktopModule,
     WindowModule,
   ],

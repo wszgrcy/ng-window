@@ -16,7 +16,7 @@ import { TaskbarStoreService } from 'src/store/taskbar.store';
 import { WindowsStoreService } from 'src/store/window.store';
 import { POSITION } from 'src/interface/store.interface';
 import { ApplicationStoreService } from '@center-main/store/application.store';
-
+import { skip } from 'rxjs/operators';
 @Component({
   selector: 'app-desktop',
   templateUrl: './desktop.component.html',
@@ -65,6 +65,7 @@ export class DesktopComponent implements OnInit {
     });
   }
   ngOnInit() {
+    this.applicationListener();
     this.taskbarPositionListener();
     this.deskTopSizeListener();
     this.windowCloseListener();
@@ -116,6 +117,11 @@ export class DesktopComponent implements OnInit {
         this.renderer.removeClass(this.elementRef.nativeElement, value);
       });
       this.renderer.addClass(this.elementRef.nativeElement, val);
+      this.changeIconSort();
+    });
+  }
+  applicationListener() {
+    this.appliactionStore.pipe(skip(1)).subscribe(() => {
       this.changeIconSort();
     });
   }
