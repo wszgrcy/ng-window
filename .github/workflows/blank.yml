@@ -39,7 +39,7 @@ jobs:
       #     npm run e2e
       - name: build
         run: |
-          npm run build
+          npm run deploy
           cp -rp dist/ng-window/ ../dist
           git branch gh-pages
           git checkout gh-pages
