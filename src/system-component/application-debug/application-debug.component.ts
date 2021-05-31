@@ -27,7 +27,7 @@ export class ApplicationDebugComponent implements OnInit {
     }
     try {
       window.loadRemoteModuleManifest(config).then((item) => {
-        this.applicationStore.add(item);
+        this.applicationStore.add(item.config);
       });
     } catch (error) {
       this.toastService.error('资源加载失败', { duration: 10 });
