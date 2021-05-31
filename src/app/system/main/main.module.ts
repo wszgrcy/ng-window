@@ -11,6 +11,7 @@ import { DesktopStoreService } from 'src/store/desktop.store';
 import { TaskbarStoreService } from 'src/store/taskbar.store';
 import { WindowsStoreService } from 'src/store/window.store';
 import { ApplicationStoreService } from '@center-main/store/application.store';
+import { environment } from '@center-main/environments/environment';
 
 const MAIN_TOKEN = new InjectionToken('');
 
@@ -20,11 +21,26 @@ const MAIN_TOKEN = new InjectionToken('');
     TaskbarFieldModule,
     MainRoutes,
     StoreModule.forFeature('main', MAIN_TOKEN),
-    CyiaStoreModule.forFeature({name: 'main', token: MAIN_TOKEN, stores: [WindowsStoreService, DesktopStoreService, TaskbarStoreService, ApplicationStoreService] }),
+    CyiaStoreModule.forFeature({
+      name: 'main',
+      token: MAIN_TOKEN,
+      stores: [WindowsStoreService, DesktopStoreService, TaskbarStoreService, ApplicationStoreService],
+    }),
     DesktopModule,
     WindowModule,
   ],
   declarations: [MainComponent],
   providers: [],
 })
-export class MainModule {}
+export class MainModule {
+  constructor(private applicationStore: ApplicationStoreService) {
+    environment
+      .applicationAssetsMethod()
+      .then((item) => {
+        return window.loadRemoteModuleManifest(item);
+      })
+      .then((item) => {
+        this.applicationStore.addList(item.list);
+      });
+  }
+}
