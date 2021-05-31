@@ -10,7 +10,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatSnackBarModule,
         MatIconModule
     ],
-    exports: [],
+    exports: [HintComponent],
     entryComponents: [HintComponent],
     providers: [],
 })
