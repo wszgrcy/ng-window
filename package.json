@@ -14,7 +14,8 @@
     "build:center-main": "ng build --configuration center-main",
     "build:center-main:prod": "ng build --configuration center-main-prod",
     "build:center-dll": "ng build --configuration center-dll",
-    "build:center-dll:prod": "ng build --configuration center-dll-prod"
+    "build:center-dll:prod": "ng build --configuration center-dll-prod",
+    "deploy": "npm run build:center-dll:prod&&npm run build:center-main:prod&&cpx \"./dist/center-dll\" ./dist/ng-window"
   },
   "private": true,
   "peerDependencies": {},
@@ -62,6 +63,7 @@
     "@types/node": "^12.11.1",
     "@types/puppeteer": "^3.0.0",
     "codelyzer": "^6.0.0",
+    "cpx": "^1.5.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.0.0",

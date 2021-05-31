@@ -3,7 +3,26 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  applicationAssetsMethod: async () => {
+    return {
+      scripts: [
+        {
+          name: 'main',
+          fileName: 'window-application.main.js',
+          defer: '',
+          src: 'http://127.0.0.1:4500/window-application.main.js',
+        },
+        {
+          name: 'runtime',
+          fileName: 'window-application.runtime.js',
+          defer: '',
+          src: 'http://127.0.0.1:4500/window-application.runtime.js',
+        },
+      ],
+      stylesheets: [],
+    };
+  },
 };
 
 /*

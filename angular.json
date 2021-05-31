@@ -97,7 +97,7 @@
               "customWebpackConfig": {
                 "path": "./webpack.config.center-dll.ts"
               },
-              "tsConfig": "src\\tsconfig.dll.json"
+              "tsConfig": "src/tsconfig.dll.json"
             },
             "center-main": {
               "vendorChunk": false,
@@ -148,7 +148,7 @@
               "namedChunks": false,
               "extractLicenses": true,
               "buildOptimizer": true,
-              "tsConfig": "src\\tsconfig.dll.json"
+              "tsConfig": "src/tsconfig.dll.json"
             },
             "center-main-prod": {
               "fileReplacements": [
