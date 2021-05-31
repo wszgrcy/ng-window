@@ -1,37 +1,22 @@
 import { WINDOW_DATA, WINDOW_CONFIG, WINDOW_ID } from 'src/const/window.token';
-import {
-  Component,
-  OnInit,
-  Renderer2,
-  ViewChild,
-  ElementRef,
-  NgZone,
-  Injector,
-} from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild, ElementRef, NgZone, Injector } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, fromEvent } from 'rxjs';
-import { POSITION } from '@ngrx/store/taskbar.store';
-import {
-  selectTaskbarPosition,
-  selectWindowHandleCloseById,
-} from '@ngrx/selector/feature.selector';
-import { filter } from 'rxjs/operators';
-import {
-  moveItemInArray,
-  CdkDragDrop,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { filter, map } from 'rxjs/operators';
+import { moveItemInArray, CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ICON_MARGIN, ICON_SIZE, LABEL_HEIGHT } from 'src/const/desktop.config';
 import { IconItem } from 'src/interface/desktop.interface';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { WindowComponent } from '../window/window.component';
-import { WindowHandle } from '@ngrx/store/window.store';
 import { WindowStatus } from 'src/interface/window.interface';
-import { DesktopSizeChange } from '@ngrx/store/desktop.store';
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
-import { COMPONENT_LIST } from 'src/const/component-list';
-
+import { DesktopStoreService } from 'src/store/desktop.store';
+import { TaskbarStoreService } from 'src/store/taskbar.store';
+import { WindowsStoreService } from 'src/store/window.store';
+import { POSITION } from 'src/interface/store.interface';
+import { ApplicationStoreService } from '@center-main/store/application.store';
+import { skip } from 'rxjs/operators';
 @Component({
   selector: 'app-desktop',
   templateUrl: './desktop.component.html',
@@ -40,31 +25,34 @@ import { COMPONENT_LIST } from 'src/const/component-list';
 export class DesktopComponent implements OnInit {
   // @ViewChild('taskbarpatch', { static: true }) taskbarPatch: ElementRef
   taskbarPosition: Observable<POSITION>;
-  /**原始图标列表,未排序 */
-  rawList: IconItem[] = COMPONENT_LIST;
+
+  /**
+   * 改为订阅式,返回就添加
+   * store化
+   *
+   */
+  rawList: Observable<IconItem[]> = this.appliactionStore.state$;
   // rawList: IconItem[] = []
   /**图标阵列,多行列显示用 */
   iconArray: IconItem[][] = [];
   columnLength: number;
   constructor(
-    private store: Store<any>,
     private renderer: Renderer2,
     private elementRef: ElementRef<Element>,
     private zone: NgZone,
-    private overlay: Overlay
+    private overlay: Overlay,
+    private desktopStore: DesktopStoreService,
+    private taskbarStore: TaskbarStoreService,
+    private windowStore: WindowsStoreService,
+    private appliactionStore: ApplicationStoreService
   ) {
-    this.taskbarPosition = store.select(selectTaskbarPosition);
+    this.taskbarPosition = this.taskbarStore.state$;
   }
   drop(e: CdkDragDrop<any>) {
     if (e.previousContainer === e.container) {
       moveItemInArray(e.container.data, e.previousIndex, e.currentIndex);
     } else {
-      transferArrayItem(
-        e.previousContainer.data,
-        e.container.data,
-        e.previousIndex,
-        e.currentIndex
-      );
+      transferArrayItem(e.previousContainer.data, e.container.data, e.previousIndex, e.currentIndex);
     }
     this.iconArray.forEach((column, i) => {
       if (column.length > this.columnLength) {
@@ -77,6 +65,7 @@ export class DesktopComponent implements OnInit {
     });
   }
   ngOnInit() {
+    this.applicationListener();
     this.taskbarPositionListener();
     this.deskTopSizeListener();
     this.windowCloseListener();
@@ -103,21 +92,13 @@ export class DesktopComponent implements OnInit {
    */
   changeIconSort() {
     this.iconArray = [];
-    const {
-      clientWidth: width,
-      clientHeight: height,
-    } = this.elementRef.nativeElement;
-    this.store.dispatch(
-      new DesktopSizeChange('[DesktopSize]change', { width, height })
-    );
+    const { clientWidth: width, clientHeight: height } = this.elementRef.nativeElement;
+    this.desktopStore.sizeChange({ width, height });
     /**每列的长度,每列最大可以摆放的图标个数 */
-    this.columnLength =
-      ((height - ICON_MARGIN) /
-        (ICON_MARGIN + ICON_SIZE.height + LABEL_HEIGHT)) |
-      0;
+    this.columnLength = ((height - ICON_MARGIN) / (ICON_MARGIN + ICON_SIZE.height + LABEL_HEIGHT)) | 0;
 
     let i = -1;
-    this.rawList.forEach((val, j) => {
+    this.appliactionStore.snapshot.forEach((val, j) => {
       if (!(j % this.columnLength)) {
         this.iconArray[++i] = [];
       }
@@ -139,12 +120,13 @@ export class DesktopComponent implements OnInit {
       this.changeIconSort();
     });
   }
+  applicationListener() {
+    this.appliactionStore.pipe(skip(1)).subscribe(() => {
+      this.changeIconSort();
+    });
+  }
   openWindow(item: IconItem) {
-    const strategy = this.overlay
-      .position()
-      .global()
-      .top(coerceCssPixelValue(item.config.top))
-      .left(coerceCssPixelValue(item.config.left));
+    const strategy = this.overlay.position().global().top(coerceCssPixelValue(item.config.top)).left(coerceCssPixelValue(item.config.left));
     const overlayRef = this.overlay.create({
       positionStrategy: strategy,
       panelClass: 'no-pointer-events',
@@ -158,14 +140,12 @@ export class DesktopComponent implements OnInit {
     ]);
 
     overlayRef.attach(new ComponentPortal(WindowComponent, null, injector));
-    this.store.dispatch(
-      new WindowHandle('[WINDOW]init', {
-        id: time,
-        icon: item.icon,
-        status: WindowStatus.normal,
-        overlay: overlayRef,
-      })
-    );
+    this.windowStore.init({
+      id: time,
+      icon: item.icon,
+      status: WindowStatus.normal,
+      overlay: overlayRef,
+    });
   }
   /**
    * @description 监听窗口关闭销毁窗口
@@ -174,15 +154,16 @@ export class DesktopComponent implements OnInit {
    * @memberof DesktopComponent
    */
   windowCloseListener() {
-    this.store
+    this.windowStore
       .pipe(
-        select(selectWindowHandleCloseById),
+        filter((item) => !!item),
+        map((list) => list.filter(({ status }) => status == WindowStatus.close)),
         filter((val) => !!val)
       )
       .subscribe((list) => {
         list.forEach((item) => {
           item.overlay.detach();
-          this.store.dispatch(new WindowHandle('[WINDOW]closed', item));
+          this.windowStore.closed(item);
         });
       });
   }

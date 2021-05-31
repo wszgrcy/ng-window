@@ -1,17 +1,28 @@
 import { TASKBAR_POSITION } from './../../../const/config.localStorage';
-import { Component, OnInit, ViewChildren, ViewContainerRef, QueryList, ComponentFactoryResolver, ViewChild, TemplateRef, ViewRef, Renderer2, NgZone } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChildren,
+  ViewContainerRef,
+  QueryList,
+  ComponentFactoryResolver,
+  ViewChild,
+  TemplateRef,
+  ViewRef,
+  Renderer2,
+  NgZone,
+} from '@angular/core';
 import { TaskbarComponent } from './taskbar/taskbar.component';
 import { TaskBarFieldOldData } from 'src/interface/taskbar.interface';
 import { Store } from '@ngrx/store';
-import { TaskbarPosition } from '@ngrx/store/taskbar.store';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { take, filter } from 'rxjs/operators';
-import { selectTaskbarPosition } from '@ngrx/selector/feature.selector';
+import { TaskbarStoreService } from 'src/store/taskbar.store';
 
 @Component({
   selector: 'app-taskbar-field',
   templateUrl: './taskbar-field.component.html',
-  styleUrls: ['./taskbar-field.component.scss']
+  styleUrls: ['./taskbar-field.component.scss'],
 })
 export class TaskbarFieldComponent implements OnInit {
   /**
@@ -36,9 +47,9 @@ export class TaskbarFieldComponent implements OnInit {
   constructor(
     private resolver: ComponentFactoryResolver,
     private renderer: Renderer2,
-    private store: Store<any>,
-    private ngZone: NgZone
-  ) { }
+    private ngZone: NgZone,
+    private taskbarStore: TaskbarStoreService
+  ) {}
 
   ngOnInit() {
     this.taskbarPositionChange();
@@ -51,7 +62,6 @@ export class TaskbarFieldComponent implements OnInit {
     this.ngZone.onStable.pipe(take(1)).subscribe(() => {
       this.changePosition(index, true);
     });
-
   }
 
   /**
@@ -76,33 +86,31 @@ export class TaskbarFieldComponent implements OnInit {
    * @memberof TaskbarFieldComponent
    */
   changePosition(i = 0, init: boolean = false) {
-    this.store.dispatch(new TaskbarPosition(this.slotList[i].prefix as any));
+    this.taskbarStore.change(this.slotList[i].prefix as any);
   }
 
   taskbarPositionChange() {
-    this.store.select(selectTaskbarPosition)
-      .pipe(filter((val) => !!val))
-      .subscribe((value) => {
-        const i = this.findSlotByPrefix(value);
-        const viewContainerRef = this.slotViewContainerRefList.toArray()[i];
-        if (!this.taskbar) {
-          /**采用动态创建组件的方式 */
-          const component = this.resolver.resolveComponentFactory(TaskbarComponent);
+    this.taskbarStore.pipe(filter((val) => !!val)).subscribe((value) => {
+      const i = this.findSlotByPrefix(value);
+      const viewContainerRef = this.slotViewContainerRefList.toArray()[i];
+      if (!this.taskbar) {
+        /**采用动态创建组件的方式 */
+        const component = this.resolver.resolveComponentFactory(TaskbarComponent);
 
-          viewContainerRef.createComponent(component);
-          /**-------------- */
-          this.taskbar = viewContainerRef.get(0);
-          this.old.viewContainerRef = viewContainerRef;
-        } else {
-          this.old.viewContainerRef.detach(0);
-          viewContainerRef.insert(this.taskbar);
-          this.old.viewContainerRef = viewContainerRef;
-          localStorage.setItem(TASKBAR_POSITION, this.slotList[i].prefix);
-        }
+        viewContainerRef.createComponent(component);
+        /**-------------- */
+        this.taskbar = viewContainerRef.get(0);
+        this.old.viewContainerRef = viewContainerRef;
+      } else {
+        this.old.viewContainerRef.detach(0);
+        viewContainerRef.insert(this.taskbar);
+        this.old.viewContainerRef = viewContainerRef;
+        localStorage.setItem(TASKBAR_POSITION, this.slotList[i].prefix);
+      }
 
-        this.slotList.forEach((item, index) => {
-          item.slotted = index == i ? true : false;
-        });
+      this.slotList.forEach((item, index) => {
+        item.slotted = index == i ? true : false;
       });
+    });
   }
 }

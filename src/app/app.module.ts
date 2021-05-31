@@ -6,12 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
-import { CyiaHttpModule } from 'cyia-ngx-common';
-import { REQUEST_LIST } from 'src/const/http-list';
 import { HttpInterceptor } from '@system-component/network-debugging/interceptors';
 import { InterceptorChange_Reducer } from '@ngrx/store/intereptor.store';
-import { ROUTES } from '@angular/router';
-import { LAZY_MODULE_LIST } from 'src/const/component-list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DialogModule } from '@system-component/dialog/dialog.module';
 import { ToastContainerComponent } from '@system-component/dialog/toast-container/toast-container.component';
@@ -33,7 +29,7 @@ import { TOAST_POSITION } from 'src/const/toast.token';
         },
       }
     ),
-    CyiaHttpModule.forRoot(REQUEST_LIST),
+    // CyiaHttpModule.forRoot(REQUEST_LIST),
     MatSnackBarModule,
     DialogModule,
   ],
@@ -46,7 +42,7 @@ import { TOAST_POSITION } from 'src/const/toast.token';
       multi: true,
     },
     HttpInterceptor,
-    { provide: ROUTES, useValue: LAZY_MODULE_LIST, multi: true },
+    // { provide: ROUTES, useValue: LAZY_MODULE_LIST, multi: true },
     {
       provide: TOAST_POSITION,
       useValue: { horizontalPosition: 'right', verticalPosition: 'bottom' },
