@@ -11,7 +11,7 @@ import { InterceptorChange_Reducer } from '@ngrx/store/intereptor.store';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DialogModule } from '@system-component/dialog/dialog.module';
 import { ToastContainerComponent } from '@system-component/dialog/toast-container/toast-container.component';
-import { HINT_DATA, TOAST_POSITION } from 'src/const/toast.token';
+import { TOAST_POSITION } from 'src/const/toast.token';
 
 @NgModule({
   declarations: [AppComponent, ToastContainerComponent],
@@ -36,8 +36,7 @@ import { HINT_DATA, TOAST_POSITION } from 'src/const/toast.token';
   providers: [
     {
       provide: APP_INITIALIZER,
-      useFactory: (service: ThemeService) => () =>
-        Promise.resolve(service.init()),
+      useFactory: (service: ThemeService) => () => Promise.resolve(service.init()),
       deps: [ThemeService],
       multi: true,
     },
@@ -46,10 +45,6 @@ import { HINT_DATA, TOAST_POSITION } from 'src/const/toast.token';
     {
       provide: TOAST_POSITION,
       useValue: { horizontalPosition: 'right', verticalPosition: 'bottom' },
-    },
-    {
-      provide: HINT_DATA,
-      useValue: {},
     },
   ],
   bootstrap: [AppComponent],
