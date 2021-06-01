@@ -74,6 +74,6 @@
     "tslint": "~6.1.0",
     "typescript": "4.1.5",
     "webpack-bootstrap-assets-plugin": "1.0.8",
-    "webpack-ng-dll-plugin": "2.1.10"
+    "webpack-ng-dll-plugin": "2.1.11"
   }
 }
