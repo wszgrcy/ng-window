@@ -6337,9 +6337,9 @@ npmlog@^4.1.2:
     set-blocking "~2.0.0"
 
 nth-check@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/nth-check/-/nth-check-2.0.0.tgz#1bb4f6dac70072fc313e8c9cd1417b5074c0a125"
-  integrity sha512-i4sc/Kj8htBrAiH1viZ0TgU8Y5XqCaV/FziYK6TBczxmeKm3AEFWqqF3195yKudrarqy7Zu80Ra5dobFjn9X/Q==
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/nth-check/-/nth-check-2.0.1.tgz#2efe162f5c3da06a28959fbd3db75dbeea9f0fc2"
+  integrity sha512-it1vE95zF6dTT9lBsYbxvqh0Soy4SPowchj0UBGj/V6cTPnXXtQOPUbhZ6CmGzAD/rW22LQK6E96pcdJXk4A4w==
   dependencies:
     boolbase "^1.0.0"
 
@@ -9220,10 +9220,10 @@ webpack-merge@5.7.3, webpack-merge@^5.7.3:
     clone-deep "^4.0.1"
     wildcard "^2.0.0"
 
-webpack-ng-dll-plugin@2.1.11:
-  version "2.1.11"
-  resolved "https://registry.yarnpkg.com/webpack-ng-dll-plugin/-/webpack-ng-dll-plugin-2.1.11.tgz#db5197f8e2ecc4fb85cf6226640aa914cfb4396e"
-  integrity sha512-DW/MheHANayFknXO7DV+mv854Lbu7EMJt5WLhKsegCGKisE6qfk17OSDEw9XBBRyvQKAzXug08e+X58AV71/kg==
+webpack-ng-dll-plugin@2.1.12:
+  version "2.1.12"
+  resolved "https://registry.yarnpkg.com/webpack-ng-dll-plugin/-/webpack-ng-dll-plugin-2.1.12.tgz#605dcd43eb0d59a1e321909ee6ea575259587f64"
+  integrity sha512-4moqG2KwqFyK9RHkFpjsq9kf4etht9QSXMVLjR3zS5JdtZYymL2tuv3OvNr1jWwiTMD/A5RwOO9ypinPLNny9w==
   dependencies:
     cyia-code-util "^1.0.6"
     fs-extra "^10.0.0"
