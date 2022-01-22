@@ -6093,9 +6093,9 @@ nan@^2.12.1:
   integrity sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
 
 nanoid@^3.1.22, nanoid@^3.1.23:
-  version "3.1.23"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.23.tgz#f744086ce7c2bc47ee0a8472574d5c78e4183a81"
-  integrity sha512-FiB0kzdP0FFVGDKlRLEQ1BgDzU87dy5NnzjeW9YZNt+/c3+q82EQDUwniSAUxp/F0gFNI1ZhKU1FqYsMuqZVnw==
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.2.0.tgz#62667522da6673971cca916a6d3eff3f415ff80c"
+  integrity sha512-fmsZYa9lpn69Ad5eDn7FMcnnSR+8R34W9qJEijxYhTbfOWzr22n1QxCMzXLK+ODyW2973V3Fux959iQoUxzUIA==
 
 nanomatch@^1.2.9:
   version "1.2.13"
@@ -9220,10 +9220,10 @@ webpack-merge@5.7.3, webpack-merge@^5.7.3:
     clone-deep "^4.0.1"
     wildcard "^2.0.0"
 
-webpack-ng-dll-plugin@2.1.11:
-  version "2.1.11"
-  resolved "https://registry.yarnpkg.com/webpack-ng-dll-plugin/-/webpack-ng-dll-plugin-2.1.11.tgz#db5197f8e2ecc4fb85cf6226640aa914cfb4396e"
-  integrity sha512-DW/MheHANayFknXO7DV+mv854Lbu7EMJt5WLhKsegCGKisE6qfk17OSDEw9XBBRyvQKAzXug08e+X58AV71/kg==
+webpack-ng-dll-plugin@2.1.12:
+  version "2.1.12"
+  resolved "https://registry.yarnpkg.com/webpack-ng-dll-plugin/-/webpack-ng-dll-plugin-2.1.12.tgz#605dcd43eb0d59a1e321909ee6ea575259587f64"
+  integrity sha512-4moqG2KwqFyK9RHkFpjsq9kf4etht9QSXMVLjR3zS5JdtZYymL2tuv3OvNr1jWwiTMD/A5RwOO9ypinPLNny9w==
   dependencies:
     cyia-code-util "^1.0.6"
     fs-extra "^10.0.0"
