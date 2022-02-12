@@ -4105,9 +4105,9 @@ flush-write-stream@^1.0.0:
     readable-stream "^2.3.6"
 
 follow-redirects@^1.0.0:
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.1.tgz#d9114ded0a1cfdd334e164e6662ad02bfd91ff43"
-  integrity sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==
+  version "1.14.8"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.8.tgz#016996fb9a11a100566398b1c6839337d7bfa8fc"
+  integrity sha512-1x0S9UVJHsQprFcEC/qnNzBLcIxsjAV905f/UkQxbclCsoTWlacCNOpQa/anodLl2uaEKFhfWOvM2Qg77+15zA==
 
 for-in@^1.0.1, for-in@^1.0.2:
   version "1.0.2"
@@ -9220,10 +9220,10 @@ webpack-merge@5.7.3, webpack-merge@^5.7.3:
     clone-deep "^4.0.1"
     wildcard "^2.0.0"
 
-webpack-ng-dll-plugin@2.1.11:
-  version "2.1.11"
-  resolved "https://registry.yarnpkg.com/webpack-ng-dll-plugin/-/webpack-ng-dll-plugin-2.1.11.tgz#db5197f8e2ecc4fb85cf6226640aa914cfb4396e"
-  integrity sha512-DW/MheHANayFknXO7DV+mv854Lbu7EMJt5WLhKsegCGKisE6qfk17OSDEw9XBBRyvQKAzXug08e+X58AV71/kg==
+webpack-ng-dll-plugin@2.1.12:
+  version "2.1.12"
+  resolved "https://registry.yarnpkg.com/webpack-ng-dll-plugin/-/webpack-ng-dll-plugin-2.1.12.tgz#605dcd43eb0d59a1e321909ee6ea575259587f64"
+  integrity sha512-4moqG2KwqFyK9RHkFpjsq9kf4etht9QSXMVLjR3zS5JdtZYymL2tuv3OvNr1jWwiTMD/A5RwOO9ypinPLNny9w==
   dependencies:
     cyia-code-util "^1.0.6"
     fs-extra "^10.0.0"
