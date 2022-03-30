@@ -5920,9 +5920,9 @@ minimatch@3.0.4, minimatch@^3.0.2, minimatch@^3.0.4:
     brace-expansion "^1.1.7"
 
 minimist@^1.1.0, minimist@^1.2.0, minimist@^1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
-  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
+  integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
 
 minipass-collect@^1.0.2:
   version "1.0.2"
@@ -9220,10 +9220,10 @@ webpack-merge@5.7.3, webpack-merge@^5.7.3:
     clone-deep "^4.0.1"
     wildcard "^2.0.0"
 
-webpack-ng-dll-plugin@2.1.11:
-  version "2.1.11"
-  resolved "https://registry.yarnpkg.com/webpack-ng-dll-plugin/-/webpack-ng-dll-plugin-2.1.11.tgz#db5197f8e2ecc4fb85cf6226640aa914cfb4396e"
-  integrity sha512-DW/MheHANayFknXO7DV+mv854Lbu7EMJt5WLhKsegCGKisE6qfk17OSDEw9XBBRyvQKAzXug08e+X58AV71/kg==
+webpack-ng-dll-plugin@2.1.12:
+  version "2.1.12"
+  resolved "https://registry.yarnpkg.com/webpack-ng-dll-plugin/-/webpack-ng-dll-plugin-2.1.12.tgz#605dcd43eb0d59a1e321909ee6ea575259587f64"
+  integrity sha512-4moqG2KwqFyK9RHkFpjsq9kf4etht9QSXMVLjR3zS5JdtZYymL2tuv3OvNr1jWwiTMD/A5RwOO9ypinPLNny9w==
   dependencies:
     cyia-code-util "^1.0.6"
     fs-extra "^10.0.0"
